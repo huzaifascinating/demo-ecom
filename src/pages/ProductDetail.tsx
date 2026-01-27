@@ -1,0 +1,184 @@
+import { useState } from 'react';
+import { FaStar, FaCheck, FaShippingFast, FaShieldAlt, FaFire } from 'react-icons/fa';
+import productImage from '../assets/image.png';
+
+const BUNDLES = [
+  { id: 1, name: 'Essentials Pack', quantity: 1, price: 39.99, save: 0, label: 'Starter', desc: '1 x Stone Dish Mat' },
+  { id: 2, name: 'Couple Pack', quantity: 2, price: 69.99, save: 15, label: 'Most Popular', desc: '2 x Stone Dish Mats' },
+  { id: 3, name: 'Family Bundle', quantity: 6, price: 189.99, save: 25, label: 'Max Savings', desc: '6 x Stone Dish Mats' },
+];
+
+const ProductDetail = () => {
+  const [selectedBundle, setSelectedBundle] = useState(BUNDLES[1]); // Default to middle option
+  const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'shipping'>('desc');
+
+  return (
+    <div className="min-h-screen bg-white py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
+          
+          {/* Gallery Section */}
+          <div className="space-y-6 sticky top-24 self-start z-10">
+             <div className="relative group">
+                {/* Catchy Glow Effect */}
+                <div className="absolute -inset-1 bg-gradient-to-tr from-pink-400 to-purple-400 rounded-[2rem] blur opacity-40 group-hover:opacity-60 transition duration-1000"></div>
+                <div className="aspect-square bg-white rounded-3xl overflow-hidden relative shadow-2xl">
+                    <img 
+                      src={productImage} 
+                      alt="Product Main" 
+                      className="w-full h-full object-cover transform transition duration-700 hover:scale-105"
+                    />
+                    <div className="absolute top-4 left-4 bg-black text-white px-4 py-2 rounded-full text-xs font-bold tracking-wider uppercase shadow-md flex items-center gap-2">
+                      <FaFire className="text-orange-500" /> Selling Fast
+                    </div>
+                </div>
+             </div>
+             <div className="grid grid-cols-4 gap-4">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="aspect-square bg-gray-50 rounded-2xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-pink-500 transition-all opacity-80 hover:opacity-100 hover:shadow-lg">
+                    <img src={`https://picsum.photos/seed/stone_detail_${i}/300/300`} alt="Thumbnail" className="w-full h-full object-cover" />
+                  </div>
+                ))}
+             </div>
+          </div>
+
+          {/* Info Section */}
+          <div className="flex flex-col">
+             <div className="flex items-center space-x-2 mb-4 bg-pink-50 inline-flex self-start px-3 py-1 rounded-full border border-pink-100">
+               <div className="flex text-yellow-400 text-sm">
+                 {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+               </div>
+               <span className="text-pink-900 text-xs font-bold uppercase tracking-wide">4.9/5 (2,400+ Reviews)</span>
+             </div>
+
+             <h1 className="text-4xl lg:text-6xl font-black text-gray-900 mb-4 leading-tight">
+               The Stone Dish Mat
+             </h1>
+             <p className="text-xl text-gray-500 mb-8 border-l-4 border-pink-500 pl-4 bg-gray-50 py-2 rounded-r-lg">
+               Dry your dishes instantly with the power of nature.
+             </p>
+
+             {/* Bundle Selector - Catchy Cards */}
+             <div className="space-y-4 mb-8">
+                <p className="font-bold text-gray-900 text-sm uppercase tracking-wide flex items-center"><span className="w-2 h-2 bg-pink-500 rounded-full mr-2"></span> Select Quantity</p>
+                <div className="grid grid-cols-1 gap-4">
+                  {BUNDLES.map((bundle) => (
+                    <div 
+                      key={bundle.id}
+                      onClick={() => setSelectedBundle(bundle)}
+                      className={`relative flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 transform ${selectedBundle.id === bundle.id ? 'border-pink-500 bg-pink-50/50 shadow-md scale-[1.02]' : 'border-gray-100 hover:border-pink-200 hover:shadow-sm'}`}
+                    >
+                       {/* Best Value Label */}
+                       {bundle.save > 0 && <div className="absolute -top-3 right-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm uppercase tracking-widest">
+                          Save {bundle.save}%
+                       </div>}
+                       
+                       <div className="flex items-center space-x-4">
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${selectedBundle.id === bundle.id ? 'border-pink-500' : 'border-gray-300'}`}>
+                             {selectedBundle.id === bundle.id && <div className="w-3 h-3 bg-pink-500 rounded-full shadow-sm"></div>}
+                          </div>
+                          <div>
+                             <span className={`font-bold block text-lg ${selectedBundle.id === bundle.id ? 'text-gray-900' : 'text-gray-600'}`}>{bundle.name}</span>
+                             <span className="text-gray-400 text-sm font-medium">{bundle.desc}</span>
+                          </div>
+                       </div>
+                       <div className="text-right">
+                          <div className="font-black text-xl text-gray-900">${bundle.price}</div>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+             </div>
+
+             {/* Add To Cart - Catchy Button */}
+             <div className="flex flex-col space-y-4 mb-8">
+               <button className="relative w-full overflow-hidden bg-black text-white font-black py-5 rounded-xl hover:bg-gray-900 transition-all active:scale-[0.99] shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 text-lg group">
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    ADD TO CART - ${selectedBundle.price} <FaCheck className="group-hover:scale-125 transition-transform"/>
+                  </span>
+                  <div className="absolute inset-0 h-full w-full scale-0 rounded-xl transition-all duration-300 group-hover:scale-100 group-hover:bg-gradient-to-r group-hover:from-gray-800 group-hover:to-black opacity-10"></div>
+               </button>
+               <div className="flex items-center justify-around text-xs text-gray-500 font-bold uppercase tracking-widest px-4">
+                  <div className="flex items-center space-x-2"><FaShippingFast className="text-pink-500 w-4 h-4"/> <span>Free Shipping</span></div>
+                  <div className="flex items-center space-x-2"><FaShieldAlt className="text-pink-500 w-4 h-4"/> <span>Lifetime Warranty</span></div>
+               </div>
+             </div>
+
+             {/* Value Props - Modern Cards */}
+             <div className="grid grid-cols-2 gap-3 mb-10">
+               {['Instant Absorption', 'Mold Prevention', 'Elegant Design', 'Easy To Clean'].map((prop, i) => (
+                 <div key={i} className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                   <FaCheck className="text-green-500 flex-shrink-0" />
+                   <span className="text-sm font-bold text-gray-700">{prop}</span>
+                 </div>
+               ))}
+             </div>
+
+             {/* Accordion Content */}
+             <div className="border-t border-gray-200 pt-6">
+               <div className="flex space-x-8 border-b border-gray-200 mb-6">
+                 {['desc', 'specs', 'shipping'].map((tab) => (
+                   <button 
+                     key={tab}
+                     onClick={() => setActiveTab(tab as any)}
+                     className={`pb-3 font-bold text-sm uppercase tracking-wider transition-all border-b-2 ${activeTab === tab ? 'border-pink-500 text-pink-600' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                   >
+                     {tab === 'desc' ? 'Description' : tab === 'specs' ? 'Specifications' : 'Shipping'}
+                   </button>
+                 ))}
+               </div>
+               <div className="text-gray-600 text-sm leading-relaxed min-h-[100px] animate-fade-in-up">
+                 {activeTab === 'desc' && (
+                   <div className="space-y-4">
+                     <p>Experience the magic of <span className="font-bold text-pink-500">Diatomaceous Earth</span>. This natural material absorbs moisture instantly, leaving your countertop bone dry within seconds.</p>
+                     <p>Say goodbye to soggy cloth mats and plastic trays that harbor bacteria. Upgrade to the cleaner, faster, and more elegant drying solution.</p>
+                   </div>
+                 )}
+                 {activeTab === 'specs' && (
+                   <ul className="grid grid-cols-2 gap-2">
+                     <li className="bg-gray-50 p-2 rounded">Material: 100% Natural Stone</li>
+                     <li className="bg-gray-50 p-2 rounded">Size: 60cm x 40cm</li>
+                     <li className="bg-gray-50 p-2 rounded">Weight: 1.5kg</li>
+                     <li className="bg-gray-50 p-2 rounded">Includes: Non-slip pad</li>
+                   </ul>
+                 )}
+                 {activeTab === 'shipping' && (
+                   <p className="bg-blue-50 p-4 rounded-xl border border-blue-100 text-blue-800">
+                     We offer free express shipping on all orders over $50. Orders are processed within 24 hours.
+                   </p>
+                 )}
+               </div>
+             </div>
+          </div>
+        </div>
+
+        {/* RELATED PRODUCTS SECTION */}
+        <div className="border-t border-gray-100 pt-16">
+            <h2 className="text-3xl font-black text-gray-900 mb-8 text-center">You May Also Like</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                {[
+                  { name: 'Lift PDRN Collagen Eye Patches', price: '$34.99', seed: 'collagen_patches' },
+                  { name: 'Microneedle Eye Patches', price: '$29.99', seed: 'microneedle' },
+                  { name: 'Hydrating Eye Serum', price: '$24.99', seed: 'serum_glow' },
+                  { name: 'Stone Coaster Set', price: '$19.99', seed: 'coasters' }
+                ].map((item, idx) => (
+                   <div key={idx} className="group">
+                      <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden mb-4 relative">
+                         <img src={`https://picsum.photos/seed/${item.seed}/400/400`} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                         <button className="absolute bottom-4 right-4 bg-white text-black p-3 rounded-full shadow-lg translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-pink-500 hover:text-white">
+                            <FaCheck />
+                         </button>
+                      </div>
+                      <h3 className="font-bold text-gray-900 group-hover:text-pink-500 transition-colors">{item.name}</h3>
+                      <p className="text-gray-500">{item.price}</p>
+                   </div>
+                ))}
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetail;
