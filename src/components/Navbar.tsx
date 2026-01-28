@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaShoppingCart, FaSearch, FaBars } from 'react-icons/fa';
+import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { useState } from 'react';
 import Logo from '../assets/Logo.png';
 

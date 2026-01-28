@@ -11,7 +11,7 @@ interface ProductCardProps {
   reviews?: number;
 }
 
-const ProductCard = ({ id, name, price, originalPrice, image, rating = 4.8, reviews = 437 }: ProductCardProps) => {
+const ProductCard = ({ id, name, price, originalPrice, image, reviews = 437 }: ProductCardProps) => {
   return (
     <Link to={`/product/${id}`} className="group block">
       <div className="relative overflow-hidden bg-gray-100 rounded-sm aspect-square mb-4 w-48 h-48 mx-auto">
