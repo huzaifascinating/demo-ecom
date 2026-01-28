@@ -14,7 +14,7 @@ interface ProductCardProps {
 const ProductCard = ({ id, name, price, originalPrice, image, rating = 4.8, reviews = 437 }: ProductCardProps) => {
   return (
     <Link to={`/product/${id}`} className="group block">
-      <div className="relative overflow-hidden bg-gray-100 rounded-2xl aspect-square mb-4">
+      <div className="relative overflow-hidden bg-gray-100 rounded-sm aspect-square mb-4 w-48 h-48 mx-auto">
         <img 
           src={image} 
           alt={name} 
@@ -26,7 +26,7 @@ const ProductCard = ({ id, name, price, originalPrice, image, rating = 4.8, revi
           </div>
         )}
       </div>
-      <div className="space-y-1">
+      <div className="space-y-1 w-48 mx-auto">
         <h3 className="text-gray-900 font-semibold text-lg group-hover:text-pink-500 transition-colors">{name}</h3>
         <div className="flex items-center space-x-1">
           <div className="flex text-yellow-400 text-xs">
@@ -34,7 +34,7 @@ const ProductCard = ({ id, name, price, originalPrice, image, rating = 4.8, revi
               <FaStar key={i} />
             ))}
           </div>
-          <span className="text-gray-500 text-xs text-sm">({reviews} reviews)</span>
+          <span className="text-gray-500 text-xs">({reviews} reviews)</span>
         </div>
         <div className="flex items-center space-x-2">
           <span className="text-gray-900 font-bold">${price.toFixed(2)}</span>

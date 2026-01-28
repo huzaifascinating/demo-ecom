@@ -1,12 +1,22 @@
 import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
+import Logo from '../assets/Logo.png';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="relative bg-gray-50 border-t border-gray-200 pt-16 pb-8 overflow-hidden">
+      {/* Background logo */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-5">
+        <img
+          src={Logo}
+          alt="Lorena logo background"
+          className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain"
+        />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-gray-900">NOVALIFT.</h3>
+            <h3 className="text-xl md:text-2xl font-serif font-semibold text-gray-900"><span className='text-4xl'>L</span>ORENA</h3>
             <p className="text-gray-500 text-sm">
               The #1 Natural Solution for Wrinkles & Fine Lines. Clinically proven results at home.
             </p>
@@ -54,7 +64,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-200 pt-8 text-center">
-          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} NovaLift. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Lorena. All rights reserved.</p>
         </div>
       </div>
     </footer>
