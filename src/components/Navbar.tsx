@@ -48,9 +48,27 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white border-t border-gray-100 absolute w-full">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50">Home</Link>
-            <Link to="/shop" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50">Shop Now</Link>
-            <Link to="/cart" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50">Cart</Link>
+            <Link
+              to="/"
+              onClick={() => setIsOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
+            >
+              Home
+            </Link>
+            <Link
+              to="/shop"
+              onClick={() => setIsOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
+            >
+              Shop Now
+            </Link>
+            <Link
+              to="/reviews"
+              onClick={() => setIsOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
+            >
+              Reviews
+            </Link>
           </div>
         </div>
       )}

@@ -14,7 +14,7 @@ interface ProductCardProps {
 const ProductCard = ({ id, name, price, originalPrice, image, reviews = 437 }: ProductCardProps) => {
   return (
     <Link to={`/product/${id}`} className="group block">
-      <div className="relative overflow-hidden bg-gray-100 rounded-sm aspect-square mb-4 w-48 h-48 mx-auto">
+      <div className="relative overflow-hidden bg-gray-100 rounded-sm aspect-square mb-4 w-full">
         <img 
           src={image} 
           alt={name} 
@@ -26,7 +26,7 @@ const ProductCard = ({ id, name, price, originalPrice, image, reviews = 437 }: P
           </div>
         )}
       </div>
-      <div className="space-y-1 w-48 mx-auto">
+      <div className="space-y-1 w-full">
         <h3 className="text-gray-900 font-semibold text-lg group-hover:text-pink-500 transition-colors">{name}</h3>
         <div className="flex items-center space-x-1">
           <div className="flex text-yellow-400 text-xs">

@@ -31,10 +31,10 @@ const Home = () => {
       <section className="bg-white py-16 lg:py-24 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 relative group max-w-lg mx-auto lg:mx-0 lg:mr-auto">
+            <div className="lg:col-span-6 relative group max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:mr-auto">
               {/* Restored Pink/Purple Glow */}
               <div className="absolute inset-0 bg-linear-to-tr from-pink-300 to-purple-400 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform blur-lg opacity-60"></div>
-              <div className="relative bg-white rounded-3xl overflow-hidden shadow-2xl aspect-square border border-gray-100 h-96">
+              <div className="relative bg-white rounded-3xl overflow-hidden shadow-2xl aspect-square border border-gray-100 h-72 sm:h-80 md:h-96">
                 <img
                   src={productImage}
                   alt="Diatomaceous Stone Dish Mat"
@@ -177,11 +177,11 @@ const Home = () => {
           </div>
 
             <div className="relative mt-12 mb-8">
-            <div className="block md:block absolute -top-16 md:-top-40 left-1/2 -translate-x-1/2 w-64 md:w-[1200px] h-12 md:h-32 z-10 text-pink-300 opacity-40 md:opacity-20">
+            {/* <div className="block md:block absolute -top-16 md:-top-40 left-1/2 -translate-x-1/2 w-64 md:w-[1200px] h-12 md:h-32 z-10 text-pink-300 opacity-40 md:opacity-20">
               <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full">
                 <path d="M0 10 H95 M90 5 L100 10 L90 15" stroke="currentColor" strokeWidth="2" fill="none" />
               </svg>
-            </div>
+            </div> */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               {/* Before */}
               <div className="group relative overflow-hidden rounded-3xl aspect-square shadow-xl">

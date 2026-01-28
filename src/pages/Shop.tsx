@@ -62,7 +62,7 @@ const Shop = () => {
               </div>
 
               {/* View Toggle */}
-              <div className="inline-flex items-center space-x-2 bg-gray-100 rounded-full p-1">
+              <div className="inline-flex items-center space-x-2 bg-gray-100 rounded-full p-1 max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0">
                 <button
                   type="button"
                   onClick={() => setView('grid')}
