@@ -115,56 +115,58 @@ const Shop = () => {
               <ProductCard key={product.id} {...product} />
             ) : (
               // List View Item
-              <Link
-                key={product.id}
-                to={`/product/${product.id}`}
-                className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center gap-5 hover:shadow-xl hover:-translate-y-1 transition-all"
-              >
-                <div className="w-full sm:w-32 h-40 sm:h-32 shrink-0 bg-gray-100 rounded-xl overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-
-                <div className="flex-1 space-y-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {product.category === 'skincare' && (
-                      <span className="inline-flex items-center rounded-full bg-pink-50 px-2.5 py-0.5 text-[11px] font-semibold text-pink-600">
-                        Skincare favorite
-                      </span>
-                    )}
-                    {product.category === 'home' && (
-                      <span className="inline-flex items-center rounded-full bg-purple-50 px-2.5 py-0.5 text-[11px] font-semibold text-purple-700">
-                        Home upgrade
-                      </span>
-                    )}
+              <Link to={`/product/${product.id}`} className="group block">
+                <button
+                  key={product.id}
+                  type="button"
+                  className="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col sm:flex-row sm:items-center gap-5 hover:shadow-xl hover:-translate-y-1 transition-all"
+                >
+                  <div className="w-full sm:w-32 h-40 sm:h-32 shrink-0 bg-gray-100 rounded-xl overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
-                    {product.name}
-                  </h3>
-                  <p className="text-gray-500 text-sm max-w-xl">
-                    Experience premium quality and instant, visible results from day one.
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-3 pt-2">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-pink-600 font-bold text-lg">
-                        ${product.price}
-                      </span>
-                      {product.originalPrice && (
-                        <span className="text-gray-400 line-through text-sm">
-                          ${product.originalPrice}
+                  <div className="flex-1 space-y-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {product.category === 'skincare' && (
+                        <span className="inline-flex items-center rounded-full bg-pink-50 px-2.5 py-0.5 text-[11px] font-semibold text-pink-600">
+                          Skincare favorite
+                        </span>
+                      )}
+                      {product.category === 'home' && (
+                        <span className="inline-flex items-center rounded-full bg-purple-50 px-2.5 py-0.5 text-[11px] font-semibold text-purple-700">
+                          Home upgrade
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-gray-400">
-                      {product.rating}★ • {product.reviews.toLocaleString()} reviews
+
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-500 text-sm max-w-xl">
+                      Experience premium quality and instant, visible results from day one.
+                    </p>
+
+                    <div className="flex flex-wrap items-center gap-3 pt-2">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-pink-600 font-bold text-lg">
+                          ${product.price}
+                        </span>
+                        {product.originalPrice && (
+                          <span className="text-gray-400 line-through text-sm">
+                            ${product.originalPrice}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        {product.rating}★ • {product.reviews.toLocaleString()} reviews
+                      </div>
                     </div>
                   </div>
-                </div>
+                </button>
               </Link>
             )
           )}

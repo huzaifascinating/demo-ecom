@@ -4,6 +4,7 @@ import { FaStar, FaCheck, FaShippingFast, FaShieldAlt, FaFire, FaArrowLeft } fro
 import { PRODUCTS } from '../data/Mockdata';
 import ImageOne from '../assets/imageOne.png';
 import ImageTwo from '../assets/imageTwo.png';
+import { useCart } from '../context/CartContext';
 
 const BUNDLES = [
   { id: 1, name: 'Essentials Pack', quantity: 1, price: 39.99, save: 0, label: 'Starter', desc: '1 x Stone Dish Mat' },
@@ -14,7 +15,7 @@ const BUNDLES = [
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
-
+  const { addItem } = useCart();
   const [selectedBundle, setSelectedBundle] = useState(BUNDLES[1]); // Default to middle option
   const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'shipping'>('desc');
 
@@ -101,8 +102,8 @@ const ProductDetail = () => {
 
             {/* Add To Cart - Catchy Button */}
             <div className="flex flex-col space-y-4 mb-8">
-              <button className="relative w-full overflow-hidden bg-black text-white font-black py-5 rounded-xl hover:bg-gray-900 transition-all active:scale-[0.99] shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 text-lg group">
-                <span className="relative z-10 flex items-center justify-center gap-2">
+              <button className="relative w-full overflow-hidden bg-black text-white font-black py-5 rounded-xl hover:bg-gray-900 transition-all active:scale-[0.99] shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 text-lg group cursor-pointer">
+                <span className="relative z-10 flex items-center justify-center gap-2" onClick={() => addItem(product.id, selectedBundle.quantity)}>
                   ADD TO CART - ${selectedBundle.price} <FaCheck className="group-hover:scale-125 transition-transform" />
                 </span>
                 <div className="absolute inset-0 h-full w-full scale-0 rounded-xl transition-all duration-300 group-hover:scale-100 group-hover:bg-linear-to-r group-hover:from-gray-800 group-hover:to-black opacity-10"></div>
@@ -130,7 +131,7 @@ const ProductDetail = () => {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab as any)}
-                    className={`pb-3 font-bold text-sm uppercase tracking-wider transition-all border-b-2 ${activeTab === tab ? 'border-pink-500 text-pink-600' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
+                    className={`pb-3 font-bold text-sm uppercase tracking-wider transition-all border-b-2 cursor-pointer ${activeTab === tab ? 'border-pink-500 text-pink-600' : 'border-transparent text-gray-400 hover:text-gray-600'}`}
                   >
                     {tab === 'desc' ? 'Description' : tab === 'specs' ? 'Specifications' : 'Shipping'}
                   </button>

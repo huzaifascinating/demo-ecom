@@ -2,18 +2,20 @@ import { Link } from 'react-router-dom';
 import { FaShoppingCart, FaBars } from 'react-icons/fa';
 import { useState } from 'react';
 import Logo from '../assets/Logo.png';
+import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { openCart, cartCount } = useCart();
 
   return (
-    <header className="sticky top-0 z-50 bg-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100">
+    <header className="sticky top-10 z-50 bg-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/">
-              <img src={Logo} alt="Lorena Logo" width={100}/>
+              <img src={Logo} alt="Lorena Logo" width={100} />
             </Link>
           </div>
 
@@ -29,10 +31,17 @@ const Navbar = () => {
             {/* <button className="text-gray-600 hover:text-pink-500 transition-colors">
               <FaSearch className="h-5 w-5" />
             </button> */}
-            <Link to="/cart" className="relative text-gray-600 hover:text-pink-500 transition-colors">
+            <button
+              type="button"
+              onClick={() => openCart({ activeTab: 'cart' })}
+              className="relative text-gray-600 hover:text-pink-500 transition-colors cursor-pointer"
+              aria-label="Open cart"
+            >
               <FaShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">0</span>
-            </Link>
+              <span className="absolute -top-2 -right-2 bg-linear-to-tr from-pink-400 to-purple-500 text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center shadow-sm">
+                {cartCount}
+              </span>
+            </button>
           </div>
 
           {/* Mobile menu button */}
@@ -69,6 +78,13 @@ const Navbar = () => {
             >
               Reviews
             </Link>
+            <button
+              type="button"
+              onClick={() => openCart({ activeTab: 'cart' })}
+              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
+            >
+              Cart
+            </button>
           </div>
         </div>
       )}

@@ -1,4 +1,3 @@
-import stoneMatImage from '../assets/image.png';
 import ImageOne from '../assets/imageOne.png';
 import ImageTwo from '../assets/imageTwo.png';
 
@@ -6,16 +5,6 @@ import ImageTwo from '../assets/imageTwo.png';
 export const PRODUCTS = [
     {
       id: '1',
-      name: 'Diatomaceous Stone Dish Mat',
-      price: 39.99,
-      originalPrice: 79.99,
-      category: 'home',
-      image: stoneMatImage, // Using local asset
-      rating: 4.9,
-      reviews: 2400
-    },
-    {
-      id: '2',
       name: 'Lift PDRN Collagen Eye Patches',
       price: 34.99,
       originalPrice: 69.99,
@@ -25,7 +14,7 @@ export const PRODUCTS = [
       reviews: 850
     },
     {
-      id: '3',
+      id: '2',
       name: 'Microneedle Eye Patches',
       price: 29.99,
       originalPrice: 59.99,
