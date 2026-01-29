@@ -68,6 +68,18 @@ const ProductDetail = () => {
               Dry your dishes instantly with the power of nature and elevate the look of your space.
             </p>
 
+            {/* Price Display */}
+            <div className="mb-6 flex items-baseline gap-4">
+              <span className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+                ${selectedBundle.price}
+              </span>
+              {selectedBundle.save > 0 && (
+                <span className="text-lg text-pink-500 font-bold bg-pink-50 px-3 py-1 rounded-full uppercase tracking-wider text-xs">
+                  Save {selectedBundle.save}%
+                </span>
+              )}
+            </div>
+
             {/* Bundle Selector - Catchy Cards */}
             <div className="space-y-4 mb-8">
               <p className="font-bold text-gray-900 text-sm uppercase tracking-wide flex items-center"><span className="w-2 h-2 bg-pink-500 rounded-full mr-2"></span> Select Quantity</p>
@@ -102,9 +114,10 @@ const ProductDetail = () => {
 
             {/* Add To Cart - Catchy Button */}
             <div className="flex flex-col space-y-4 mb-8">
-              <button className="relative w-full overflow-hidden bg-black text-white font-black py-5 rounded-xl hover:bg-gray-900 transition-all active:scale-[0.99] shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 text-lg group cursor-pointer">
-                <span className="relative z-10 flex items-center justify-center gap-2" onClick={() => addItem(product.id, selectedBundle.quantity)}>
-                  ADD TO CART - ${selectedBundle.price} <FaCheck className="group-hover:scale-125 transition-transform" />
+
+              <button className="relative w-full overflow-hidden bg-black text-white font-black py-5 rounded-xl hover:bg-gray-900 transition-all active:scale-[0.99] shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 text-lg group cursor-pointer" onClick={() => addItem(product.id, selectedBundle.quantity)}>
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  ADD TO CART <FaCheck className="group-hover:scale-125 transition-transform" />
                 </span>
                 <div className="absolute inset-0 h-full w-full scale-0 rounded-xl transition-all duration-300 group-hover:scale-100 group-hover:bg-linear-to-r group-hover:from-gray-800 group-hover:to-black opacity-10"></div>
               </button>
@@ -164,14 +177,14 @@ const ProductDetail = () => {
 
         {/* RELATED PRODUCTS SECTION */}
         <div className="border-t border-gray-100 pt-16">
-          <h2 className="text-3xl font-black text-gray-900 mb-8 text-center">You May Also Like</h2>
+          <h2 className="mb-16 text-center text-3xl md:text-5xl font-serif font-semibold text-gray-900">You May Also Like</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {[
               { name: 'Lift PDRN Collagen Eye Patches', price: '$34.99', image: ImageOne },
               { name: 'Microneedle Eye Patches', price: '$29.99', image: ImageTwo },
             ].map((item, idx) => (
               <div key={idx} className="group">
-                <div className="aspect-square bg-gray-100 rounded-2xl overflow-hidden mb-4 relative">
+                <div className="aspect-square bg-gray-100 rounded-sm overflow-hidden mb-4 relative">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
                   <button className="absolute bottom-4 right-4 bg-white text-black p-3 rounded-full shadow-lg translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-pink-500 hover:text-white">

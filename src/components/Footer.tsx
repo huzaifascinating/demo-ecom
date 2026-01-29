@@ -26,36 +26,34 @@ const Footer = () => {
               <a href="#" className="text-gray-400 hover:text-pink-500"><FaTiktok className="h-5 w-5" /></a>
             </div>
           </div>
-          
+
           <div>
             <h4 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Shop</h4>
-            <ul className="space-y-3">
-              <li><a href="#" className="text-gray-500 hover:text-pink-500 text-sm">Best Sellers</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-pink-500 text-sm">New Arrivals</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-pink-500 text-sm">Bundles</a></li>
-            </ul>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Explore our premium collection of natural skincare solutions designed to rejuvenate and hydrate your delicate skin.
+            </p>
           </div>
 
           <div>
             <h4 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Support</h4>
-            <ul className="space-y-3">
-              <li><a href="#" className="text-gray-500 hover:text-pink-500 text-sm">FAQ</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-pink-500 text-sm">Shipping & Returns</a></li>
-              <li><a href="#" className="text-gray-500 hover:text-pink-500 text-sm">Contact Us</a></li>
-            </ul>
+            <div className="space-y-3 text-gray-500 text-sm">
+              <p>Need help? We're here for you.</p>
+              <p>Email: <a href="mailto:support@lorena.com" className="hover:text-pink-500 transition-colors">support@lorena.com</a></p>
+              <p>Hours: Mon-Fri, 9am - 5pm EST</p>
+            </div>
           </div>
 
           <div>
             <h4 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Stay in the loop</h4>
             <p className="text-gray-500 text-sm mb-4">Sign up for exclusive offers and skincare tips.</p>
             <form className="flex">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
+              <input
+                type="email"
+                placeholder="Enter your email"
                 className="flex-1 min-w-0 px-4 py-2 border border-gray-300 rounded-l-md focus:ring-pink-500 focus:border-pink-500 text-sm"
               />
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="bg-black text-white px-4 py-2 rounded-r-md hover:bg-gray-800 transition-colors text-sm font-medium"
               >
                 Join

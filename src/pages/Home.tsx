@@ -29,12 +29,15 @@ const Home = () => {
 
       {/* SECTION 1: Main Product Highlight */}
       <section className="bg-white py-16 lg:py-24 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 relative group max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:mr-auto">
-              {/* Restored Pink/Purple Glow */}
-              <div className="absolute inset-0 bg-linear-to-tr from-pink-300 to-purple-400 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform blur-lg opacity-60"></div>
-              <div className="relative bg-white rounded-3xl overflow-hidden aspect-square border border-gray-100 h-72 sm:h-80 md:h-96">
+              {/* Stacked Frames Effect */}
+              {/* Stacked Frames Effect */}
+              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform -rotate-12 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:-rotate-[18deg] group-hover:scale-105"></div>
+              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform rotate-6 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:rotate-[12deg] group-hover:scale-105"></div>
+
+              <div className="relative z-10 bg-white rounded-3xl overflow-hidden aspect-square border border-gray-100 h-72 sm:h-80 md:h-96 shadow-2xl">
                 <img
                   src={productImage}
                   alt="Lift PDRN Collagen Eye Patches"
@@ -58,7 +61,7 @@ const Home = () => {
               </div>
 
               <h1 className="text-3xl lg:text-5xl font-serif font-medium text-gray-900 leading-tight">
-                The <span className="font-bold font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400">#1 Natural Solution</span> for
+                The <span className="font-medium font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400">#1 Natural Solution</span> for
                 <span className="italic"> brighter, smoother under-eyes</span>
               </h1>
 
@@ -67,8 +70,8 @@ const Home = () => {
               </p>
 
               <div className="pt-4 flex flex-col items-start space-y-4">
-                <Link to="/product/2" className="bg-linear-to-tr from-pink-300 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
-                  Get Yours 70% Off
+                <Link to="/product/2" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
+                  Get Yours <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <div className="flex items-center text-gray-500 text-sm font-medium">
                   <FaCheckCircle className="mr-2" /> 30-day money back guarantee
