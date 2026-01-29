@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FaStar, FaCheck, FaShippingFast, FaShieldAlt, FaFire, FaArrowLeft } from 'react-icons/fa';
-import { PRODUCTS } from '../data/Mockdata';
-import ImageOne from '../assets/imageOne.png';
-import ImageTwo from '../assets/imageTwo.png';
+import { FaStar, FaCheck, FaShippingFast, FaShieldAlt, FaFire, FaArrowLeft, FaSpinner } from 'react-icons/fa';
+import { fetchShopifyProductById, fetchShopifyProducts } from '../utils/shopify';
 import { useCart } from '../context/CartContext';
 
 const BUNDLES = [
@@ -14,10 +12,78 @@ const BUNDLES = [
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const product = PRODUCTS.find((p) => p.id === id) || PRODUCTS[0];
+  const [product, setProduct] = useState<any>(null);
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { addItem } = useCart();
-  const [selectedBundle, setSelectedBundle] = useState(BUNDLES[1]); // Default to middle option
+  const [selectedBundle, setSelectedBundle] = useState(BUNDLES[0]);
   const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'shipping'>('desc');
+  const [mainImage, setMainImage] = useState<string>('');
+
+  useEffect(() => {
+    const loadProductData = async () => {
+      if (!id) return;
+      try {
+        setLoading(true);
+        const [pData, allProducts] = await Promise.all([
+          fetchShopifyProductById(id),
+          fetchShopifyProducts()
+        ]);
+        
+        if (pData) {
+          setProduct(pData);
+          setMainImage(pData.image);
+          // Filter out current product from related
+          setRelatedProducts(allProducts.filter((p: any) => p.id !== id).slice(0, 4));
+          setError(null);
+        } else {
+          setError('Product not found.');
+        }
+      } catch (err) {
+        setError('Failed to load product details.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProductData();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center space-y-4">
+        <FaSpinner className="text-5xl text-pink-500 animate-spin" />
+        <p className="text-gray-500 font-medium text-lg">Loading amazing details...</p>
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
+        <div className="text-center space-y-6 max-w-md">
+          <div className="text-6xl text-gray-200 font-serif font-black italic">Oops!</div>
+          <h2 className="text-2xl font-bold text-gray-900">{error || 'Something went wrong.'}</h2>
+          <p className="text-gray-500">We couldn't find the product you're looking for. It might have moved or been retired.</p>
+          <Link to="/shop" className="inline-block px-10 py-4 bg-black text-white rounded-full font-bold hover:bg-gray-800 transition-all shadow-xl">
+            Back to Shop
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  // Calculate dynamic bundle prices based on Shopify single product price
+  const basePrice = product.price;
+  const currentBundles = [
+    { id: 1, name: 'Essentials Pack', quantity: 1, price: basePrice, save: 0, label: 'Starter', desc: '1 x ' + product.name },
+    { id: 2, name: 'Couple Pack', quantity: 2, price: (basePrice * 2 * 0.85), save: 15, label: 'Most Popular', desc: '2 x ' + product.name },
+    { id: 3, name: 'Family Bundle', quantity: 6, price: (basePrice * 6 * 0.75), save: 25, label: 'Max Savings', desc: '6 x ' + product.name },
+  ];
+
+  // Update bundle selection if base price changes
+  const activeBundle = currentBundles.find(b => b.id === selectedBundle.id) || currentBundles[1];
 
   return (
     <div className="min-h-screen bg-white py-6">
@@ -34,7 +100,7 @@ const ProductDetail = () => {
             <div className="relative group">
               <div className="aspect-square bg-white rounded-3xl overflow-hidden relative max-w-sm mx-auto">
                 <img
-                  src={product.image}
+                  src={mainImage}
                   alt={product.name}
                   className="w-full h-full object-cover transform transition duration-700 hover:scale-105"
                 />
@@ -44,9 +110,13 @@ const ProductDetail = () => {
               </div>
             </div>
             <div className="grid grid-cols-4 gap-4">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="aspect-square bg-gray-50 rounded-2xl overflow-hidden cursor-pointer border-2 border-transparent hover:border-pink-500 transition-all opacity-80 hover:opacity-100 hover:shadow-lg">
-                  <img src={`https://picsum.photos/seed/stone_detail_${i}/300/300`} alt="Thumbnail" className="w-full h-full object-cover" />
+              {product.images?.map((img: string, i: number) => (
+                <div 
+                  key={i} 
+                  onClick={() => setMainImage(img)}
+                  className={`aspect-square bg-gray-50 rounded-2xl overflow-hidden cursor-pointer border-2 transition-all opacity-80 hover:opacity-100 hover:shadow-lg ${mainImage === img ? 'border-pink-500 ring-2 ring-pink-500/20' : 'border-transparent'}`}
+                >
+                  <img src={img} alt={`${product.name} view ${i}`} className="w-full h-full object-cover" />
                 </div>
               ))}
             </div>
@@ -71,11 +141,11 @@ const ProductDetail = () => {
             {/* Price Display */}
             <div className="mb-6 flex items-baseline gap-4">
               <span className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
-                ${selectedBundle.price}
+                ${activeBundle.price.toFixed(2)}
               </span>
-              {selectedBundle.save > 0 && (
+              {activeBundle.save > 0 && (
                 <span className="text-lg text-pink-500 font-bold bg-pink-50 px-3 py-1 rounded-full uppercase tracking-wider text-xs">
-                  Save {selectedBundle.save}%
+                  Save {activeBundle.save}%
                 </span>
               )}
             </div>
@@ -84,10 +154,12 @@ const ProductDetail = () => {
             <div className="space-y-4 mb-8">
               <p className="font-bold text-gray-900 text-sm uppercase tracking-wide flex items-center"><span className="w-2 h-2 bg-pink-500 rounded-full mr-2"></span> Select Quantity</p>
               <div className="grid grid-cols-1 gap-4">
-                {BUNDLES.map((bundle) => (
+                {currentBundles.map((bundle) => (
                   <div
                     key={bundle.id}
-                    onClick={() => setSelectedBundle(bundle)}
+                    onClick={() => {
+                      setSelectedBundle(bundle);
+                    }}
                     className={`relative flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 transform ${selectedBundle.id === bundle.id ? 'border-pink-500 bg-pink-50/50 shadow-md scale-[1.02]' : 'border-gray-100 hover:border-pink-200 hover:shadow-sm'}`}
                   >
                     {/* Best Value Label */}
@@ -101,11 +173,11 @@ const ProductDetail = () => {
                       </div>
                       <div>
                         <span className={`font-bold block text-lg ${selectedBundle.id === bundle.id ? 'text-gray-900' : 'text-gray-600'}`}>{bundle.name}</span>
-                        <span className="text-gray-400 text-sm font-medium">{bundle.desc}</span>
+                        <span className="text-gray-400 text-sm font-medium truncate max-w-[200px]">{bundle.desc}</span>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="font-black text-xl text-gray-900">${bundle.price}</div>
+                      <div className="font-black text-xl text-gray-900">${bundle.price.toFixed(2)}</div>
                     </div>
                   </div>
                 ))}
@@ -115,7 +187,7 @@ const ProductDetail = () => {
             {/* Add To Cart - Catchy Button */}
             <div className="flex flex-col space-y-4 mb-8">
 
-              <button className="relative w-full overflow-hidden bg-black text-white font-black py-5 rounded-xl hover:bg-gray-900 transition-all active:scale-[0.99] shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 text-lg group cursor-pointer" onClick={() => addItem(product.id, selectedBundle.quantity)}>
+              <button className="relative w-full overflow-hidden bg-black text-white font-black py-5 rounded-xl hover:bg-gray-900 transition-all active:scale-[0.99] shadow-xl hover:shadow-2xl hover:shadow-pink-500/20 text-lg group cursor-pointer" onClick={() => addItem(product.id, activeBundle.quantity)}>
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   ADD TO CART <FaCheck className="group-hover:scale-125 transition-transform" />
                 </span>
@@ -153,8 +225,7 @@ const ProductDetail = () => {
               <div className="text-gray-600 text-sm leading-relaxed min-h-[100px] animate-fade-in-up">
                 {activeTab === 'desc' && (
                   <div className="space-y-4">
-                    <p>Experience the magic of <span className="font-bold text-pink-500">Diatomaceous Earth</span>. This natural material absorbs moisture instantly, leaving your countertop bone dry within seconds.</p>
-                    <p>Say goodbye to soggy cloth mats and plastic trays that harbor bacteria. Upgrade to the cleaner, faster, and more elegant drying solution.</p>
+                    <div dangerouslySetInnerHTML={{ __html: product.description }} />
                   </div>
                 )}
                 {activeTab === 'specs' && (
@@ -179,11 +250,8 @@ const ProductDetail = () => {
         <div className="border-t border-gray-100 pt-16">
           <h2 className="mb-16 text-center text-3xl md:text-5xl font-serif font-semibold text-gray-900">You May Also Like</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {[
-              { name: 'Lift PDRN Collagen Eye Patches', price: '$34.99', image: ImageOne },
-              { name: 'Microneedle Eye Patches', price: '$29.99', image: ImageTwo },
-            ].map((item, idx) => (
-              <div key={idx} className="group">
+            {relatedProducts.map((item) => (
+              <Link to={`/product/${item.id}`} key={item.id} className="group">
                 <div className="aspect-square bg-gray-100 rounded-sm overflow-hidden mb-4 relative">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
@@ -192,8 +260,8 @@ const ProductDetail = () => {
                   </button>
                 </div>
                 <h3 className="font-bold text-gray-900 group-hover:text-pink-500 transition-colors">{item.name}</h3>
-                <p className="text-gray-500">{item.price}</p>
-              </div>
+                <p className="text-gray-500">${item.price.toFixed(2)}</p>
+              </Link>
             ))}
           </div>
         </div>
