@@ -233,7 +233,7 @@ const ProductDetail = () => {
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab as any)}
-                    className={`text-[11px] font-black uppercase tracking-[0.2em] whitespace-nowrap pb-2 border-b-2 transition-all cursor-pointer ${activeTab === tab ? 'border-pink-400 text-stone-900' : 'border-transparent text-stone-300 hover:text-stone-500'}`}
+                    className={`text-[18px] tracking-wider whitespace-nowrap pb-2 border-b-2 transition-all cursor-pointer ${activeTab === tab ? 'border-pink-400 text-stone-900' : 'border-transparent text-stone-300 hover:text-stone-500'}`}
                   >
                     {tab === 'desc' ? 'Ritual' : 'Delivery'}
                   </button>
