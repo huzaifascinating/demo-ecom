@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { FaChevronDown, FaChevronUp, FaTimes, FaArrowRight } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import { formatPrice } from '../utils/price';
 
 export default function CartDrawer() {
   const {
@@ -108,7 +109,7 @@ export default function CartDrawer() {
                     <div className="flex-1 flex flex-col justify-between py-1">
                       <div>
                         <h3 className="text-[15px] tracking-normal font-medium text-gray-900 line-clamp-2 leading-tight">{item.title}</h3>
-                        <p className="text-[18px] mt-2 font-semibold tracking-wide text-gray-500">Rs {item.price}</p>
+                        <p className="text-[18px] mt-2 font-semibold tracking-wide text-gray-500">Rs {formatPrice(item.price)}</p>
                       </div>
                     </div>
 
@@ -144,7 +145,7 @@ export default function CartDrawer() {
               </p>
               <div className="text-right">
                 <p className="text-xs text-gray-500 font-medium">Subtotal</p>
-                <p className="text-2xl font-bold text-black">Rs {subtotal}</p>
+                <p className="text-2xl font-bold text-black">Rs {formatPrice(subtotal)}</p>
               </div>
             </div>
 

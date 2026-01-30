@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { FaThLarge, FaList, FaSpinner, FaSearch } from 'react-icons/fa';
 import { fetchShopifyProducts } from '../utils/shopify';
+import { formatPrice } from '../utils/price';
 
 const Shop = () => {
   const [shopifyProducts, setShopifyProducts] = useState<any[]>([]);
@@ -179,11 +180,11 @@ const Shop = () => {
                       <div className="flex flex-wrap items-center gap-3 pt-2">
                         <div className="flex items-baseline gap-2">
                           <span className="text-pink-600 font-bold text-lg">
-                            ${product.price}
+                            ${formatPrice(product.price)}
                           </span>
                           {product.originalPrice && (
                             <span className="text-gray-400 line-through text-sm">
-                              ${product.originalPrice}
+                              ${formatPrice(product.originalPrice)}
                             </span>
                           )}
                         </div>

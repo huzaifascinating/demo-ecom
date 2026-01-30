@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { FaStar, FaCheck, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaCcVisa, FaCcMastercard, FaCcAmex, FaRegCircle, FaDotCircle } from 'react-icons/fa';
 import { fetchShopifyProductById, fetchShopifyProducts } from '../utils/shopify';
 import { useCart } from '../context/CartContext';
+import { formatPrice } from '../utils/price';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -68,11 +69,11 @@ const ProductDetail = () => {
     <div className="min-h-screen bg-[#FCFAF8] text-stone-800 selection:bg-pink-100">
       {/* Navigation */}
       <nav className="max-w-7xl mx-auto px-6 py-8">
-        <Link to="/shop" className="group inline-flex items-center text-stone-400 hover:text-stone-900 transition-colors gap-3">
+        <Link to="/shop" className="group inline-flex items-center text-stone-400 hover:text-pink-500 transition-colors gap-2">
           <div className="p-2 rounded-full bg-white shadow-sm border border-stone-100 group-hover:shadow-md transition-all">
-            <FaArrowLeft className="h-3 w-3" />
+            <FaArrowLeft className="h-3 w-3 text-pink-500" />
           </div>
-          <span className="text-xs uppercase tracking-widest font-bold">Return to Shop</span>
+          <span className="text-sm tracking-wide font-semibold">Return to Shop</span>
         </Link>
       </nav>
 
@@ -137,16 +138,16 @@ const ProductDetail = () => {
             <div className="mb-8 mt-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-2 text-sm font-bold text-stone-800">
                 <div className="flex items-center gap-3">
-                  <div className="bg-stone-900 text-white p-1.5 rounded-full"><FaMagic className="w-3 h-3" /></div> Instantly Visible Lift
+                  <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaMagic className="w-3 h-3" /></div> Instantly Visible Lift
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="bg-stone-900 text-white p-1.5 rounded-full"><FaClock className="w-3 h-3" /></div> Long-Lasting Results
+                  <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaClock className="w-3 h-3" /></div> Long-Lasting Results
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="bg-stone-900 text-white p-1.5 rounded-full"><FaLeaf className="w-3 h-3" /></div> Gentle on Sensitive Skin
+                  <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaLeaf className="w-3 h-3" /></div> Gentle on Sensitive Skin
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="bg-stone-900 text-white p-1.5 rounded-full"><FaFlask className="w-3 h-3" /></div> Clinically Proven
+                  <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaFlask className="w-3 h-3" /></div> Clinically Proven
                 </div>
               </div>
             </div>
@@ -188,7 +189,7 @@ const ProductDetail = () => {
                     </div>
 
                     <div className="text-right">
-                      <p className="text-2xl font-black text-stone-900 leading-none">${bundle.price.toFixed(2)}</p>
+                      <p className="text-2xl font-black text-stone-900 leading-none">${formatPrice(bundle.price)}</p>
                       {bundle.save > 0 && (
                         <div className="mt-1">
                           <span className="text-[10px] font-black text-pink-500 bg-pink-50 px-2 py-0.5 rounded-full uppercase">Save {bundle.save}%</span>
@@ -210,7 +211,7 @@ const ProductDetail = () => {
             <div className="space-y-6">
               <button
                 onClick={() => addItem(product, activeBundle.quantity)}
-                className="w-full bg-pink-500 text-white py-5 rounded-full font-semibold text-lg uppercase tracking-wide shadow-xl hover:bg-pink-600 hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3"
+                className="w-full bg-pink-500 text-white cursor-pointer py-5 rounded-full font-semibold text-lg uppercase tracking-wide shadow-xl hover:bg-pink-600 hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3"
               >
                 <FaShoppingBag /> Add To Cart
               </button>
@@ -277,7 +278,7 @@ const ProductDetail = () => {
 
                   <h3 className="font-serif text-lg text-stone-900 group-hover:text-pink-500 transition-colors leading-tight mb-2">{item.name}</h3>
                   <div className="flex items-center justify-between">
-                    <span className="text-stone-900 font-black text-base">${item.price.toFixed(2)}</span>
+                    <span className="text-stone-900 font-black text-base">${formatPrice(item.price)}</span>
                     <span className="text-[10px] font-bold text-pink-500 uppercase tracking-widest border-b border-pink-200 pb-0.5">Shop Now</span>
                   </div>
                 </div>

@@ -11,7 +11,6 @@ import { Modal } from 'antd'
 const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
-  // const BEAUTY_IMG = "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1887&auto=format&fit=crop";
   useEffect(() => {
     // Check if user has seen offer
     const hasSeenOffer = sessionStorage.getItem('hasSeenOffer');
@@ -87,7 +86,7 @@ const Home = () => {
               </p>
 
               <div className="pt-4 flex flex-col items-start space-y-4">
-                <Link to="/product/2" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
+                <Link to="/product/8076385943615" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
                   Get Yours <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <div className="flex items-center text-gray-500 text-sm font-medium">
@@ -125,7 +124,7 @@ const Home = () => {
               MODERN <br />
               <span className="italic font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400">LUXURY</span>
             </h2>
-            <Link to="/product/2" className="inline-block bg-white text-black font-black text-xl py-4 px-12 rounded-none hover:bg-pink-500 hover:text-white transition-colors duration-300 uppercase tracking-wider transform hover:-translate-y-1">
+            <Link to="/product/8076385943615" className="inline-block bg-white text-black font-black text-xl py-4 px-12 rounded-none hover:bg-pink-500 hover:text-white transition-colors duration-300 uppercase tracking-wider transform hover:-translate-y-1">
               Shop The Patches
             </Link>
           </div>

@@ -1,5 +1,6 @@
 import { FaStar } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { formatPrice } from '../utils/price';
 
 interface ProductCardProps {
   id: string;
@@ -42,9 +43,9 @@ const ProductCard = ({ id, name, price, originalPrice, image, reviews = 437 }: P
             <span className="text-gray-500 text-xs">({reviews} reviews)</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-gray-900 font-bold">${price.toFixed(2)}</span>
+            <span className="text-gray-900 font-bold">${formatPrice(price)}</span>
             {originalPrice && (
-              <span className="text-gray-400 text-sm line-through">${originalPrice.toFixed(2)}</span>
+              <span className="text-gray-400 text-sm line-through">${formatPrice(originalPrice)}</span>
             )}
           </div>
         </div>
