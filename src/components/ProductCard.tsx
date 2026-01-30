@@ -17,7 +17,7 @@ const ProductCard = ({ id, name, price, originalPrice, image, reviews = 437 }: P
     <Link to={`/product/${id}`} className="group block">
       <button
         type="button"
-        className="group block text-left w-full"
+        className="group block text-left w-full cursor-pointer"
       >
         <div className="relative overflow-hidden bg-gray-100 rounded-sm aspect-square mb-4 w-full">
           <img

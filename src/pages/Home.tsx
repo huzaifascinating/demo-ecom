@@ -5,9 +5,25 @@ import { Carousel, Collapse } from 'antd';
 import productImage from '../assets/imageOne.png';
 import beforeImage from '../assets/before.jpeg';
 import afterImage from '../assets/after.jpeg';
+import girlImage from '../assets/girlImage.png';
+import { Modal } from 'antd'
 
 const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  // const BEAUTY_IMG = "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=1887&auto=format&fit=crop";
+  useEffect(() => {
+    // Check if user has seen offer
+    const hasSeenOffer = sessionStorage.getItem('hasSeenOffer');
+    if (!hasSeenOffer) {
+      // Small delay for better UX
+      const timer = setTimeout(() => {
+        setIsOfferModalOpen(true);
+        sessionStorage.setItem('hasSeenOffer', 'true');
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +39,7 @@ const Home = () => {
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
 
   return (
     <div className="space-y-0">
@@ -235,67 +252,89 @@ const Home = () => {
       </section>
 
       {/* SECTION: Problem vs Solution + Before/After (Lift PDRN Collagen Eye Patches Version) */}
-      <section className="py-24 bg-pink-50">
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900">
-              From Soggy &amp; Messy to Clean &amp; Elevated
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
+              From <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Soggy</span> to Elevated
             </h2>
-            <p className="mt-4 text-gray-600 text-base md:text-lg">
-              Swap temporary eye creams for advanced PDRN collagen patches that hydrate fast and actually transform your under-eye area.
+            <p className="mt-6 text-gray-700 text-lg md:text-xl leading-relaxed">
+              Stop settling for temporary fixes. Swap messy creams for PDRN technology that actually transforms your skin.
             </p>
           </div>
 
-          <div className="mt-14 relative grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 items-stretch">
-            {/* Your Problem */}
-            <div className="bg-black text-white rounded-3xl shadow-2xl p-8 lg:p-10 border border-pink-500/40">
-              <h3 className="text-2xl font-black mb-6 tracking-tight">Your Problem</h3>
-              <ul className="space-y-5 text-sm md:text-base">
-                <li className="flex gap-4">
-                  <FaTimes className="text-pink-300 mt-1 shrink-0" />
-                  <span className="font-medium">Traditional eye creams provide temporary relief and never fully hydrate.</span>
-                </li>
-                <li className="flex gap-4">
-                  <FaTimes className="text-pink-300 mt-1 shrink-0" />
-                  <span className="font-medium">Fine lines, dark circles and puffiness around your under-eye area.</span>
-                </li>
-                <li className="flex gap-4">
-                  <FaTimes className="text-pink-300 mt-1 shrink-0" />
-                  <span className="font-medium">Constantly applying creams and still seeing tired-looking eyes.</span>
-                </li>
-              </ul>
-            </div>
+          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 items-center">
 
-            {/* 3D Arrow Divider */}
-            <div className="hidden lg:flex items-center justify-center">
-              <div className="relative">
-                <div className="w-20 h-20 rounded-full bg-linear-to-br from-pink-200 via-white to-purple-300 shadow-[0_20px_40px_rgba(0,0,0,0.25)] flex items-center justify-center border border-white/70">
-                  <FaArrowRight className="text-2xl text-gray-900 drop-shadow" />
-                </div>
-                <div className="absolute inset-0 -z-10 blur-xl bg-pink-300/40 rounded-full scale-110" />
+            {/* Your Problem - The "Old Way" */}
+            <div className="group relative overflow-hidden bg-white rounded-[2rem] p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-4px] border border-gray-200 shadow-sm hover:shadow-md">
+              <div className="relative z-10">
+                <span className="inline-block px-4 py-1 rounded-full bg-gray-100 text-gray-500 text-xs font-bold uppercase tracking-widest mb-6 border border-gray-200">
+                  The Old Way
+                </span>
+                <h3 className="text-2xl font-bold text-gray-400 mb-8 flex items-center gap-3">
+                  <FaTimes className="text-gray-300" /> Frustrating Results
+                </h3>
+                <ul className="space-y-5">
+                  {[
+                    "Creams sit on the surface",
+                    "Waking up puffy & tired",
+                    "Sticky, messy application"
+                  ].map((text, i) => (
+                    <li key={i} className="flex gap-4 items-center text-gray-500 transition-colors">
+                      <FaTimes className="text-gray-300 mt-0.5 shrink-0" />
+                      <span className="text-base font-medium leading-tight">{text}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            {/* Our Solution */}
-            <div className="bg-black text-white rounded-3xl shadow-2xl p-8 lg:p-10 border border-pink-500">
-              <h3 className="text-2xl font-black mb-6 tracking-tight">Our Solution</h3>
-              <ul className="space-y-5 text-sm md:text-base">
-                <li className="flex gap-4">
-                  <FaCheckCircle className="text-pink-400 mt-1 shrink-0" />
-                  <span className="font-medium">Lift PDRN Collagen Eye Patches deliver deep hydration and visible results in under 15 minutes.</span>
-                </li>
-                <li className="flex gap-4">
-                  <FaCheckCircle className="text-pink-400 mt-1 shrink-0" />
-                  <span className="font-medium">Naturally hydrating, helping keep your under-eye area fresh and rejuvenated.</span>
-                </li>
-                <li className="flex gap-4">
-                  <FaCheckCircle className="text-pink-400 mt-1 shrink-0" />
-                  <span className="font-medium">Luxurious patch design that upgrades the look of your under-eye area instantly.</span>
-                </li>
-              </ul>
+            {/* 3D Arrow Divider */}
+            <div className="flex lg:flex-col items-center justify-center gap-4 z-20">
+              <div className="h-[1px] w-12 lg:w-[1px] lg:h-12 bg-pink-200/50" />
+              <div className="relative group">
+                <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center border border-pink-100 transition-transform duration-500 group-hover:rotate-90 z-10 relative">
+                  <FaArrowRight className="text-xl text-pink-500" />
+                </div>
+                <div className="absolute inset-0 -z-10 blur-xl bg-pink-200/60 rounded-full animate-pulse" />
+              </div>
+              <div className="h-[1px] w-12 lg:w-[1px] lg:h-12 bg-pink-200/50" />
             </div>
-          </div>
 
+            {/* Our Solution - The "Glow Up" */}
+            <div className="group relative overflow-hidden bg-pink-50 rounded-[2rem] p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-8px] border-2 border-pink-200 shadow-xl shadow-pink-100">
+              <div className="relative z-10">
+                <span className="inline-block px-4 py-1 rounded-full bg-pink-500 text-white text-xs font-bold uppercase tracking-widest mb-6 shadow-lg shadow-pink-500/20">
+                  The Solution
+                </span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-8 tracking-tight flex items-center gap-3">
+                  <FaCheckCircle className="text-pink-500" /> PDRN Collagen Lift
+                </h3>
+                <ul className="space-y-6">
+                  {[
+                    { title: "Instant Hydration", desc: "Deep PDRN delivery in under 15 minutes." },
+                    { title: "Visible Firming", desc: "Naturally rejuvenates and lifts the eye area." },
+                    { title: "Elevated Ritual", desc: "Mess-free, luxurious application every time." }
+                  ].map((item, i) => (
+                    <li key={i} className="flex gap-4 items-start group/item">
+                      <div className="mt-1 shrink-0 bg-white rounded-full p-1 shadow-sm">
+                        <FaCheckCircle className="text-pink-500 text-sm" />
+                      </div>
+                      <div>
+                        <p className="text-gray-900 font-bold text-lg leading-tight group-hover:text-pink-600 transition-colors">{item.title}</p>
+                        <p className="text-gray-600 text-sm mt-1">{item.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Glowing Accent */}
+              <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/40 blur-[60px] rounded-full pointer-events-none" />
+              <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-pink-200/20 blur-[60px] rounded-full pointer-events-none" />
+            </div>
+
+          </div>
         </div>
       </section>
 
@@ -334,19 +373,18 @@ const Home = () => {
                 desc: 'Found they were using fewer products and achieving better results with just the patches'
               }
             ].map((s) => (
-              <div key={`${s.pct}-${s.title}`} className="max-w-xl">
-                <div className="text-4xl md:text-5xl font-black text-gray-900">{s.pct}%</div>
-                <div className="mt-4 text-lg font-bold text-gray-900">{s.title}</div>
-                <div className="mt-1 text-gray-700">{s.desc}</div>
+              <div key={`${s.pct}-${s.title}`} className="flex flex-col h-full">
+                <div className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-4">{s.pct}%</div>
+                <div className="text-lg font-semibold text-gray-900 mb-2">{s.title}</div>
+                <div className="text-gray-600 mb-8 flex-grow leading-relaxed">{s.desc}</div>
 
-                <div className="mt-6 h-2 rounded-full bg-purple-200 overflow-hidden">
+                <div className="w-full bg-pink-50 rounded-full h-1.5">
                   <div
-                    className="h-full rounded-full bg-pink-500"
+                    className="bg-pink-500 h-1.5 rounded-full transition-all duration-1000 ease-out"
                     style={{ width: `${s.pct}%` }}
                     aria-hidden="true"
                   />
                 </div>
-                <div className="mt-1 h-px bg-gray-200/80" />
               </div>
             ))}
           </div>
@@ -419,85 +457,86 @@ const Home = () => {
 
       {/* Sticky 70% OFF Bar + Modal */}
       <>
-        {/* Sticky bottom bar */}
-        {/* <button
-          type="button"
-          onClick={() => setIsOfferModalOpen(true)}
-          className={`fixed inset-x-0 bottom-0 right-0 z-40 flex justify-center pointer-events-none`}
+        <Modal
+          open={isOfferModalOpen}
+          onOk={() => setIsOfferModalOpen(false)}
+          closeIcon={false}
+          footer={false}
+          centered
+          width={390}
         >
-          <div
-            className={`pointer-events-auto rounded-lg bg-[#eb9475] px-10 py-3 shadow-xl text-sm sm:text-base font-bold tracking-wide text-white uppercase transition-transform duration-300 ease-out ${
-              isOfferModalOpen ? 'translate-y-full' : 'translate-y-0'
-            }`}
-          >
-            GET 70% OFF
-          </div>
-        </button> */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Dark Backdrop */}
+            <div
+              className="absolute inset-0 bg-stone-900/60 transition-opacity"
+              onClick={() => setIsOfferModalOpen(false)}
+            />
 
-        {/* Offer Modal */}
-        {/* {isOfferModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-            <div className="relative mx-4 w-full max-w-4xl rounded-3xl bg-white shadow-2xl overflow-hidden animate-[fadeInScale_0.25s_ease-out]">
+            {/* Modal Container */}
+            <div className="relative w-full max-w-[390px] h-[500px] rounded-[1rem] bg-white shadow-2xl overflow-hidden animate-[fadeInScale_0.4s_ease-out] group">
+
+              {/* 1. Full Background Image */}
+              <div className="absolute inset-0">
+                <img
+                  src={girlImage}
+                  alt="Beauty Routine"
+                  className="w-full h-full object-contain transition-transform duration-[3s] group-hover:scale-110"
+                />
+              </div>
+
+              {/* 2. Gradient Overlay (Top-Left Transparent -> Bottom Right Pink) */}
+              {/* We use a double gradient: one for general tint, one strong at bottom for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-pink-500/20 to-pink-900/90 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-gradient-to-t from-pink-950/90 via-pink-900/40 to-transparent" />
+
+              {/* Close Button */}
               <button
                 type="button"
-                aria-label="Close offer"
                 onClick={() => setIsOfferModalOpen(false)}
-                className="absolute right-4 top-4 z-10 rounded-full bg-white/80 p-1 text-gray-700 hover:bg-gray-100"
+                className="absolute right-5 top-5 z-20 p-2.5 rounded-full bg-white/20 text-white hover:bg-white hover:text-pink-600 backdrop-blur-md transition-all border border-white/20 cursor-pointer"
               >
                 <FaTimes className="h-4 w-4" />
               </button>
 
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="px-8 py-10 md:px-10">
-                  <div className="text-xs font-semibold tracking-[0.2em] text-gray-500 mb-2">
-                    LIMITED-TIME OFFER
-                  </div>
-                  <div className="text-2xl font-black tracking-[0.15em] mb-4">
-                    EYE PATCHES
-                  </div>
-                  <div className="text-sm font-medium text-gray-700 mb-2">
-                    You&apos;ve got
-                  </div>
-                  <div className="text-5xl sm:text-6xl font-black text-gray-900 leading-none mb-4">
-                    70% OFF
-                  </div>
-                  <p className="text-sm sm:text-base text-gray-700 mb-6">
-                    Claim your discount now by telling us your #1 kitchen goal:
-                  </p>
+              {/* 3. Content Area */}
+              <div className="absolute bottom-0 inset-x-0 p-8 flex flex-col justify-end h-full z-10 text-white">
 
-                  <div className="space-y-3 mb-6">
-                    <button className="w-full rounded-full bg-[#eb9475] py-3 text-sm sm:text-base font-bold text-white tracking-wide hover:bg-[#e37d57] transition-colors">
-                      DRIER COUNTERS
-                    </button>
-                    <button className="w-full rounded-full bg-[#eb9475] py-3 text-sm sm:text-base font-bold text-white tracking-wide hover:bg-[#e37d57] transition-colors">
-                      NO MORE ODOR
-                    </button>
-                    <button className="w-full rounded-full bg-[#eb9475] py-3 text-sm sm:text-base font-bold text-white tracking-wide hover:bg-[#e37d57] transition-colors">
-                      CLEANER SINK AREA
-                    </button>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="mx-auto block text-xs font-semibold text-gray-400 hover:text-gray-600"
-                    onClick={() => setIsOfferModalOpen(false)}
-                  >
-                    No thanks
-                  </button>
+                {/* Top Badge */}
+                <div className="self-start mb-auto ">
+                  <span className="inline-block px-3 py-1 rounded-full bg-pink-500/80 backdrop-blur-md text-[10px] font-semibold shadow-lg border border-pink-400/50">
+                    Secret Sale Unlocked
+                  </span>
                 </div>
 
-                <div className="relative hidden md:block">
-                  <img
-                    src={productImage}
-                    alt="Customer enjoying the Lift PDRN Collagen Eye Patches offer"
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-linear-to-l from-white/40 via-transparent to-transparent" />
+                {/* Big Offer Text */}
+                <div className="mb-3 space-y-0.5">
+                  <p className="text-pink-200 text-xs tracking-wide">Congratulations! You've earned</p>
+                  <h2 className="text-6xl md:text-7xl font-black tracking-tighter leading-[0.9] drop-shadow-lg">
+                    70% <span className="text-pink-300 font-serif italic font-light">OFF</span>
+                  </h2>
+                </div>
+
+                {/* Feature Cards (Glassmorphism) */}
+                <div className="grid grid-cols-3 gap-3 ">
+                  {/* Card 1 */}
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
+                    <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Instant Lift</p>
+                  </div>
+
+                  {/* Card 2 */}
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
+                    <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Deep Hydration</p>
+                  </div>
+
+                  {/* Card 3 */}
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
+                    <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Fast Results</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        )} */}
+        </Modal>
       </>
 
       {/* Scroll To Top Button */}

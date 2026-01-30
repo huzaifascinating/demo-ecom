@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaShoppingCart, FaBars } from 'react-icons/fa';
+import { FaShoppingBag, FaBars } from 'react-icons/fa';
 import { useState } from 'react';
 import Logo from '../assets/Logo.png';
 import { useCart } from '../context/CartContext';
@@ -9,14 +9,14 @@ const Navbar = () => {
   const { openCart, cartCount } = useCart();
 
   return (
-    <header className="sticky top-10 z-50 bg-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100">
+    <header className="sticky top-10 z-50 bg-linear-to-r from-pink-200 to-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/">
               <img src={Logo} alt="Lorena Logo" width={100} />
-            </Link>
+            </Link>``
           </div>
 
           {/* Desktop Nav */}
@@ -37,7 +37,7 @@ const Navbar = () => {
               className="relative text-gray-600 hover:text-pink-500 transition-colors cursor-pointer"
               aria-label="Open cart"
             >
-              <FaShoppingCart className="h-5 w-5" />
+              <FaShoppingBag className="h-5 w-5" />
               <span className="absolute -top-2 -right-2 bg-linear-to-tr from-pink-400 to-purple-500 text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center shadow-sm">
                 {cartCount}
               </span>
