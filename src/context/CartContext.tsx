@@ -1,9 +1,21 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
-import { PRODUCTS } from '../data/Mockdata';
+import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
+import {
+  createShopifyCart,
+  getShopifyCart,
+  addToShopifyCart,
+  removeFromShopifyCart,
+  updateShopifyCartQuantity,
+  fetchShopifyProductById
+} from '../utils/shopify';
 
 export type CartItem = {
-  productId: string;
+  id: string; // This will be the Shopify Line Item ID
+  productId: string; // Original product ID
+  variantId: string;
   quantity: number;
+  title: string;
+  price: number;
+  image: string;
 };
 
 type CartContextValue = {
@@ -17,14 +29,16 @@ type CartContextValue = {
 
   items: CartItem[];
   cartCount: number;
-  addItem: (productId: string, qty?: number) => void;
-  removeItem: (productId: string) => void;
-  setQuantity: (productId: string, qty: number) => void;
+  addItem: (product: any, qty?: number) => Promise<void>;
+  removeItem: (lineId: string) => Promise<void>;
+  setQuantity: (lineId: string, qty: number) => Promise<void>;
   clearCart: () => void;
+  checkoutUrl: string | null;
 
   recentlyViewed: string[];
   trackRecentlyViewed: (productId: string) => void;
   lastTouchedProductId?: string;
+  loading: boolean;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -34,14 +48,48 @@ const MAX_RECENT = 8;
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'cart' | 'recent'>('cart');
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [cartId, setCartId] = useState<string | null>(localStorage.getItem('shopify_cart_id'));
+  const [cartData, setCartData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState<string[]>([]);
   const [lastTouchedProductId, setLastTouchedProductId] = useState<string | undefined>(undefined);
 
-  const cartCount = useMemo(
-    () => items.reduce((sum, it) => sum + it.quantity, 0),
-    [items]
-  );
+  // Sync cart with Shopify on mount or when cartId changes
+  useEffect(() => {
+    const syncCart = async () => {
+      if (cartId) {
+        try {
+          const cart = await getShopifyCart(cartId);
+          if (cart) {
+            setCartData(cart);
+          } else {
+            // Cart might have expired
+            localStorage.removeItem('shopify_cart_id');
+            setCartId(null);
+          }
+        } catch (error) {
+          console.error('Error syncing cart:', error);
+        }
+      }
+    };
+    syncCart();
+  }, [cartId]);
+
+  const items = useMemo(() => {
+    if (!cartData?.lines?.edges) return [];
+    return cartData.lines.edges.map(({ node }: any) => ({
+      id: node.id,
+      productId: node.merchandise.product.id.split('/').pop(),
+      variantId: node.merchandise.id,
+      quantity: node.quantity,
+      title: node.merchandise.product.title,
+      price: parseFloat(node.merchandise.price.amount),
+      image: node.merchandise.image?.url || '',
+    }));
+  }, [cartData]);
+
+  const cartCount = useMemo(() => cartData?.totalQuantity || 0, [cartData]);
+  const checkoutUrl = useMemo(() => cartData?.checkoutUrl || null, [cartData]);
 
   const openCart = (opts?: { activeTab?: 'cart' | 'recent' }) => {
     if (opts?.activeTab) setActiveTab(opts.activeTab);
@@ -50,31 +98,67 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const closeCart = () => setIsCartOpen(false);
   const toggleCart = () => setIsCartOpen((v) => !v);
 
-  const addItem = (productId: string, qty = 1) => {
-    setLastTouchedProductId(productId);
-    setItems((prev) => {
-      const existing = prev.find((p) => p.productId === productId);
-      if (existing) {
-        return prev.map((p) =>
-          p.productId === productId ? { ...p, quantity: p.quantity + qty } : p
-        );
+  const addItem = async (product: any, qty = 1) => {
+    setLoading(true);
+    setLastTouchedProductId(product.id);
+    try {
+      let updatedCart;
+      // If product passed doesn't have variantId, try to fetch it
+      const variantId = product.variantId || (await fetchShopifyProductById(product.id))?.variantId;
+
+      if (!variantId) {
+        console.error('No variant ID found for product:', product.id);
+        return;
       }
-      return [...prev, { productId, quantity: qty }];
-    });
+
+      if (!cartId) {
+        updatedCart = await createShopifyCart(variantId, qty);
+        setCartId(updatedCart.id);
+        localStorage.setItem('shopify_cart_id', updatedCart.id);
+      } else {
+        updatedCart = await addToShopifyCart(cartId, variantId, qty);
+      }
+      setCartData(updatedCart);
+      openCart({ activeTab: 'cart' });
+    } catch (error) {
+      console.error('Error adding item:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const removeItem = (productId: string) => {
-    setItems((prev) => prev.filter((p) => p.productId !== productId));
+  const removeItem = async (lineId: string) => {
+    if (!cartId) return;
+    setLoading(true);
+    try {
+      const updatedCart = await removeFromShopifyCart(cartId, [lineId]);
+      setCartData(updatedCart);
+    } catch (error) {
+      console.error('Error removing item:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const setQuantity = (productId: string, qty: number) => {
+  const setQuantity = async (lineId: string, qty: number) => {
+    if (!cartId) return;
     const safeQty = Math.max(1, Math.min(99, Math.floor(qty)));
-    setItems((prev) =>
-      prev.map((p) => (p.productId === productId ? { ...p, quantity: safeQty } : p))
-    );
+    setLoading(true);
+    try {
+      const updatedCart = await updateShopifyCartQuantity(cartId, lineId, safeQty);
+      setCartData(updatedCart);
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const clearCart = () => setItems([]);
+  const clearCart = () => {
+    setCartData(null);
+    setCartId(null);
+    localStorage.removeItem('shopify_cart_id');
+  };
 
   const trackRecentlyViewed = (productId: string) => {
     setLastTouchedProductId(productId);
@@ -84,8 +168,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  // tiny guard: if mockdata changes, avoid invalid ids lingering
-  const knownIds = useMemo(() => new Set(PRODUCTS.map((p) => p.id)), []);
   const value: CartContextValue = useMemo(
     () => ({
       isCartOpen,
@@ -94,18 +176,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       toggleCart,
       activeTab,
       setActiveTab,
-      items: items.filter((it) => knownIds.has(it.productId)),
+      items,
       cartCount,
       addItem,
       removeItem,
       setQuantity,
       clearCart,
-      recentlyViewed: recentlyViewed.filter((id) => knownIds.has(id)),
+      checkoutUrl,
+      recentlyViewed,
       trackRecentlyViewed,
       lastTouchedProductId,
+      loading
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCartOpen, activeTab, items, cartCount, recentlyViewed, lastTouchedProductId]
+    [isCartOpen, activeTab, items, cartCount, recentlyViewed, lastTouchedProductId, checkoutUrl, loading]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -51,8 +51,8 @@ const Home = () => {
             <div className="lg:col-span-6 relative group max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:mr-auto">
               {/* Stacked Frames Effect */}
               {/* Stacked Frames Effect */}
-              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform -rotate-12 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:-rotate-[18deg] group-hover:scale-105"></div>
-              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform rotate-6 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:rotate-[12deg] group-hover:scale-105"></div>
+              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform -rotate-12 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:-rotate-18 group-hover:scale-105"></div>
+              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform rotate-6 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-105"></div>
 
               <div className="relative z-10 bg-white rounded-3xl overflow-hidden aspect-square border border-gray-100 h-72 sm:h-80 md:h-96 shadow-2xl">
                 <img
@@ -266,7 +266,7 @@ const Home = () => {
           <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 items-center">
 
             {/* Your Problem - The "Old Way" */}
-            <div className="group relative overflow-hidden bg-white rounded-[2rem] p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-4px] border border-gray-200 shadow-sm hover:shadow-md">
+            <div className="group relative overflow-hidden bg-white rounded-4xl p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-4px] border border-gray-200 shadow-sm hover:shadow-md">
               <div className="relative z-10">
                 <span className="inline-block px-4 py-1 rounded-full bg-gray-100 text-gray-500 text-xs font-bold uppercase tracking-widest mb-6 border border-gray-200">
                   The Old Way
@@ -291,18 +291,18 @@ const Home = () => {
 
             {/* 3D Arrow Divider */}
             <div className="flex lg:flex-col items-center justify-center gap-4 z-20">
-              <div className="h-[1px] w-12 lg:w-[1px] lg:h-12 bg-pink-200/50" />
+              <div className="h-px w-12 lg:w-px lg:h-12 bg-pink-200/50" />
               <div className="relative group">
                 <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center border border-pink-100 transition-transform duration-500 group-hover:rotate-90 z-10 relative">
                   <FaArrowRight className="text-xl text-pink-500" />
                 </div>
                 <div className="absolute inset-0 -z-10 blur-xl bg-pink-200/60 rounded-full animate-pulse" />
               </div>
-              <div className="h-[1px] w-12 lg:w-[1px] lg:h-12 bg-pink-200/50" />
+              <div className="h-px w-12 lg:w-px lg:h-12 bg-pink-200/50" />
             </div>
 
             {/* Our Solution - The "Glow Up" */}
-            <div className="group relative overflow-hidden bg-pink-50 rounded-[2rem] p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-8px] border-2 border-pink-200 shadow-xl shadow-pink-100">
+            <div className="group relative overflow-hidden bg-pink-50 rounded-4xl p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-8px] border-2 border-pink-200 shadow-xl shadow-pink-100">
               <div className="relative z-10">
                 <span className="inline-block px-4 py-1 rounded-full bg-pink-500 text-white text-xs font-bold uppercase tracking-widest mb-6 shadow-lg shadow-pink-500/20">
                   The Solution
@@ -376,7 +376,7 @@ const Home = () => {
               <div key={`${s.pct}-${s.title}`} className="flex flex-col h-full">
                 <div className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-4">{s.pct}%</div>
                 <div className="text-lg font-semibold text-gray-900 mb-2">{s.title}</div>
-                <div className="text-gray-600 mb-8 flex-grow leading-relaxed">{s.desc}</div>
+                <div className="text-gray-600 mb-8 grow leading-relaxed">{s.desc}</div>
 
                 <div className="w-full bg-pink-50 rounded-full h-1.5">
                   <div
@@ -473,7 +473,7 @@ const Home = () => {
             />
 
             {/* Modal Container */}
-            <div className="relative w-full max-w-[390px] h-[500px] rounded-[1rem] bg-white shadow-2xl overflow-hidden animate-[fadeInScale_0.4s_ease-out] group">
+            <div className="relative w-full max-w-[390px] h-[500px] rounded-2xl bg-white shadow-2xl overflow-hidden animate-[fadeInScale_0.4s_ease-out] group">
 
               {/* 1. Full Background Image */}
               <div className="absolute inset-0">
@@ -486,8 +486,8 @@ const Home = () => {
 
               {/* 2. Gradient Overlay (Top-Left Transparent -> Bottom Right Pink) */}
               {/* We use a double gradient: one for general tint, one strong at bottom for text readability */}
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-pink-500/20 to-pink-900/90 mix-blend-multiply" />
-              <div className="absolute inset-0 bg-gradient-to-t from-pink-950/90 via-pink-900/40 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-br from-transparent via-pink-500/20 to-pink-900/90 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-linear-to-t from-pink-950/90 via-pink-900/40 to-transparent" />
 
               {/* Close Button */}
               <button

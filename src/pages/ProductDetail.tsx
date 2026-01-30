@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FaStar, FaCheck, FaShieldAlt, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaCcVisa, FaCcMastercard, FaCcAmex, FaRegCircle, FaDotCircle } from 'react-icons/fa';
+import { FaStar, FaCheck, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaCcVisa, FaCcMastercard, FaCcAmex, FaRegCircle, FaDotCircle } from 'react-icons/fa';
 import { fetchShopifyProductById, fetchShopifyProducts } from '../utils/shopify';
 import { useCart } from '../context/CartContext';
 
@@ -9,7 +9,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState<any>(null);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]); ``
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null);
   const { addItem } = useCart();
   const [selectedBundle, setSelectedBundle] = useState({ id: 2 }); // Default to Most Popular
   const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'shipping'>('desc');
@@ -81,7 +81,7 @@ const ProductDetail = () => {
 
           {/* LEFT: Gallery (Sticky) */}
           <div className="lg:col-span-7 space-y-8 lg:top-8 self-start">
-            <div className="relative h-[300px] lg:h-[500px] w-full rounded-[0.5rem] bg-white overflow-hidden shadow-sm border border-stone-100">
+            <div className="relative h-[300px] lg:h-[500px] w-full rounded-lg bg-white overflow-hidden shadow-sm border border-stone-100">
               <img
                 src={mainImage}
                 alt={product.name}
@@ -209,7 +209,7 @@ const ProductDetail = () => {
             {/* CTA */}
             <div className="space-y-6">
               <button
-                onClick={() => addItem(product.id, activeBundle.quantity)}
+                onClick={() => addItem(product, activeBundle.quantity)}
                 className="w-full bg-pink-500 text-white py-5 rounded-full font-semibold text-lg uppercase tracking-wide shadow-xl hover:bg-pink-600 hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3"
               >
                 <FaShoppingBag /> Add To Cart
