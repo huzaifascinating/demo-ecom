@@ -2,10 +2,6 @@ import { useEffect, useMemo } from 'react';
 import { FaChevronDown, FaChevronUp, FaTimes, FaArrowRight } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 
-function formatPKR(amount: number) {
-  return `Rs.${amount.toLocaleString('en-PK', { minimumFractionDigits: 2 })}.00`;
-}
-
 export default function CartDrawer() {
   const {
     isCartOpen,
