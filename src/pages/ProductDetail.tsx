@@ -52,7 +52,7 @@ const ProductDetail = () => {
           <div className="w-8 h-8 bg-white rounded-full shadow-sm"></div>
         </div>
       </div>
-      <p className="text-stone-400 font-serif italic text-lg tracking-wide">Refining your experience...</p>
+      <p className="text-stone-400 font-serif italic text-lg tracking-wide">Loading...</p>
     </div>
   );
 
@@ -124,8 +124,8 @@ const ProductDetail = () => {
               <span className="text-sm font-light text-stone-600">
                 Rated <span className="font-bold text-stone-900">{product.rating}</span> ({product.reviews})
               </span>
-              <span className="bg-pink-100 text-pink-600 text-[10px] font-black px-2.5 py-1 rounded ml-2 uppercase tracking-wider border border-pink-200">Top Seller</span>
             </div>
+            <span className="bg-pink-100 text-pink-600 text-[10px] font-bold px-2.5 py-1 rounded uppercase tracking-wider border border-pink-200 my-2 w-fit inline-block">Top Seller</span>
 
             {/* Title */}
             <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-2 leading-[1.1] tracking-tight">
@@ -217,7 +217,7 @@ const ProductDetail = () => {
               </button>
 
               <div className="flex justify-center gap-4 text-4xl transition-all">
-                <FaCcVisa /> <FaCcMastercard /> <FaCcAmex />
+                <FaCcVisa className="text-[#1A1F71]" /> <FaCcMastercard className="text-[#EB001B]" /> <FaCcAmex className="text-[#007BC1]" />
               </div>
 
               {/* Collapsible Sections */}
@@ -327,7 +327,7 @@ const ProductDetail = () => {
 
               <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-stone-50 pt-16">
                 <div className="flex flex-col items-center text-center space-y-4 group">
-                  <div className="w-16 h-16 rounded-2xl bg-pink-50 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
+                  <div className="w-16 h-16 rounded-2xl bg-pink-500 text-white flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
                     <FaMagic className="text-xl" />
                   </div>
                   <h4 className="font-serif font-bold text-xl text-stone-900">Korean Tech</h4>
@@ -335,7 +335,7 @@ const ProductDetail = () => {
                 </div>
                 
                 <div className="flex flex-col items-center text-center space-y-4 group">
-                  <div className="w-16 h-16 rounded-2xl bg-pink-50 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
+                  <div className="w-16 h-16 rounded-2xl bg-pink-500 text-white flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
                     <FaClock className="text-xl" />
                   </div>
                   <h4 className="font-serif font-bold text-xl text-stone-900">Instant Lift</h4>
@@ -343,7 +343,7 @@ const ProductDetail = () => {
                 </div>
 
                 <div className="flex flex-col items-center text-center space-y-4 group">
-                  <div className="w-16 h-16 rounded-2xl bg-pink-50 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
+                  <div className="w-16 h-16 rounded-2xl bg-pink-500 text-white flex items-center justify-center bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
                     <FaLeaf className="text-xl" />
                   </div>
                   <h4 className="font-serif font-bold text-xl text-stone-900">Clean Beauty</h4>

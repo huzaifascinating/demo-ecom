@@ -39,7 +39,7 @@ const Shop = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header & Controls */}
-        <div className="mb-10 rounded-3xl bg-pink-50 backdrop-blur-sm border border-pink-100 shadow-[0_18px_45px_rgba(0,0,0,0.05)] overflow-hidden">
+        <div className="mb-6 rounded-3xl bg-pink-50 backdrop-blur-sm border border-pink-100 shadow-[0_18px_45px_rgba(0,0,0,0.05)] overflow-hidden">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-6 gap-6">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full bg-pink-50 px-3 py-1 mb-3">
@@ -51,10 +51,9 @@ const Shop = () => {
               <h1 className="text-3xl md:text-4xl font-serif font-semibold text-gray-900">
                 Shop Lorena Favorites
               </h1>
-              <p className="mt-2 text-sm md:text-base text-gray-600 max-w-xl">
-                Handpicked home and skincare upgrades designed to solve real everyday problems —
-                all in one beautiful place.
-              </p>
+              {/* <p className="mt-2 text-sm md:text-base text-gray-600 max-w-xl">
+                Handpicked home and skincare upgrades designed to solve real everyday problems
+              </p> */}
             </div>
 
             <div className="flex flex-col items-stretch md:items-end gap-4 w-full md:w-auto">
@@ -99,19 +98,6 @@ const Shop = () => {
               </div>
             </div>
           </div>
-
-          {/* Small stats strip */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 border-t border-gray-100 bg-gray-50/60 text-center text-xs text-gray-500">
-            <div className="py-3 border-b sm:border-b-0 sm:border-r border-gray-100">
-              4.8★ average rating across our collection
-            </div>
-            <div className="py-3 border-b sm:border-b-0 sm:border-r border-gray-100">
-              Free shipping on orders over $50
-            </div>
-            <div className="py-3">
-              30‑day money‑back guarantee
-            </div>
-          </div>
         </div>
 
         {/* Product Grid */}
@@ -137,7 +123,7 @@ const Shop = () => {
         ) : (
           <div
             className={`grid gap-8 ${view === 'grid'
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
+              ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-5'
               : 'grid-cols-1'
               }`}
           >
