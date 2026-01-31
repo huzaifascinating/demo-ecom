@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import AnnouncementBar from './AnnouncementBar';
 import CartDrawer from './CartDrawer';
+import DiscountModal from './DiscountModal';
 
 const Layout = () => {
   return (
@@ -14,6 +15,7 @@ const Layout = () => {
       </main>
       <Footer />
       <CartDrawer />
+      <DiscountModal />
     </div>
   );
 };

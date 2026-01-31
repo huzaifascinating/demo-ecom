@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FaStar, FaCheck, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaCcVisa, FaCcMastercard, FaCcAmex, FaRegCircle, FaDotCircle } from 'react-icons/fa';
+import { FaStar, FaCheck, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaCcVisa, FaCcMastercard, FaCcAmex, FaRegCircle, FaDotCircle, FaChevronDown } from 'react-icons/fa';
 import { fetchShopifyProductById, fetchShopifyProducts } from '../utils/shopify';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/price';
@@ -13,7 +13,7 @@ const ProductDetail = () => {
   const [_error, setError] = useState<string | null>(null);
   const { addItem } = useCart();
   const [selectedBundle, setSelectedBundle] = useState({ id: 2 }); // Default to Most Popular
-  const [activeTab, setActiveTab] = useState<'desc' | 'specs' | 'shipping'>('desc');
+  const [openSection, setOpenSection] = useState<string | null>(null);
   const [mainImage, setMainImage] = useState<string>('');
   console.log('product', product, 'relatedProducts', relatedProducts, 'setMainImage', mainImage)
 
@@ -216,36 +216,144 @@ const ProductDetail = () => {
                 <FaShoppingBag /> Add To Cart
               </button>
 
-              <div className="flex justify-center gap-4 text-stone-300 text-2xl grayscale hover:grayscale-0 transition-all">
+              <div className="flex justify-center gap-4 text-4xl transition-all">
                 <FaCcVisa /> <FaCcMastercard /> <FaCcAmex />
               </div>
 
-              {/* <div className="flex items-center justify-center gap-3 border border-stone-200 rounded-lg p-3 bg-stone-50">
-                <div className="bg-stone-900 text-white rounded-full p-1"><FaShieldAlt className="w-3 h-3" /></div>
-                <p className="text-xs font-medium text-stone-600">Less than 1% of customers claim our 30-Day Money Back Guarantee</p>
-              </div> */}
-            </div>
-
-            {/* Info Tabs */}
-            <div className="mt-16 border-t border-stone-100 pt-10">
-              <div className="flex gap-10 mb-8 overflow-x-auto no-scrollbar">
-                {['desc', 'shipping'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab as any)}
-                    className={`text-[18px] tracking-wider whitespace-nowrap pb-2 border-b-2 transition-all cursor-pointer ${activeTab === tab ? 'border-pink-400 text-stone-900' : 'border-transparent text-stone-300 hover:text-stone-500'}`}
-                  >
-                    {tab === 'desc' ? 'Ritual' : 'Delivery'}
-                  </button>
+              {/* Collapsible Sections */}
+              <div className="mt-8 space-y-1 pt-6">
+                {[
+                  {
+                    id: 'how-it-works',
+                    title: 'How it works',
+                    content: (
+                      <div className="space-y-4 text-stone-600 text-sm leading-relaxed pb-4">
+                        <div>
+                          <p className="font-bold text-stone-900 mb-1">Step 1: Apply and Relax</p>
+                          <p>Start with clean, dry skin, then place the MicroGlow Patches on your face, ensuring it fits smoothly against your skin.</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-stone-900 mb-1">Step 2: Let It Absorb</p>
+                          <p>Wear the mask for 2 hours minimum for you skin to full absorb the ingredients for it to work, delivering the nutrients your skin craves.</p>
+                        </div>
+                        <div>
+                          <p className="font-bold text-stone-900 mb-1">Step 3: Remove and Glow</p>
+                          <p>Gently peel off the patches and massage any remaining serum into your skin for a quick hydration boost and a radiant finish.</p>
+                        </div>
+                        <div className="pt-2">
+                          <p className="font-black text-pink-600 uppercase tracking-wider">FOR BEST RESULTS, USE IT AS OVERNIGHT.</p>
+                          <p className="font-black text-pink-600 uppercase tracking-wider">USE 1-2 A WEEK!</p>
+                        </div>
+                      </div>
+                    )
+                  },
+                  {
+                    id: 'guarantee',
+                    title: 'Our Guarantee',
+                    content: (
+                      <div className="text-stone-600 text-sm leading-relaxed pb-4 space-y-3">
+                        <p>If you're not 100% satisfied within the first 60 days, just send it back to us and we'll give you a full refund.</p>
+                        <p>No need to worry about the return shipping - we've got you covered!</p>
+                      </div>
+                    )
+                  },
+                  {
+                    id: 'shipping',
+                    title: 'Shipping Info',
+                    content: (
+                      <div className="text-stone-600 text-sm leading-relaxed pb-4 space-y-3">
+                        <p>We offer fast and reliable shipping on all orders. You can expect to receive it within 7-14 business days based on your location.</p>
+                        <p>Please contact our customer service team for assistance if you have any questions or concerns about your shipment.</p>
+                      </div>
+                    )
+                  },
+                  {
+                    id: 'ingredients',
+                    title: 'Ingredients',
+                    content: (
+                      <div className="text-stone-600 text-sm italic leading-relaxed pb-4">
+                        <p><span className="font-bold not-italic">Ingredients:</span> retinol, hyaluronic acid, acetyl tripeptide -1, collagen, ascorbic acid (vitamin C), niacinamide</p>
+                      </div>
+                    )
+                  }
+                ].map((section) => (
+                  <div key={section.id} className="border-b border-black">
+                    <button
+                      onClick={() => setOpenSection(openSection === section.id ? null : section.id)}
+                      className="w-full py-4 flex items-center justify-between text-left group cursor-pointer"
+                    >
+                      <span className="text-sm font-bold text-stone-900 group-hover:text-pink-500 transition-colors uppercase tracking-widest">{section.title}</span>
+                      <div className={`transition-transform duration-300 ${openSection === section.id ? 'rotate-180' : ''}`}>
+                        <FaChevronDown className={`text-xs ${openSection === section.id ? 'text-pink-500' : 'text-stone-400'}`} />
+                      </div>
+                    </button>
+                    <div 
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${openSection === section.id ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+                    >
+                      {section.content}
+                    </div>
+                  </div>
                 ))}
               </div>
-              <div className="text-stone-500 leading-relaxed text-sm">
-                {activeTab === 'desc' && <div dangerouslySetInnerHTML={{ __html: product.description }} className="prose prose-sm opacity-80" />}
-                {activeTab === 'shipping' && <p>Express delivery in 3-5 business days. International shipping calculated at checkout.</p>}
+            </div>
+
+          </div>
+        </div>
+
+        {/* CATCHY FULL-WIDTH RITUAL SECTION */}
+        <section className="mt-24 relative overflow-hidden">
+          {/* Decorative background orbs */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-pink-100/40 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-stone-100 rounded-full blur-3xl -z-10 -translate-x-1/2 translate-y-1/2" />
+
+          <div className="bg-white border border-stone-100 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.03)] px-6 py-16 md:py-24 md:px-12 relative">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16 relative">
+                <span className="text-pink-500 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">The NovaLift Experience</span>
+                <h2 className="text-4xl md:text-6xl font-serif font-bold text-stone-900 mb-6 italic">Product Description</h2>
+                <div className="flex justify-center items-center gap-4">
+                  <div className="h-px w-12 bg-pink-200" />
+                  <span className="text-2xl animate-bounce">✨</span>
+                  <div className="h-px w-12 bg-pink-200" />
+                </div>
+              </div>
+
+              <div className="prose prose-lg prose-pink mx-auto">
+                <div 
+                  dangerouslySetInnerHTML={{ __html: product.description }} 
+                  className="text-stone-700 leading-relaxed text-lg md:text-xl text-center italic font-light font-serif px-4" 
+                />
+              </div>
+
+              <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-stone-50 pt-16">
+                <div className="flex flex-col items-center text-center space-y-4 group">
+                  <div className="w-16 h-16 rounded-2xl bg-pink-50 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
+                    <FaMagic className="text-xl" />
+                  </div>
+                  <h4 className="font-serif font-bold text-xl text-stone-900">Korean Tech</h4>
+                  <p className="text-stone-400 text-sm leading-relaxed">Advanced PDRN collagen formulation for deep penetration.</p>
+                </div>
+                
+                <div className="flex flex-col items-center text-center space-y-4 group">
+                  <div className="w-16 h-16 rounded-2xl bg-pink-50 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
+                    <FaClock className="text-xl" />
+                  </div>
+                  <h4 className="font-serif font-bold text-xl text-stone-900">Instant Lift</h4>
+                  <p className="text-stone-400 text-sm leading-relaxed">See noticeable results and a brighter glow in just 15 minutes.</p>
+                </div>
+
+                <div className="flex flex-col items-center text-center space-y-4 group">
+                  <div className="w-16 h-16 rounded-2xl bg-pink-50 flex items-center justify-center group-hover:bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
+                    <FaLeaf className="text-xl" />
+                  </div>
+                  <h4 className="font-serif font-bold text-xl text-stone-900">Clean Beauty</h4>
+                  <p className="text-stone-400 text-sm leading-relaxed">100% gentle, non-irritating, and perfect for the eye area.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
+
 
         {/* RELATED PRODUCTS */}
         <div className="mt-32 pt-24 border-t border-stone-100">

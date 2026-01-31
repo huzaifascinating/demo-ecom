@@ -1,27 +1,38 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { FaCheckCircle, FaStar, FaQuoteLeft, FaQuestionCircle, FaTimes, FaMagic, FaArrowRight } from 'react-icons/fa';
+import { FaCheckCircle, FaStar, FaQuestionCircle, FaTimes, FaMagic, FaArrowRight } from 'react-icons/fa';
 import { Carousel, Collapse } from 'antd';
 import productImage from '../assets/imageOne.png';
 import beforeImage from '../assets/before.jpeg';
 import afterImage from '../assets/after.jpeg';
-import girlImage from '../assets/girlImage.png';
-import { Modal } from 'antd'
+import b1 from '../assets/b1.png';
+import b2 from '../assets/b2.png';
+import b3 from '../assets/b3.png';
 
 const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
   useEffect(() => {
-    // Check if user has seen offer
-    const hasSeenOffer = sessionStorage.getItem('hasSeenOffer');
-    if (!hasSeenOffer) {
-      // Small delay for better UX
-      const timer = setTimeout(() => {
-        setIsOfferModalOpen(true);
-        sessionStorage.setItem('hasSeenOffer', 'true');
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
+    const targetDate = new Date('2026-02-14T23:59:59').getTime();
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        clearInterval(interval);
+      } else {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        });
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -103,14 +114,10 @@ const Home = () => {
         {/* Antd Carousel Background */}
         <div className="absolute inset-0 z-0">
           <Carousel autoplay effect="fade" speed={1000} autoplaySpeed={3000}>
-            {[
-              'https://picsum.photos/seed/purple_kitchen/1920/1080',
-              'https://picsum.photos/seed/pink_glow/1920/1080',
-              'https://picsum.photos/seed/stone_luxury/1920/1080'
-            ].map((img, idx) => (
+            {[b1, b2, b3].map((img, idx) => (
               <div key={idx} className="h-[600px]">
-                <img src={img} alt="Hero Slide" className="w-full h-full object-cover opacity-60" />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent"></div>
+                <img src={img} alt={`Hero Slide ${idx + 1}`} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/30"></div>
               </div>
             ))}
           </Carousel>
@@ -131,60 +138,156 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Social Proof / Numbers */}
-      <section className="bg-black text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
-            <div className="p-4 group">
-              <div className="text-5xl font-black text-pink-500 mb-2 group-hover:scale-110 transition-transform">100%</div>
-              <p className="text-gray-400 uppercase tracking-widest text-xs">Visible Results</p>
+      {/* VALENTINE'S SALE TIMER SECTION (Moved below Hero) */}
+      <section className="bg-linear-to-r from-pink-400 via-rose-400 to-purple-400 bg-[length:200%_200%] animate-gradient-move text-white py-12 relative overflow-hidden">
+        {/* Decorative background effects */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+          <div className="absolute top-[-50px] left-[-100px] w-96 h-96 bg-white rounded-full blur-3xl"></div>
+          <div className="absolute bottom-[-50px] right-[-100px] w-96 h-96 bg-white rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-10 bg-white/10 backdrop-blur-md p-8 md:p-12 rounded-[3.5rem] border border-white/20 shadow-2xl">
+            <div className="space-y-4 text-center md:text-left">
+              <span className="inline-block bg-white text-pink-600 px-5 py-1 rounded-full text-xs font-black uppercase tracking-[0.25em] shadow-lg">Special Offer</span>
+              <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tighter leading-none">
+                Valentine's <br />
+                <span className="text-pink-100 text-3xl md:text-4xl italic font-serif">Sale Ends In:</span>
+              </h2>
             </div>
-            <div className="p-4 group">
-              <div className="text-5xl font-black text-purple-500 mb-2 group-hover:scale-110 transition-transform">15m</div>
-              <p className="text-gray-400 uppercase tracking-widest text-xs">Instant Hydration Time</p>
+            
+            <div className="flex items-center gap-4 md:gap-10">
+              {[
+                { label: 'Days', value: timeLeft.days },
+                { label: 'Hours', value: timeLeft.hours },
+                { label: 'Mins', value: timeLeft.minutes },
+                { label: 'Secs', value: timeLeft.seconds }
+              ].map((unit, i) => (
+                <div key={i} className="flex flex-col items-center gap-3">
+                  <div className="bg-white text-pink-600 w-20 h-20 md:w-28 md:h-28 rounded-[2rem] flex items-center justify-center shadow-2xl border-b-8 border-pink-200 transform hover:scale-105 transition-transform">
+                    <span className="font-sans font-black text-3xl md:text-5xl tabular-nums">
+                      {String(unit.value).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <span className="text-xs md:text-sm font-black uppercase tracking-widest text-pink-50">{unit.label}</span>
+                </div>
+              ))}
             </div>
-            <div className="p-4 group">
-              <div className="text-5xl font-black text-pink-500 mb-2 group-hover:scale-110 transition-transform">50k+</div>
-              <p className="text-gray-400 uppercase tracking-widest text-xs">Beautiful Eyes Upgraded</p>
+
+            <div className="flex flex-col items-center md:items-end gap-5">
+              <Link 
+                to="/product/8076385943615" 
+                className="group bg-white text-pink-600 px-12 py-6 rounded-full font-black text-2xl md:text-3xl uppercase hover:bg-pink-50 transition-all shadow-[0_15px_35px_rgba(0,0,0,0.3)] hover:-translate-y-1 active:scale-95"
+              >
+                Get 70% Off
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION: The Comparison (Why Switch) */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900">Stop The Soggy Mess.</h2>
-            <p className="mt-4 text-gray-700 text-base md:text-lg">Traditional eye creams are a temporary fix. Upgrade to the collagen age.</p>
+      
+      {/* SECTION: 5 Reasons (Redesigned for a unique, premium look) */}
+      {/* <section className="py-24 bg-linear-to-b from-[#fdf2f8] to-[#fffbff] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-1 sm:px-3 lg:px-4 relative">
+          
+          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-pink-100 rounded-full blur-3xl opacity-50" />
+          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-50" />
+
+          <div className="text-center mb-20 relative z-10">
+            <span className="text-pink-500 font-bold tracking-[0.3em] uppercase text-xs mb-4 block">The NovaLift Difference</span>
+            <h2 className="text-4xl md:text-6xl font-serif font-medium text-gray-900 leading-tight">
+              5 Reasons Your Eyes <br />
+              <span className="italic text-transparent bg-clip-text bg-linear-to-r from-pink-500 to-rose-400">Deserve This Ritual</span>
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Old Way */}
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 opacity-60 grayscale hover:grayscale-0 transition-all">
-              <h3 className="text-2xl font-bold text-gray-500 mb-6 flex items-center"><FaTimes className="mr-2 text-red-400" /> Cloth & Plastic Mats</h3>
-              <ul className="space-y-4">
-                <li className="flex items-center text-gray-500"><FaTimes className="mr-3 text-red-300" /> Stays wet for hours</li>
-                <li className="flex items-center text-gray-500"><FaTimes className="mr-3 text-red-300" /> Grows mold and bacteria</li>
-                <li className="flex items-center text-gray-500"><FaTimes className="mr-3 text-red-300" /> Smells bad after a week</li>
-                <li className="flex items-center text-gray-500"><FaTimes className="mr-3 text-red-300" /> Needs constant washing</li>
-              </ul>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6 relative z-10">
+            {[
+              {
+                id: "1",
+                label: "The Science",
+                title: "Microneedle Tech",
+                desc: "PDRN delivery that actually penetrates deep into skin layers.",
+                image: "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&q=80",
+                color: "pink"
+              },
+              {
+                id: "2",
+                label: "The Result",
+                title: "Instant Glow",
+                desc: "Noticeably brighter, smoother eyes in just one 15-minute session.",
+                image: "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&q=80",
+                color: "pink"
+              },
+              {
+                id: "3",
+                label: "The Value",
+                title: "In-Home Luxury",
+                desc: "Professional-grade results without the clinical price tag.",
+                image: "https://images.unsplash.com/photo-1552046122-03184de85e08?auto=format&fit=crop&q=80",
+                color: "pink"
+              },
+              {
+                id: "4",
+                label: "The Ease",
+                title: "No-Mess Ritual",
+                desc: "Swap sticky creams for our clean, elegant, and fast-acting patches.",
+                image: "https://images.unsplash.com/photo-1552046122-03184de85e08?auto=format&fit=crop&q=80",
+                color: "pink"
+              },
+              {
+                id: "5",
+                label: "The Promise",
+                title: "Long Term Care",
+                desc: "Anti-aging benefits that build up with every single application.",
+                image: "https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80",
+                color: "pink"
+              }
+            ].map((item, idx) => (
 
-            {/* New Way */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl border-2 border-pink-500 relative overflow-hidden">
-              <div className="absolute top-0 right-0 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">WINNER</div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center"><FaCheckCircle className="mr-2 text-pink-500" /> The Eye Patches</h3>
-              <ul className="space-y-4">
-                <li className="flex items-center text-gray-800 font-medium"><FaCheckCircle className="mr-3 text-pink-500" /> Visible results in 15 minutes</li>
-                <li className="flex items-center text-gray-800 font-medium"><FaCheckCircle className="mr-3 text-pink-500" /> Deep Hydration & Anti-aging</li>
-                <li className="flex items-center text-gray-800 font-medium"><FaCheckCircle className="mr-3 text-pink-500" /> Minimalist & Elegant</li>
-                <li className="flex items-center text-gray-800 font-medium"><FaCheckCircle className="mr-3 text-pink-500" /> Long-lasting results</li>
-              </ul>
-            </div>
+              <div 
+                key={idx} 
+                className="group relative bg-white border border-pink-100 p-4 rounded-md shadow-sm hover:shadow-2xl hover:shadow-pink-200/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden flex flex-col items-center text-center"
+              >
+                <div className="relative w-full aspect-square overflow-hidden mb-6 ring-4 rounded-lg ring-transparent group-hover:ring-pink-100 transition-all duration-500">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  />
+                </div>
+
+                <div className="px-2 pb-2 flex flex-col items-center">
+                  <div className="text-6xl md:text-7xl font-sans italic font-black text-pink-500 mb-4 leading-none opacity-80 group-hover:opacity-100 transition-opacity">
+                    {item.id}
+                  </div>
+
+                  <h3 className="text-xl font-serif font-bold text-gray-900 mb-3 group-hover:text-pink-600 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                    {item.desc}
+                  </p>
+                  
+                  <div className="w-12 h-12 rounded-full bg-pink-50 flex items-center justify-center group-hover:bg-pink-500 transition-all duration-300 shadow-sm group-hover:shadow-pink-400/50">
+                    <FaArrowRight className="text-pink-500 group-hover:text-white transition-colors" />
+                  </div>
+                </div>
+
+                <div className="absolute bottom-0 inset-x-0 h-1 bg-pink-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-20 text-center">
+            <Link to="/product/8076385943615" className="inline-flex items-center gap-3 bg-gray-900 text-white px-10 py-4 rounded-full font-bold hover:bg-pink-600 transition-all shadow-xl hover:shadow-pink-200/50 group">
+              EXPERIENCE THE RITUAL
+              <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* SECTION: How It Works (Before & After Visuals) */}
       <section className="py-20 bg-white">
@@ -423,7 +526,7 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-white overflow-hidden">
+      {/* <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900">Eyes Loved By You.</h2>
@@ -452,91 +555,7 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* Sticky 70% OFF Bar + Modal */}
-      <>
-        <Modal
-          open={isOfferModalOpen}
-          onOk={() => setIsOfferModalOpen(false)}
-          closeIcon={false}
-          footer={false}
-          centered
-          width={390}
-        >
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Dark Backdrop */}
-            <div
-              className="absolute inset-0 bg-stone-900/60 transition-opacity"
-              onClick={() => setIsOfferModalOpen(false)}
-            />
-
-            {/* Modal Container */}
-            <div className="relative w-full max-w-[390px] h-[500px] rounded-2xl bg-white shadow-2xl overflow-hidden animate-[fadeInScale_0.4s_ease-out] group">
-
-              {/* 1. Full Background Image */}
-              <div className="absolute inset-0">
-                <img
-                  src={girlImage}
-                  alt="Beauty Routine"
-                  className="w-full h-full object-contain transition-transform duration-[3s] group-hover:scale-110"
-                />
-              </div>
-
-              {/* 2. Gradient Overlay (Top-Left Transparent -> Bottom Right Pink) */}
-              {/* We use a double gradient: one for general tint, one strong at bottom for text readability */}
-              <div className="absolute inset-0 bg-linear-to-br from-transparent via-pink-500/20 to-pink-900/90 mix-blend-multiply" />
-              <div className="absolute inset-0 bg-linear-to-t from-pink-950/90 via-pink-900/40 to-transparent" />
-
-              {/* Close Button */}
-              <button
-                type="button"
-                onClick={() => setIsOfferModalOpen(false)}
-                className="absolute right-5 top-5 z-20 p-2.5 rounded-full bg-white/20 text-white hover:bg-white hover:text-pink-600 backdrop-blur-md transition-all border border-white/20 cursor-pointer"
-              >
-                <FaTimes className="h-4 w-4" />
-              </button>
-
-              {/* 3. Content Area */}
-              <div className="absolute bottom-0 inset-x-0 p-8 flex flex-col justify-end h-full z-10 text-white">
-
-                {/* Top Badge */}
-                <div className="self-start mb-auto ">
-                  <span className="inline-block px-3 py-1 rounded-full bg-pink-500/80 backdrop-blur-md text-[10px] font-semibold shadow-lg border border-pink-400/50">
-                    Secret Sale Unlocked
-                  </span>
-                </div>
-
-                {/* Big Offer Text */}
-                <div className="mb-3 space-y-0.5">
-                  <p className="text-pink-200 text-xs tracking-wide">Congratulations! You've earned</p>
-                  <h2 className="text-6xl md:text-7xl font-black tracking-tighter leading-[0.9] drop-shadow-lg">
-                    70% <span className="text-pink-300 font-serif italic font-light">OFF</span>
-                  </h2>
-                </div>
-
-                {/* Feature Cards (Glassmorphism) */}
-                <div className="grid grid-cols-3 gap-3 ">
-                  {/* Card 1 */}
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
-                    <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Instant Lift</p>
-                  </div>
-
-                  {/* Card 2 */}
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
-                    <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Deep Hydration</p>
-                  </div>
-
-                  {/* Card 3 */}
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
-                    <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Fast Results</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </>
+      </section> */}
 
       {/* Scroll To Top Button */}
       {showScrollTop && (
