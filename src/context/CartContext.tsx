@@ -14,8 +14,12 @@ export type CartItem = {
   variantId: string;
   quantity: number;
   title: string;
+  displayTitle?: string;
   price: number;
+  originalPrice?: number;
   image: string;
+  isBundle?: boolean;
+  attributes?: { key: string, value: string }[];
 };
 
 type CartContextValue = {
@@ -29,7 +33,7 @@ type CartContextValue = {
 
   items: CartItem[];
   cartCount: number;
-  addItem: (product: any, qty?: number) => Promise<void>;
+  addItem: (product: any, options?: { quantity?: number, attributes?: { key: string, value: string }[] }) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
   setQuantity: (lineId: string, qty: number) => Promise<void>;
   clearCart: () => void;
@@ -77,15 +81,47 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const items = useMemo(() => {
     if (!cartData?.lines?.edges) return [];
-    return cartData.lines.edges.map(({ node }: any) => ({
-      id: node.id,
-      productId: node.merchandise.product.id.split('/').pop(),
-      variantId: node.merchandise.id,
-      quantity: node.quantity,
-      title: node.merchandise.product.title,
-      price: parseFloat(node.merchandise.price.amount),
-      image: node.merchandise.image?.url || '',
-    }));
+    return cartData.lines.edges.map(({ node }: any) => {
+      const attributes = node.attributes || [];
+      const bundleTitleAttr = attributes.find((a: any) => a.key === '_bundle_title');
+      const bundlePaidQtyAttr = attributes.find((a: any) => a.key === '_bundle_paid_qty');
+      const bundleOriginalPriceAttr = attributes.find((a: any) => a.key === '_bundle_original_price');
+      
+      const shopifyQuantity = node.quantity;
+      const baseUnitPrice = parseFloat(node.merchandise.price.amount);
+      
+      const isBundle = !!bundleTitleAttr;
+      const bundlePaidQty = bundlePaidQtyAttr ? parseInt(bundlePaidQtyAttr.value) : 1;
+      
+      // UI quantity is the number of bundles
+      const quantity = Math.floor(shopifyQuantity / bundlePaidQty);
+      // UI price is the total price for ONE bundle
+      const price = baseUnitPrice * bundlePaidQty;
+      
+      let originalPrice = undefined;
+      if (isBundle && bundleOriginalPriceAttr) {
+        // Stored as total original price for ONE bundle
+        originalPrice = parseFloat(bundleOriginalPriceAttr.value);
+      }
+
+      const displayTitle = isBundle 
+        ? `${node.merchandise.product.title} (${bundleTitleAttr.value})`
+        : node.merchandise.product.title;
+
+      return {
+        id: node.id,
+        productId: node.merchandise.product.id.split('/').pop(),
+        variantId: node.merchandise.id,
+        quantity,
+        title: node.merchandise.product.title,
+        displayTitle,
+        price,
+        originalPrice,
+        image: node.merchandise.image?.url || '',
+        isBundle,
+        attributes,
+      };
+    });
   }, [cartData]);
 
   const cartCount = useMemo(() => cartData?.totalQuantity || 0, [cartData]);
@@ -98,7 +134,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const closeCart = () => setIsCartOpen(false);
   const toggleCart = () => setIsCartOpen((v) => !v);
 
-  const addItem = async (product: any, qty = 1) => {
+  const addItem = async (product: any, options: { quantity?: number, attributes?: { key: string, value: string }[] } = {}) => {
+    const qty = options.quantity || 1;
+    const attributes = options.attributes || [];
+    
     setLoading(true);
     setLastTouchedProductId(product.id);
     try {
@@ -112,11 +151,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (!cartId) {
-        updatedCart = await createShopifyCart(variantId, qty);
+        updatedCart = await createShopifyCart(variantId, qty, attributes);
         setCartId(updatedCart.id);
         localStorage.setItem('shopify_cart_id', updatedCart.id);
       } else {
-        updatedCart = await addToShopifyCart(cartId, variantId, qty);
+        updatedCart = await addToShopifyCart(cartId, variantId, qty, attributes);
       }
       setCartData(updatedCart);
       openCart({ activeTab: 'cart' });
@@ -142,10 +181,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const setQuantity = async (lineId: string, qty: number) => {
     if (!cartId) return;
-    const safeQty = Math.max(1, Math.min(99, Math.floor(qty)));
+    const item = items.find((i: CartItem) => i.id === lineId);
+    if (!item) return;
+
+    const bundlePaidQtyAttr = item.attributes?.find((a: any) => a.key === '_bundle_paid_qty');
+    const multiplier = bundlePaidQtyAttr ? parseInt(bundlePaidQtyAttr.value) : 1;
+    
+    const shopifyQty = Math.max(1, Math.min(99, Math.floor(qty * multiplier)));
     setLoading(true);
     try {
-      const updatedCart = await updateShopifyCartQuantity(cartId, lineId, safeQty);
+      const updatedCart = await updateShopifyCartQuantity(cartId, lineId, shopifyQty);
       setCartData(updatedCart);
     } catch (error) {
       console.error('Error updating quantity:', error);

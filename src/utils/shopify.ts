@@ -175,6 +175,10 @@ const CART_FRAGMENT = `
       node {
         id
         quantity
+        attributes {
+          key
+          value
+        }
         merchandise {
           ... on ProductVariant {
             id
@@ -206,7 +210,7 @@ const CART_FRAGMENT = `
   }
 `;
 
-export const createShopifyCart = async (variantId: string, quantity: number) => {
+export const createShopifyCart = async (variantId: string, quantity: number, attributes?: { key: string, value: string }[]) => {
   const query = `
     mutation cartCreate($input: CartInput) {
       cartCreate(input: $input) {
@@ -218,7 +222,11 @@ export const createShopifyCart = async (variantId: string, quantity: number) => 
   `;
   const variables = {
     input: {
-      lines: [{ merchandiseId: variantId, quantity }],
+      lines: [{
+        merchandiseId: variantId,
+        quantity,
+        attributes: attributes || []
+      }],
     },
   };
   const data = await shopifyFetch(query, variables);
@@ -237,7 +245,7 @@ export const getShopifyCart = async (cartId: string) => {
   return data.cart;
 };
 
-export const addToShopifyCart = async (cartId: string, variantId: string, quantity: number) => {
+export const addToShopifyCart = async (cartId: string, variantId: string, quantity: number, attributes?: { key: string, value: string }[]) => {
   const query = `
     mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
@@ -249,7 +257,11 @@ export const addToShopifyCart = async (cartId: string, variantId: string, quanti
   `;
   const variables = {
     cartId,
-    lines: [{ merchandiseId: variantId, quantity }],
+    lines: [{
+      merchandiseId: variantId,
+      quantity,
+      attributes: attributes || []
+    }],
   };
   const data = await shopifyFetch(query, variables);
   return data.cartLinesAdd.cart;

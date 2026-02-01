@@ -58,7 +58,7 @@ export default function CartDrawer() {
               onClick={() => setActiveTab('cart')}
               className={`text-3xl font-medium cursor-pointer ${activeTab === 'cart' ? 'text-black' : 'text-gray-300'}`}
             >
-              Cart <sup className="text-sm -top-4">{cartCount}</sup>
+              Cart <span className="bg-black text-white px-2 pb-0.5 text-xl rounded-full">{cartCount}</span>
             </button>
           </div>
           <button onClick={closeCart} className="p-2 border rounded-full hover:bg-gray-50 cursor-pointer">
@@ -108,8 +108,22 @@ export default function CartDrawer() {
 
                     <div className="flex-1 flex flex-col justify-between py-1">
                       <div>
-                        <h3 className="text-[15px] tracking-normal font-medium text-gray-900 line-clamp-2 leading-tight">{item.title}</h3>
-                        <p className="text-[18px] mt-2 font-semibold tracking-wide text-gray-500">${formatPrice(item.price)}</p>
+                        <h3 
+                          className="text-[15px] tracking-normal font-medium text-gray-900 line-clamp-2 leading-tight cursor-default"
+                          title={item.displayTitle || item.title}
+                        >
+                          {item.displayTitle || item.title}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-2">
+                          <p className={`text-[18px] font-semibold tracking-wide ${item.originalPrice ? 'text-pink-600' : 'text-gray-500'}`}>
+                            ${formatPrice(item.price)}
+                          </p>
+                          {item.originalPrice && item.originalPrice > item.price && (
+                            <p className="text-[14px] text-gray-400 line-through">
+                              ${formatPrice(item.originalPrice)}
+                            </p>
+                          )}
+                        </div>
                       </div>
                     </div>
 

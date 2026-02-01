@@ -58,9 +58,9 @@ const ProductDetail = () => {
 
   const basePrice = product.price;
   const currentBundles = [
-    { id: 1, name: 'Essentials Pack', quantity: 1, price: basePrice, save: 0, label: 'Starter', desc: 'Single Treatment' },
-    { id: 2, name: 'Radiance Bundle', quantity: 2, price: (basePrice * 2 * 0.85), save: 15, label: 'Best Seller', desc: 'Double the Glow' },
-    { id: 3, name: 'The Ultimate Ritual', quantity: 6, price: (basePrice * 6 * 0.75), save: 25, label: 'Best Value', desc: '6 Month Transformation' },
+    { id: 1, name: 'Essentials Pack', quantity: 1, paidQty: 1, price: basePrice, originalPrice: basePrice, save: 0, label: 'Starter', desc: 'Single Treatment', title: "Buy 1 Box", subTitle: "Contains 8 Pairs" },
+    { id: 2, name: 'Radiance Bundle', quantity: 3, paidQty: 2, price: (basePrice * 2), originalPrice: (basePrice * 3), save: 33, label: 'Best Seller', desc: 'Double the Glow', title: "Buy 2 Get 1 FREE", subTitle: "Contains 24 Pairs", badge: "Most Popular" },
+    { id: 3, name: 'The Ultimate Ritual', quantity: 5, paidQty: 3, price: (basePrice * 3), originalPrice: (basePrice * 5), save: 40, label: 'Best Value', desc: '6 Month Transformation', title: "Buy 3 Get 2 FREE", subTitle: "Contains 40 Pairs" },
   ];
 
   const activeBundle = currentBundles.find(b => b.id === selectedBundle.id) || currentBundles[1];
@@ -153,22 +153,8 @@ const ProductDetail = () => {
             </div>
 
             {/* Bundle Selector (Radio Style) */}
-            <div className="space-y-2 mb-8">
-              {currentBundles.map((bundle, index) => {
-                // Map logical bundles to visual "Buy X Get Y" style
-                let title = "Buy 1 Box";
-                let subTitle = "Contains 8 Pairs";
-                let badge = null;
-
-                if (index === 1) { // Radiance (Buy 2 Get 1)
-                  title = "Buy 2 Get 1 FREE";
-                  subTitle = "Contains 24 Pairs";
-                  badge = "Most Popular";
-                } else if (index === 2) { // Ultimate (Buy 3 Get 2)
-                  title = "Buy 3 Get 2 FREE";
-                  subTitle = "Contains 40 Pairs";
-                }
-
+            <div className="space-y-3 mb-8">
+              {currentBundles.map((bundle) => {
                 const isSelected = selectedBundle.id === bundle.id;
 
                 return (
@@ -182,24 +168,26 @@ const ProductDetail = () => {
 
                       <div>
                         <div className="flex items-center gap-3">
-                          <h4 className="font-bold text-lg text-stone-900 tracking-tight">{title}</h4>
-                          <span className="bg-pink-100/50 text-pink-800 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">{subTitle}</span>
+                          <h4 className="font-bold text-lg text-stone-900 tracking-tight">{bundle.title}</h4>
+                          <span className="bg-pink-100/50 text-pink-800 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">{bundle.subTitle}</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="text-right">
-                      <p className="text-2xl font-black text-stone-900 leading-none">${formatPrice(bundle.price)}</p>
-                      {bundle.save > 0 && (
-                        <div className="mt-1">
-                          <span className="text-[10px] font-black text-pink-500 bg-pink-50 px-2 py-0.5 rounded-full uppercase">Save {bundle.save}%</span>
-                        </div>
-                      )}
+                      <div className="flex flex-col items-end">
+                        {bundle.originalPrice > bundle.price && (
+                          <span className="text-sm text-stone-400 line-through font-medium">
+                            ${formatPrice(bundle.originalPrice)}
+                          </span>
+                        )}
+                        <p className="text-2xl font-black text-stone-900 leading-none">${formatPrice(bundle.price)}</p>
+                      </div>
                     </div>
 
-                    {badge && (
+                    {bundle.badge && (
                       <div className="absolute -top-3 right-10 bg-pink-300 text-white text-[10px] font-black px-3 py-1 rounded-full tracking-widest shadow-md uppercase transform rotate-2">
-                        ✨ {badge} ✨
+                        ✨ {bundle.badge} ✨
                       </div>
                     )}
                   </div>
@@ -207,10 +195,18 @@ const ProductDetail = () => {
               })}
             </div>
 
+
             {/* CTA */}
             <div className="space-y-6">
               <button
-                onClick={() => addItem(product, activeBundle.quantity)}
+                onClick={() => addItem(product, { 
+                  quantity: activeBundle.paidQty,
+                  attributes: [
+                    { key: '_bundle_title', value: activeBundle.title },
+                    { key: '_bundle_paid_qty', value: activeBundle.paidQty.toString() },
+                    { key: '_bundle_original_price', value: activeBundle.originalPrice.toString() }
+                  ]
+                })}
                 className="w-full bg-pink-500 text-white cursor-pointer py-5 rounded-full font-semibold text-lg uppercase tracking-wide shadow-xl hover:bg-pink-600 hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3"
               >
                 <FaShoppingBag /> Add To Cart
