@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { persistTrackingIds } from './utils/tracking';
 import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
@@ -8,6 +10,10 @@ import Reviews from './pages/Reviews';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
+  useEffect(() => {
+    persistTrackingIds();
+  }, []);
+
   return (
     <>
       <ScrollToTop />

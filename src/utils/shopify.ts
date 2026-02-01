@@ -93,7 +93,7 @@ export const fetchShopifyProducts = async (): Promise<any[]> => {
         description: node.description,
       };
     });
-  } catch (error) {
+  } catch (_error) {
     return [];
   }
 };
@@ -159,7 +159,7 @@ export const fetchShopifyProductById = async (id: string): Promise<any | null> =
       reviews: 2400,
       description: node.description,
     };
-  } catch (error) {
+  } catch (_error) {
     return null;
   }
 };
@@ -300,3 +300,21 @@ export const updateShopifyCartQuantity = async (cartId: string, lineId: string, 
   return data.cartLinesUpdate.cart;
 };
 
+export const updateShopifyCartAttributes = async (cartId: string, attributes: { key: string, value: string }[]) => {
+  const query = `
+    mutation cartAttributesUpdate($attributes: [AttributeInput!]!, $cartId: ID!) {
+      cartAttributesUpdate(attributes: $attributes, cartId: $cartId) {
+        cart {
+          id
+          attributes {
+            key
+            value
+          }
+        }
+      }
+    }
+  `;
+  const variables = { cartId, attributes };
+  const data = await shopifyFetch(query, variables);
+  return data.cartAttributesUpdate.cart;
+};

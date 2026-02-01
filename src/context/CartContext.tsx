@@ -7,6 +7,7 @@ import {
   updateShopifyCartQuantity,
   fetchShopifyProductById
 } from '../utils/shopify';
+import { addTrackingToCart } from '../utils/tracking';
 
 export type CartItem = {
   id: string; // This will be the Shopify Line Item ID
@@ -66,6 +67,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           const cart = await getShopifyCart(cartId);
           if (cart) {
             setCartData(cart);
+            addTrackingToCart(cartId);
           } else {
             // Cart might have expired
             localStorage.removeItem('shopify_cart_id');
@@ -159,6 +161,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       setCartData(updatedCart);
       openCart({ activeTab: 'cart' });
+      if (updatedCart.id) {
+        addTrackingToCart(updatedCart.id);
+      }
     } catch (error) {
       console.error('Error adding item:', error);
     } finally {
@@ -172,6 +177,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const updatedCart = await removeFromShopifyCart(cartId, [lineId]);
       setCartData(updatedCart);
+      addTrackingToCart(cartId);
     } catch (error) {
       console.error('Error removing item:', error);
     } finally {
@@ -192,6 +198,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const updatedCart = await updateShopifyCartQuantity(cartId, lineId, shopifyQty);
       setCartData(updatedCart);
+      addTrackingToCart(cartId);
     } catch (error) {
       console.error('Error updating quantity:', error);
     } finally {
