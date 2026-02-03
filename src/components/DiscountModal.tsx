@@ -22,7 +22,8 @@ export default function DiscountModal() {
   return (
     <>
       {/* Floating Button */}
-      <button
+
+      {/* <button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-20 z-50 flex items-center gap-2 bg-pink-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-pink-600 transition-all hover:scale-105 active:scale-95 group cursor-pointer"
       >
@@ -30,6 +31,22 @@ export default function DiscountModal() {
           <FaPercentage className="text-sm" />
         </div>
         <span>Get 70% Off</span>
+        <span className="absolute inset-0 rounded-full bg-pink-500 animate-ping opacity-20 pointer-events-none"></span>
+      </button> */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed z-50 bottom-6 
+             /* Mobile: Center position */
+             left-1/2 -translate-x-1/2 
+             /* Desktop: Reset left and move to right */
+             lg:left-auto lg:translate-x-0 lg:right-20 
+             flex items-center gap-2 bg-pink-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-pink-600 transition-all hover:scale-105 active:scale-95 group cursor-pointer whitespace-nowrap"
+      >
+        <div className="bg-white/20 p-2 rounded-full">
+          <FaPercentage className="text-sm" />
+        </div>
+        <span>Get 70% Off</span>
+
         {/* Pulse effect */}
         <span className="absolute inset-0 rounded-full bg-pink-500 animate-ping opacity-20 pointer-events-none"></span>
       </button>
@@ -50,7 +67,7 @@ export default function DiscountModal() {
             <img
               src={girlImage}
               alt="Beauty Routine"
-              className="w-full h-full object-contain transition-transform duration-[3s] group-hover:scale-110"
+              className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110"
             />
           </div>
 
@@ -96,8 +113,8 @@ export default function DiscountModal() {
                 <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Fast Results</p>
               </div>
             </div>
-            
-            <button 
+
+            <button
               onClick={() => setIsOpen(false)}
               className="mt-6 w-full py-4 bg-white text-pink-600 rounded-full font-black uppercase tracking-widest hover:bg-pink-50 transition-colors shadow-xl"
             >
