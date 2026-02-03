@@ -13,7 +13,7 @@ import AnnouncementBar from '../components/AnnouncementBar';
 
 const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [_timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const targetDate = new Date('2026-02-14T23:59:59').getTime();
@@ -67,7 +67,7 @@ const Home = () => {
 
               <div className="relative w-full h-full flex items-center justify-center">
                 {/* Secondary Product (Bottom Layer) */}
-                <div className="absolute transform -translate-x-12 -translate-y-6 rotate-[-12deg] group-hover:rotate-[-15deg] group-hover:-translate-x-16 transition-all duration-700">
+                <div className="absolute transform -translate-x-12 -translate-y-6 -rotate-12 group-hover:rotate-[-15deg] group-hover:-translate-x-16 transition-all duration-700">
                   <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-xl">
                     <img
                       src={productImageTwo}
@@ -78,7 +78,7 @@ const Home = () => {
                 </div>
 
                 {/* Primary Product (Top Layer) */}
-                <div className="relative z-10 transform translate-x-10 translate-y-6 rotate-[6deg] group-hover:rotate-[8deg] group-hover:translate-x-12 transition-all duration-700">
+                <div className="relative z-10 transform translate-x-10 translate-y-6 rotate-6 group-hover:rotate-[8deg] group-hover:translate-x-12 transition-all duration-700">
                   <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-2xl">
                     <img
                       src={productImage}

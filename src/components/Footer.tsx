@@ -1,4 +1,4 @@
-import { FaInstagram, FaFacebook, FaTiktok, FaCcVisa, FaCcMastercard, FaCcAmex } from 'react-icons/fa';
+import { FaInstagram, FaFacebook, FaTiktok } from 'react-icons/fa';
 import Logo from '../assets/Logo.png';
 
 const Footer = () => {

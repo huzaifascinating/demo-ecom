@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { FaStar, FaCheck, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaCcVisa, FaCcMastercard, FaCcAmex, FaRegCircle, FaDotCircle, FaChevronDown, FaTimes } from 'react-icons/fa';
+import { FaStar, FaCheck, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaRegCircle, FaDotCircle, FaChevronDown, FaTimes } from 'react-icons/fa';
 import { fetchShopifyProductById, fetchShopifyProducts } from '../utils/shopify';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/price';
@@ -275,7 +275,7 @@ const ProductDetail = () => {
                     {/* Discover */}
                     <div className="bg-white border border-gray-200 rounded-md px-1.5 py-0.5 flex flex-col items-center justify-center shadow-sm h-8 w-14">
                       <span className="text-[#E55C20] font-black text-[7px] uppercase tracking-tighter">Discover</span>
-                      <div className="w-full h-[1px] bg-[#E55C20] mt-0.5"></div>
+                      <div className="w-full h-px bg-[#E55C20] mt-0.5"></div>
                     </div>
                     {/* Mastercard */}
                     <div className="bg-white border border-gray-200 rounded-md px-2 py-0.5 flex items-center shadow-sm h-8">
@@ -415,7 +415,7 @@ const ProductDetail = () => {
                     </div>
 
                     <div className="flex flex-col items-center text-center space-y-4 group">
-                      <div className="w-16 h-16 rounded-2xl bg-pink-500 text-white flex items-center justify-center bg-pink-500 group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
+                      <div className="w-16 h-16 rounded-2xl bg-pink-500 text-white flex items-center justify-center group-hover:text-white transition-all duration-500 shadow-sm border border-pink-100">
                         <FaLeaf className="text-xl" />
                       </div>
                       <h4 className="font-serif font-bold text-xl text-stone-900">Clean Beauty</h4>
@@ -657,13 +657,13 @@ const ProductDetail = () => {
                   {/* Decorative Background Blur */}
                   <div className="absolute -top-10 -left-10 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-70" />
 
-                  <div className="relative bg-white border border-stone-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-[1rem] overflow-hidden">
+                  <div className="relative bg-white border border-stone-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-2xl overflow-hidden">
                     <div className="grid grid-cols-2">
 
                       {/* Brand Column */}
-                      <div className="bg-gradient-to-b from-pink-50 to-pink-100 p-8 md:p-12 border-r border-stone-100">
+                      <div className="bg-linear-to-b from-pink-50 to-pink-100 p-8 md:p-12 border-r border-stone-100">
                         <div className="text-center mb-10">
-                          <h3 className="text-2xl md:text-3xl font-black text-pink-500 tracking-tighter font-serif text-transparent bg-clip-text bg-linear-to-b from-pink-400 to-purple-400 italic">
+                          <h3 className="text-2xl md:text-3xl font-black text-pink-500 tracking-tighter font-serif bg-clip-text bg-linear-to-b from-pink-400 to-purple-400 italic">
                             <span className='text-5xl font-bold'>L</span>orena
                           </h3>
                         </div>
