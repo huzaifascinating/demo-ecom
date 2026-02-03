@@ -5,13 +5,18 @@ import { fetchShopifyProductById, fetchShopifyProducts } from '../utils/shopify'
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/price';
 import productImg from '../assets/imageOne.png';
+import productImgTwo from '../assets/imageTwo.png';
 import GifOne from '../assets/gifOne.gif'
 import GifTwo from '../assets/gifTwo.gif'
 import GifThree from '../assets/gifThree.gif'
 import LeftRightImage from '../assets/leftrightimages.jpeg'
+import SecondIdGifOne from '../assets/SecondIdGif.gif'
+import SecondIdGifTwo from '../assets/SecondIdGif2.gif'
+import SecondIdGifThree from '../assets/SecondIdGif3.gif'
+
 
 const ProductDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: any }>();
   const [product, setProduct] = useState<any>(null);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]); ``
   const [loading, setLoading] = useState(true);
@@ -161,18 +166,37 @@ const ProductDetail = () => {
                 {/* Description & Features */}
                 <div className="mb-8 mt-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-2 text-sm font-bold text-stone-800">
-                    <div className="flex items-center gap-3">
-                      <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaMagic className="w-3 h-3" /></div> Instantly Visible Lift
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaClock className="w-3 h-3" /></div> Long-Lasting Results
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaLeaf className="w-3 h-3" /></div> Gentle on Sensitive Skin
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaFlask className="w-3 h-3" /></div> Clinically Proven
-                    </div>
+                    {id === "8076385943615" ? (
+                      <>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaMagic className="w-3 h-3" /></div> Instantly Visible Lift
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaClock className="w-3 h-3" /></div> Long-Lasting Results
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaLeaf className="w-3 h-3" /></div> Gentle on Sensitive Skin
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaFlask className="w-3 h-3" /></div> Clinically Proven
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaMagic className="w-3 h-3" /></div> Targets eye bags & dark circles
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaFlask className="w-3 h-3" /></div> Deep serum infusion
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaClock className="w-3 h-3" /></div> Long-lasting hydration & smoothness
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="bg-pink-500 text-white p-1.5 rounded-full"><FaCheck className="w-3 h-3" /></div> Boosts firmness & elasticity
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -236,8 +260,34 @@ const ProductDetail = () => {
                     <FaShoppingBag /> Add To Cart
                   </button>
 
-                  <div className="flex justify-center gap-4 text-4xl transition-all">
-                    <FaCcVisa className="text-[#1A1F71]" /> <FaCcMastercard className="text-[#EB001B]" /> <FaCcAmex className="text-[#007BC1]" />
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {/* Apple Pay */}
+                    <div className="bg-white border border-gray-200 rounded-md px-2 py-0.5 flex items-center shadow-sm h-8">
+                      <span className="text-gray-900 font-bold flex items-center gap-1 text-xs">
+                        <span className="text-lg"></span> Pay
+                      </span>
+                    </div>
+                    {/* Amex */}
+                    <div className="bg-[#007BC1] rounded-md px-2 py-0.5 flex flex-col items-center justify-center shadow-sm h-8 w-12">
+                      <span className="text-white font-bold text-[8px] leading-none uppercase italic">Am</span>
+                      <span className="text-white font-bold text-[8px] leading-none uppercase italic">Ex</span>
+                    </div>
+                    {/* Discover */}
+                    <div className="bg-white border border-gray-200 rounded-md px-1.5 py-0.5 flex flex-col items-center justify-center shadow-sm h-8 w-14">
+                      <span className="text-[#E55C20] font-black text-[7px] uppercase tracking-tighter">Discover</span>
+                      <div className="w-full h-[1px] bg-[#E55C20] mt-0.5"></div>
+                    </div>
+                    {/* Mastercard */}
+                    <div className="bg-white border border-gray-200 rounded-md px-2 py-0.5 flex items-center shadow-sm h-8">
+                      <div className="flex -space-x-1.5">
+                        <div className="w-4 h-4 rounded-full bg-[#EB001B] opacity-90"></div>
+                        <div className="w-4 h-4 rounded-full bg-[#F79E1B] opacity-90"></div>
+                      </div>
+                    </div>
+                    {/* Visa */}
+                    <div className="bg-white border border-gray-200 rounded-md px-2 py-0.5 flex items-center shadow-sm h-8">
+                      <span className="text-[#1A1F71] font-black italic text-sm tracking-tighter">VISA</span>
+                    </div>
                   </div>
 
                   {/* Collapsible Sections */}
@@ -328,7 +378,7 @@ const ProductDetail = () => {
               <div className="absolute top-0 right-0 w-64 h-64 bg-pink-100/40 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2" />
               <div className="absolute bottom-0 left-0 w-80 h-80 bg-stone-100 rounded-full blur-3xl -z-10 -translate-x-1/2 translate-y-1/2" />
 
-              <div className="bg-white border border-stone-100 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.03)] px-6 py-16 md:py-24 md:px-12 relative">
+              {/* <div className="bg-white border border-stone-100 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.03)] px-6 py-16 md:py-24 md:px-12 relative">
                 <div className="max-w-4xl mx-auto">
                   <div className="text-center mb-16 relative">
                     <span className="text-pink-500 font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">The NovaLift Experience</span>
@@ -373,7 +423,7 @@ const ProductDetail = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </section>
 
@@ -384,24 +434,53 @@ const ProductDetail = () => {
                 {/* Left: Image */}
                 <div className="relative group">
                   <div className="absolute -inset-4 bg-pink-100 rounded-lg blur-2xl opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <img
-                    src={GifOne}
-                    alt="Eye Patch Application"
-                    className="relative w-full h-auto rounded-lg shadow-xl"
-                  />
+                  {id === "8076385943615" ? (
+                    <img
+                      src={SecondIdGifOne}
+                      alt="PDRN Collagen Application"
+                      className="relative w-full h-auto rounded-lg shadow-xl"
+                    />
+                  ) : (
+                    <img
+                      src={GifOne}
+                      alt="Microneedle Patch Application"
+                      className="relative w-full h-auto rounded-lg shadow-xl"
+                    />
+                  )}
                 </div>
 
                 {/* Right: Content */}
                 <div className="space-y-6">
-                  <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
-                    Your Secret to <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Younger Eyes</span>
-                  </h2>
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-                    Tired of looking in the mirror and seeing dark circles, eye bags, and wrinkles?
-                  </p>
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-                    Transform your rapidly aging eyes into your <span className="font-bold text-gray-900">most radiant feature.</span> Our patches deliver powerful ingredients directly where needed, you'll <span className="font-bold text-gray-900">enjoy brighter, smoother,</span> and younger-looking stunning eyes every day.
-                  </p>
+                  {id === "8076385943615" ? (
+                    <>
+                      <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
+                        The Power of <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Liquid Collagen</span>
+                      </h2>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Say goodbye to puffy, dehydrated eyes with our unique hydrogel technology.
+                      </p>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        The <span className="font-bold text-gray-900">InstaLift PDRN patches</span> are saturated with
+                        premium collagen to deeply hydrate. They soothe on contact, instantly cooling
+                        delicate skin while <span className="font-bold text-gray-900">erasing signs of fatigue</span> and late nights.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
+                        Deep Delivery <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 italic">Microneedle Tech</span>
+                      </h2>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Tired of creams that only sit on the surface and never solve the problem?
+                      </p>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Our <span className="font-bold text-gray-900">Microneedle Patches</span> feature microscopic
+                        painless needles that dissolve directly into your skin. They deliver
+                        active ingredients <span className="font-bold text-gray-900">deeper than any cream</span>,
+                        targeting the root cause of dark circles and fine lines.
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -455,25 +534,55 @@ const ProductDetail = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left: Content */}
                 <div className="space-y-6 order-2 lg:order-1">
-                  <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
-                    Experience the <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Transformation</span>
-                  </h2>
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-                    Say goodbye to tired, puffy eyes and hello to a refreshed, youthful appearance.
-                  </p>
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-                    Our advanced <span className="font-bold text-gray-900">PDRN collagen technology</span> works deep beneath the surface to deliver <span className="font-bold text-gray-900">instant hydration</span> and long-lasting results. Feel confident knowing you're using a product that truly works.
-                  </p>
+                  {id === "8076385943615" ? (
+                    <>
+                      <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
+                        Refine & <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Intensify Glow</span>
+                      </h2>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Restore the natural elasticity of your undereye area with pure PDRN.
+                      </p>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Our advanced <span className="font-bold text-gray-900">PDRN Collagen tech</span> works
+                        to thicken the delicate skin barrier. With regular use, your eyes will look
+                        <span className="font-bold text-gray-900"> smoother, brighter, </span> and significantly
+                        more rested—no matter how much sleep you actually got.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
+                        Repair & <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 italic">Rejuvenate</span>
+                      </h2>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Watch as stubborn fine lines and wrinkles physically soften over time.
+                      </p>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        The <span className="font-bold text-gray-900">Lorena Care Microneedles</span> trigger
+                        the skin's natural repair process. This concentrated delivery system ensures
+                        your sensitive eye area receives <span className="font-bold text-gray-900">maximum nutrition</span>
+                        for long-lasting, transformative results.
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 {/* Right: Image */}
                 <div className="relative group order-1 lg:order-2">
                   <div className="absolute -inset-4 bg-pink-100 rounded-lg blur-2xl opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <img
-                    src={GifTwo}
-                    alt="Beautiful Eyes Result"
-                    className="relative w-full h-auto rounded-lg shadow-xl"
-                  />
+                  {id === '8076385943615' ? (
+                    <img
+                      src={SecondIdGifTwo}
+                      alt="PDRN Collagen Result"
+                      className="relative w-full h-auto rounded-lg shadow-xl"
+                    />
+                  ) : (
+                    <img
+                      src={GifTwo}
+                      alt="Microneedle Result"
+                      className="relative w-full h-auto rounded-lg shadow-xl"
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -486,24 +595,53 @@ const ProductDetail = () => {
                 {/* Left: Image */}
                 <div className="relative group">
                   <div className="absolute -inset-4 bg-pink-100 rounded-lg blur-2xl opacity-30 group-hover:opacity-50 transition-opacity" />
-                  <img
-                    src={GifThree}
-                    alt="Daily Eye Care Routine"
-                    className="relative w-full h-auto rounded-lg shadow-xl"
-                  />
+                  {id === '8076385943615' ? (
+                    <img
+                      src={SecondIdGifThree}
+                      alt="PDRN Care Routine"
+                      className="relative w-full h-auto rounded-lg shadow-xl"
+                    />
+                  ) : (
+                    <img
+                      src={GifThree}
+                      alt="Microneedle Care Routine"
+                      className="relative w-full h-auto rounded-lg shadow-xl"
+                    />
+                  )}
                 </div>
 
                 {/* Right: Content */}
                 <div className="space-y-6">
-                  <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
-                    Make It Part of Your <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Daily Ritual</span>
-                  </h2>
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-                    Just 15-20 minutes, 2-3 times per week is all it takes to see visible improvements.
-                  </p>
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">
-                    Unlike messy creams that sit on the surface, our <span className="font-bold text-gray-900">microneedle patches</span> penetrate deep into your skin for <span className="font-bold text-gray-900">maximum effectiveness.</span> Join thousands of satisfied customers who've made the switch to smarter skincare.
-                  </p>
+                  {id === "8076385943615" ? (
+                    <>
+                      <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
+                        Your Daily <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Spa Ritual</span>
+                      </h2>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Effortless and mess-free. Perfect for your morning coffee or evening wind-down.
+                      </p>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Unlike creams that rub off, our <span className="font-bold text-gray-900">Hydrogel Patches</span>
+                        grip the skin perfectly, allowing for <span className="font-bold text-gray-900">maximum absorption</span>
+                        while you go about your day. Professional eye care, simplified for your home.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
+                        The Ultimate <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400 italic">Precision Tool</span>
+                      </h2>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Intensive treatment that fits seamlessly into your weekly maintenance.
+                      </p>
+                      <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+                        Our <span className="font-bold text-gray-900">Precision Microneedles</span> ensure that
+                        every drop of active ingredient is used efficiently. Join the thousands of
+                        customers who have switched to the <span className="font-bold text-gray-900">smarter, more effective</span>
+                        way to maintain youthful eyes.
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -533,18 +671,25 @@ const ProductDetail = () => {
                         <div className="relative group mb-12">
                           <div className="absolute inset-0 bg-pink-200 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
                           <img
-                            src={productImg}
-                            alt="Nova Lift Product"
+                            src={id !== '8076385943615' ? productImgTwo : productImg}
+                            alt="Lorena Product"
                             className="relative w-full h-48 object-contain transform group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
 
                         <div className="space-y-8">
-                          {[
-                            "Clean, safe and natural formula",
-                            "Ingredients penetrate deep",
-                            "Proven to solve the problem"
-                          ].map((text, i) => (
+                          {(id === "8076385943615"
+                            ? [
+                              "Cooling hydrogel technology",
+                              "Intense collagen hydration",
+                              "Instant relief for puffy eyes"
+                            ]
+                            : [
+                              "Painless microneedle delivery",
+                              "90% deep ingredient absorption",
+                              "Root-cause repair technology"
+                            ]
+                          ).map((text, i) => (
                             <div key={i} className="flex flex-col items-center text-center gap-2">
                               <div className="w-8 h-8 rounded-full bg-green-500 shadow-lg shadow-green-200 flex items-center justify-center text-white text-sm">
                                 <FaCheck />
@@ -593,12 +738,14 @@ const ProductDetail = () => {
                   </div>
 
                   <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
-                    Why The <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Lorena</span> MicroGlow?
+                    Why The <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Lorena</span> {id === "8076385943615" ? "InstaLift" : "Precision"}?
                   </h2>
 
                   <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
-                    Don't waste another penny on cheap, ineffective creams that only hide the problem.
-                    Enjoy smooth, radiant eyes with our <span className="font-bold text-gray-900">superior MicroGlow</span> which solves the deep-rooted problem.
+                    {id === "8076385943615"
+                      ? "Don't settle for creams that evaporate before they work. Enjoy lasting hydration with the InstaLift PDRN ritual."
+                      : "Don't waste another penny on cheap, ineffective creams that only hide the problem. Enjoy the deep-rooted repair you deserve."
+                    }
                   </p>
                 </div>
               </div>

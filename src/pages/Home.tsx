@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { FaCheckCircle, FaStar, FaQuestionCircle, FaTimes, FaMagic, FaArrowRight } from 'react-icons/fa';
 import { Carousel, Collapse } from 'antd';
 import productImage from '../assets/imageOne.png';
+import productImageTwo from '../assets/imageTwo.png';
 import beforeImage from '../assets/before.jpeg';
 import afterImage from '../assets/after.jpeg';
 import b1 from '../assets/b1.png';
 import b2 from '../assets/b2.png';
 import b3 from '../assets/b3.png';
+import AnnouncementBar from '../components/AnnouncementBar';
 
 const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -58,23 +60,40 @@ const Home = () => {
       <section className="bg-white py-16 lg:py-24 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-20">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 relative group max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:mr-auto">
-              {/* Stacked Frames Effect */}
-              {/* Stacked Frames Effect */}
-              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform -rotate-12 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:-rotate-18 group-hover:scale-105"></div>
-              <div className="absolute inset-0 bg-white border border-gray-200 rounded-3xl transform rotate-6 scale-100 shadow-lg z-0 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-105"></div>
+            <div className="lg:col-span-6 relative group max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:mr-auto h-[400px] sm:h-[450px] flex items-center justify-center">
+              {/* Decorative background blurs */}
+              <div className="absolute -top-10 -left-10 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-60 animate-pulse"></div>
+              <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-purple-100 rounded-full blur-3xl opacity-60 animate-pulse" style={{ animationDelay: '2s' }}></div>
 
-              <div className="relative z-10 bg-white rounded-3xl overflow-hidden aspect-square border border-gray-100 h-72 sm:h-80 md:h-96 shadow-2xl">
-                <img
-                  src={productImage}
-                  alt="Lift PDRN Collagen Eye Patches"
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-sm">
-                  <div className="flex text-yellow-500 text-sm">
-                    {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+              <div className="relative w-full h-full flex items-center justify-center">
+                {/* Secondary Product (Bottom Layer) */}
+                <div className="absolute transform -translate-x-12 -translate-y-6 rotate-[-12deg] group-hover:rotate-[-15deg] group-hover:-translate-x-16 transition-all duration-700">
+                  <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-xl">
+                    <img
+                      src={productImageTwo}
+                      alt="Precision Microneedle Patches"
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    />
                   </div>
-                  <div className="text-xs font-bold text-gray-900 mt-1">4.9/5 RATING</div>
+                </div>
+
+                {/* Primary Product (Top Layer) */}
+                <div className="relative z-10 transform translate-x-10 translate-y-6 rotate-[6deg] group-hover:rotate-[8deg] group-hover:translate-x-12 transition-all duration-700">
+                  <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-2xl">
+                    <img
+                      src={productImage}
+                      alt="InstaLift PDRN Collagen Eye Patches"
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    />
+
+                    {/* Floating Rating Badge */}
+                    <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-lg shadow-md border border-gray-50">
+                      <div className="flex text-yellow-500 text-[10px]">
+                        {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+                      </div>
+                      <div className="text-[10px] font-black text-gray-900 mt-0.5 tracking-tighter uppercase">Loved by 80k+</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -139,13 +158,12 @@ const Home = () => {
       </section>
 
       {/* VALENTINE'S SALE TIMER SECTION (Moved below Hero) */}
-      <section className="bg-linear-to-r from-pink-400 via-rose-400 to-purple-400 bg-[length:200%_200%] animate-gradient-move text-white py-12 relative overflow-hidden">
-        {/* Decorative background effects */}
+      <AnnouncementBar />
+      {/* <section className="bg-linear-to-r from-pink-400 via-rose-400 to-purple-400 bg-[length:200%_200%] animate-gradient-move text-white py-12 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
           <div className="absolute top-[-50px] left-[-100px] w-96 h-96 bg-white rounded-full blur-3xl"></div>
           <div className="absolute bottom-[-50px] right-[-100px] w-96 h-96 bg-white rounded-full blur-3xl"></div>
         </div>
-
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-10 bg-white/10 backdrop-blur-md p-8 md:p-12 rounded-[3.5rem] border border-white/20 shadow-2xl">
             <div className="space-y-4 text-center md:text-left">
@@ -155,7 +173,7 @@ const Home = () => {
                 <span className="text-pink-100 text-3xl md:text-4xl italic font-serif">Sale Ends In:</span>
               </h2>
             </div>
-            
+
             <div className="flex items-center gap-4 md:gap-10">
               {[
                 { label: 'Days', value: timeLeft.days },
@@ -175,8 +193,8 @@ const Home = () => {
             </div>
 
             <div className="flex flex-col items-center md:items-end gap-5">
-              <Link 
-                to="/product/8076385943615" 
+              <Link
+                to="/product/8076385943615"
                 className="group bg-white text-pink-600 px-12 py-6 rounded-full font-black text-2xl md:text-3xl uppercase hover:bg-pink-50 transition-all shadow-[0_15px_35px_rgba(0,0,0,0.3)] hover:-translate-y-1 active:scale-95"
               >
                 Get 70% Off
@@ -184,9 +202,9 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      
+
       {/* SECTION: 5 Reasons (Redesigned for a unique, premium look) */}
       {/* <section className="py-24 bg-linear-to-b from-[#fdf2f8] to-[#fffbff] overflow-hidden">
         <div className="max-w-7xl mx-auto px-1 sm:px-3 lg:px-4 relative">

@@ -1,14 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import AnnouncementBar from './AnnouncementBar';
+import ValentineTimer from './ValentineTimer';
 import CartDrawer from './CartDrawer';
 import DiscountModal from './DiscountModal';
 
 const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <AnnouncementBar />
+      <ValentineTimer />
       <Navbar />
       <main className="grow">
         <Outlet />

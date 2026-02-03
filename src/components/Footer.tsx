@@ -37,9 +37,15 @@ const Footer = () => {
           <div>
             <h4 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Support</h4>
             <div className="space-y-3 text-gray-500 text-sm">
-              <p>Need help? We're here for you.</p>
-              <p>Email: <a href="mailto:support@lorena.com" className="hover:text-pink-500 transition-colors">support@lorena.com</a></p>
-              <p>Hours: Mon-Fri, 9am - 5pm EST</p>
+              <p className="leading-relaxed">
+                <span className="font-semibold text-gray-900">Address:</span> 5900 Balcones Drive Austin Texas, United States.
+              </p>
+              <p>
+                <span className="font-semibold text-gray-900">Phone:</span> +14698951476
+              </p>
+              <p>
+                <span className="font-semibold text-gray-900">Email:</span> <a href="mailto:support@lorena.com" className="hover:text-pink-500 transition-colors">support@lorena.com</a>
+              </p>
             </div>
           </div>
 
@@ -61,8 +67,39 @@ const Footer = () => {
             </form>
           </div>
         </div>
-        <div className="border-t border-gray-200 pt-8 text-center">
-          <p className="text-gray-400 text-sm">&copy; {new Date().getFullYear()} Lorena. All rights reserved.</p>
+
+        <div className="border-t border-gray-200 pt-8 flex flex-col items-center space-y-6">
+          <p className="text-gray-900 font-bold text-lg tracking-wider">© LORENA 2025</p>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            {/* Apple Pay */}
+            <div className="bg-white border border-gray-200 rounded-md px-3 py-1 flex items-center shadow-sm h-10">
+              <span className="text-gray-900 font-bold flex items-center gap-1">
+                <span className="text-xl"></span> Pay
+              </span>
+            </div>
+            {/* Amex */}
+            <div className="bg-[#007BC1] rounded-md px-3 py-1 flex flex-col items-center justify-center shadow-sm h-10 w-16">
+              <span className="text-white font-bold text-[10px] leading-none uppercase italic">Am</span>
+              <span className="text-white font-bold text-[10px] leading-none uppercase italic">Ex</span>
+            </div>
+            {/* Discover */}
+            <div className="bg-white border border-gray-200 rounded-md px-2 py-1 flex flex-col items-center justify-center shadow-sm h-10 w-16">
+              <span className="text-[#E55C20] font-black text-[9px] uppercase tracking-tighter">Discover</span>
+              <div className="w-full h-[2px] bg-[#E55C20] mt-0.5"></div>
+            </div>
+            {/* Mastercard */}
+            <div className="bg-white border border-gray-200 rounded-md px-3 py-1 flex items-center shadow-sm h-10">
+              <div className="flex -space-x-2">
+                <div className="w-5 h-5 rounded-full bg-[#EB001B] opacity-90"></div>
+                <div className="w-5 h-5 rounded-full bg-[#F79E1B] opacity-90"></div>
+              </div>
+            </div>
+            {/* Visa */}
+            <div className="bg-white border border-gray-200 rounded-md px-3 py-1 flex items-center shadow-sm h-10">
+              <span className="text-[#1A1F71] font-black italic text-xl tracking-tighter">VISA</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

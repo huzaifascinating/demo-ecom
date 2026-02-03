@@ -88,25 +88,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const bundleTitleAttr = attributes.find((a: any) => a.key === '_bundle_title');
       const bundlePaidQtyAttr = attributes.find((a: any) => a.key === '_bundle_paid_qty');
       const bundleOriginalPriceAttr = attributes.find((a: any) => a.key === '_bundle_original_price');
-      
+
       const shopifyQuantity = node.quantity;
       const baseUnitPrice = parseFloat(node.merchandise.price.amount);
-      
+
       const isBundle = !!bundleTitleAttr;
       const bundlePaidQty = bundlePaidQtyAttr ? parseInt(bundlePaidQtyAttr.value) : 1;
-      
+
       // UI quantity is the number of bundles
       const quantity = Math.floor(shopifyQuantity / bundlePaidQty);
       // UI price is the total price for ONE bundle
       const price = baseUnitPrice * bundlePaidQty;
-      
+
       let originalPrice = undefined;
       if (isBundle && bundleOriginalPriceAttr) {
         // Stored as total original price for ONE bundle
         originalPrice = parseFloat(bundleOriginalPriceAttr.value);
       }
 
-      const displayTitle = isBundle 
+      const displayTitle = isBundle
         ? `${node.merchandise.product.title} (${bundleTitleAttr.value})`
         : node.merchandise.product.title;
 
@@ -139,7 +139,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const addItem = async (product: any, options: { quantity?: number, attributes?: { key: string, value: string }[] } = {}) => {
     const qty = options.quantity || 1;
     const attributes = options.attributes || [];
-    
+
     setLoading(true);
     setLastTouchedProductId(product.id);
     try {
@@ -192,7 +192,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const bundlePaidQtyAttr = item.attributes?.find((a: any) => a.key === '_bundle_paid_qty');
     const multiplier = bundlePaidQtyAttr ? parseInt(bundlePaidQtyAttr.value) : 1;
-    
+
     const shopifyQty = Math.max(1, Math.min(99, Math.floor(qty * multiplier)));
     setLoading(true);
     try {

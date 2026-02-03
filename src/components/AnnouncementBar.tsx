@@ -1,6 +1,6 @@
 const AnnouncementBar = () => {
   return (
-    <div className="bg-black text-white py-2 overflow-hidden whitespace-nowrap z-60 sticky top-0 ">
+    <div className="bg-black text-white py-2 overflow-hidden whitespace-nowrap z-60 ">
       <div className="animate-marquee inline-block">
         <span className="mx-8 font-medium text-sm tracking-wide">FREE SHIPPING ON ORDERS OVER $50</span>
         <span className="mx-8 text-pink-500">•</span>
