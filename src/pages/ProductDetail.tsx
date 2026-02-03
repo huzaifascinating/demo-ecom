@@ -8,6 +8,7 @@ import productImg from '../assets/imageOne.png';
 import GifOne from '../assets/gifOne.gif'
 import GifTwo from '../assets/gifTwo.gif'
 import GifThree from '../assets/gifThree.gif'
+import LeftRightImage from '../assets/leftrightimages.jpeg'
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -412,7 +413,7 @@ const ProductDetail = () => {
               {/* Before/After Image - Full Width */}
               <div className="mb-12 overflow-hidden">
                 <img
-                  src="/src/assets/leftrightimages.jpeg"
+                  src={LeftRightImage}
                   alt="Before and After Results"
                   className="w-full h-auto object-cover"
                 />
