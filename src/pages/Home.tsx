@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FaCheckCircle, FaStar, FaQuestionCircle, FaTimes, FaMagic, FaArrowRight } from 'react-icons/fa';
-import { Carousel, Collapse } from 'antd';
+import { Collapse } from 'antd';
 import productImage from '../assets/imageOne.png';
 import productImageTwo from '../assets/imageTwo.png';
-import beforeImage from '../assets/before.jpeg';
-import afterImage from '../assets/after.jpeg';
-import b1 from '../assets/b1.png';
-import b2 from '../assets/b2.png';
-import b3 from '../assets/b3.png';
+// import beforeImage from '../assets/before.jpeg';
+// import afterImage from '../assets/after.jpeg';
+// import b1 from '../assets/b1.png';
+// import b2 from '../assets/b2.png';
+// import b3 from '../assets/b3.png';
 import AnnouncementBar from '../components/AnnouncementBar';
 
 const Home = () => {
@@ -129,8 +129,8 @@ const Home = () => {
       </section>
 
       {/* SECTION 2: Carousel Hero / Visual Impact */}
-      <section className="relative h-[600px] overflow-hidden">
-        {/* Antd Carousel Background */}
+      {/* <section className="relative h-[600px] overflow-hidden">
+
         <div className="absolute inset-0 z-0">
           <Carousel autoplay effect="fade" speed={1000} autoplaySpeed={3000}>
             {[b1, b2, b3].map((img, idx) => (
@@ -142,7 +142,6 @@ const Home = () => {
           </Carousel>
         </div>
 
-        {/* Content Overlay */}
         <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
           <div className="text-center max-w-4xl mx-auto px-4 pointer-events-auto">
             <span className="text-pink-300 font-bold tracking-[0.2em] uppercase mb-4 block animate-pulse">Upgrade Your Under-Eyes</span>
@@ -155,7 +154,7 @@ const Home = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* VALENTINE'S SALE TIMER SECTION (Moved below Hero) */}
       <AnnouncementBar />
@@ -307,8 +306,8 @@ const Home = () => {
         </div>
       </section> */}
 
-      {/* SECTION: How It Works (Before & After Visuals) */}
-      <section className="py-20 bg-white">
+      {/* SECTION 3: How It Works (Before & After Visuals) */}
+      {/* <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <p className="text-pink-500 font-bold tracking-[0.2em] uppercase text-xs mb-3">Explore our other products as well</p>
@@ -317,13 +316,8 @@ const Home = () => {
           </div>
 
           <div className="relative mt-12 mb-8">
-            {/* <div className="block md:block absolute -top-16 md:-top-40 left-1/2 -translate-x-1/2 w-64 md:w-[1200px] h-12 md:h-32 z-10 text-pink-300 opacity-40 md:opacity-20">
-              <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full">
-                <path d="M0 10 H95 M90 5 L100 10 L90 15" stroke="currentColor" strokeWidth="2" fill="none" />
-              </svg>
-            </div> */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              {/* Before */}
+            
               <div className="group relative overflow-hidden rounded-3xl aspect-square shadow-xl">
                 <img
                   src={beforeImage}
@@ -341,7 +335,7 @@ const Home = () => {
                 </div>
               </div>
 
-              {/* After */}
+
               <div className="group relative overflow-hidden rounded-3xl aspect-square shadow-xl">
                 <img
                   src={afterImage}
@@ -369,17 +363,19 @@ const Home = () => {
             <span className="w-10 h-px bg-pink-300" />
           </div>
         </div>
-      </section>
+      </section> */}
 
-      {/* SECTION: Problem vs Solution + Before/After (Lift PDRN Collagen Eye Patches Version) */}
+      {/* SECTION 4: Problem vs Solution + Before/After (Lift PDRN Collagen Eye Patches Version) */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
-              From <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Soggy</span> to Elevated
+              From Tired to <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Refreshed</span>
             </h2>
             <p className="mt-6 text-gray-700 text-lg md:text-xl leading-relaxed">
-              Stop settling for temporary fixes. Swap messy creams for PDRN technology that actually transforms your skin.
+              Stop relying on temporary fixes. Upgrade your under-eye routine
+              with targeted patch care designed to support hydration, smoothness, and a
+              refreshed look.
             </p>
           </div>
 
@@ -396,9 +392,9 @@ const Home = () => {
                 </h3>
                 <ul className="space-y-5">
                   {[
-                    "Creams sit on the surface",
-                    "Waking up puffy & tired",
-                    "Sticky, messy application"
+                    "Products that sit on the surface",
+                    "Waking up with puffy, tired-looking eyes",
+                    "Messy or inconsistent application"
                   ].map((text, i) => (
                     <li key={i} className="flex gap-4 items-center text-gray-500 transition-colors">
                       <FaTimes className="text-gray-300 mt-0.5 shrink-0" />
@@ -425,16 +421,16 @@ const Home = () => {
             <div className="group relative overflow-hidden bg-pink-50 rounded-4xl p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-8px] border-2 border-pink-200 shadow-xl shadow-pink-100">
               <div className="relative z-10">
                 <span className="inline-block px-4 py-1 rounded-full bg-pink-500 text-white text-xs font-bold uppercase tracking-widest mb-6 shadow-lg shadow-pink-500/20">
-                  The Solution
+                  The Better Way
                 </span>
                 <h3 className="text-3xl font-bold text-gray-900 mb-8 tracking-tight flex items-center gap-3">
-                  <FaCheckCircle className="text-pink-500" /> PDRN Collagen Lift
+                  <FaCheckCircle className="text-pink-500" /> Targeted Eye Patches
                 </h3>
                 <ul className="space-y-6">
                   {[
-                    { title: "Instant Hydration", desc: "Deep PDRN delivery in under 15 minutes." },
-                    { title: "Visible Firming", desc: "Naturally rejuvenates and lifts the eye area." },
-                    { title: "Elevated Ritual", desc: "Mess-free, luxurious application every time." }
+                    { title: "Instant Hydration", desc: "Hydrates and refreshes the under-eye area" },
+                    { title: "Visible Firming", desc: "Helps smooth the look of fine lines and puffiness" },
+                    { title: "Elevated Ritual", desc: "Easy, mess-free application" }
                   ].map((item, i) => (
                     <li key={i} className="flex gap-4 items-start group/item">
                       <div className="mt-1 shrink-0 bg-white rounded-full p-1 shadow-sm">
@@ -458,8 +454,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION: Numbers / Proof (Added to match reference image) */}
-      <section className="py-24 bg-white">
+      {/* SECTION 5: Numbers / Proof (Added to match reference image) */}
+      {/* <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900">
@@ -509,7 +505,7 @@ const Home = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Catchy FAQ Section (Enhanced) */}
       <section className="py-24 bg-pink-50">
@@ -522,10 +518,12 @@ const Home = () => {
 
           <div className="space-y-6 relative z-10">
             {[
-              { q: "How do I use the patches?", a: "Simply apply the patches under your eyes for 15-20 minutes. For best results, use them 2-3 times per week for visible improvement." },
-              { q: "Is it safe for sensitive skin?", a: "Absolutely! The PDRN collagen formula is gentle on delicate under-eye skin, yet provides deep hydration to keep your skin looking refreshed." },
-              { q: "Does it really reduce fine lines?", a: "Yes! The advanced PDRN collagen structure delivers moisture immediately, plumping the skin and reducing the appearance of fine lines and wrinkles." },
-              { q: "How long does it last?", a: "With regular use, your Lift PDRN Collagen Eye Patches are designed to provide lasting results, making them a sustainable alternative to temporary eye creams." }
+              {
+                q: "How do I use the patches?", a: `Apply to clean, dry under-eye skin. Leave on for 15–20 minutes, then remove and gently pat in any remaining serum.`
+              },
+              { q: "Are the patches suitable for sensitive skin?", a: `Yes. Our patches are designed to be gentle on the delicate under-eye area. A patch test is recommended for sensitive skin.` },
+              { q: "What concerns do these patches help with?", a: `They help hydrate the under-eye area and improve the appearance of puffiness, dark circles, and fine lines.` },
+              { q: "When will I see results?", a: `Skin may look more hydrated and refreshed after use. Results improve with consistent use over time.` }
             ].map((faq, i) => (
               <Collapse
                 key={i}

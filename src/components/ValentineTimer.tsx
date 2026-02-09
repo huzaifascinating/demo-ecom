@@ -34,10 +34,21 @@ const ValentineTimer = () => {
         return () => clearInterval(timer);
     }, []);
 
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full overflow-hidden transition-all duration-300 ease-in-out">
             {/* Animated Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-50 via-rose-400 to-pink-500 animate-gradient-x opacity-90"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-50 via-rose-400 to-pink-500 animate-gradient-x"></div>
 
             {/* Sparkle/Heart Overlay */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -56,25 +67,36 @@ const ValentineTimer = () => {
                 ))}
             </div>
 
-            <div className="relative max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
-                <div className="flex items-center gap-2">
-                    <FaHeart className="text-white animate-pulse" />
-                    <span className="text-white font-black uppercase tracking-tighter text-sm md:text-base italic">
-                        Valentine's Sale <span className="text-pink-100 underline decoration-white/40">Ends Soon</span>
-                    </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1.5">
-                        <TimeUnit value={timeLeft.days} label="DAYS" />
-                        <span className="text-white font-bold animate-pulse">:</span>
-                        <TimeUnit value={timeLeft.hours} label="HRS" />
-                        <span className="text-white font-bold animate-pulse">:</span>
-                        <TimeUnit value={timeLeft.minutes} label="MIN" />
-                        <span className="text-white font-bold animate-pulse">:</span>
-                        <TimeUnit value={timeLeft.seconds} label="SEC" />
+            <div className={`relative max-w-7xl mx-auto px-4 ${isScrolled ? 'py-2' : 'py-3'} flex items-center justify-center transition-all duration-300`}>
+                {!isScrolled ? (
+                    // Simple Banner State (Top of Page)
+                    <div className="text-center animate-fade-in">
+                        <span className="text-white font-semibold uppercase tracking-wide text-sm md:text-md drop-shadow-sm">
+                            Valentine's Sale - Ends Soon
+                        </span>
                     </div>
-                </div>
+                ) : (
+                    // Timer State (Scrolled)
+                    <div className="flex flex-row items-center justify-center gap-4 md:gap-6 animate-fade-in">
+                        <div className="md:flex flex flex-col items-center gap-1 pr-2">
+                            <span className="text-white uppercase tracking-wider text-[16px] shadow-sm">
+                                Valentine's Day Sale
+                            </span>
+                            <span className="text-white uppercase tracking-wider text-[14px] shadow-sm">
+                                UP TO 70% OFF
+                            </span>
+                        </div>
+
+                        {/* White Pill Timer Container */}
+                        <div className="bg-white rounded-[15px] px-4 py-2 flex items-center gap-1 md:gap-2 shadow-md">
+                            <TimeUnit value={timeLeft.hours + (timeLeft.days * 24)} label="HRS" />
+                            <span className="text-black text-sm self-start mt-1">:</span>
+                            <TimeUnit value={timeLeft.minutes} label="MIN" />
+                            <span className="text-black text-sm self-start mt-1">:</span>
+                            <TimeUnit value={timeLeft.seconds} label="SEC" />
+                        </div>
+                    </div>
+                )}
             </div>
 
             <style>{`
@@ -94,19 +116,26 @@ const ValentineTimer = () => {
         .animate-float-heart {
           animation: float-heart linear infinite;
         }
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.3s ease-out forwards;
+        }
       `}</style>
         </div>
     );
 };
 
-const TimeUnit = ({ value, label }: { value: number; label: string }) => (
+const TimeUnit = ({ value, label }: any) => (
     <div className="flex flex-col items-center">
-        <div className="bg-white w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center shadow-inner">
-            <span className="text-pink-600 font-black text-lg md:text-xl tabular-nums">
-                {value.toString().padStart(2, '0')}
-            </span>
-        </div>
-        <span className="text-[8px] md:text-[9px] font-bold text-white mt-1 tracking-widest leading-none bg-pink-600/30 px-1 rounded uppercase">
+        {/* Number - Dark Blue/Black like the image */}
+        <span className="text-[#003366] font-sans text-xl md:text-xl tracking-tighter leading-none">
+            {value.toString().padStart(2, '0')}
+        </span>
+        {/* Label - Smaller and directly underneath */}
+        <span className="text-black font-medium text-[10px] md:text-[11px] mt-0.5 tracking-wider">
             {label}
         </span>
     </div>

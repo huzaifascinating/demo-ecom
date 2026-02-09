@@ -8,8 +8,10 @@ import DiscountModal from './DiscountModal';
 const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <ValentineTimer />
-      <Navbar />
+      <div className="sticky top-0 z-50 w-full">
+        <ValentineTimer />
+        <Navbar />
+      </div>
       <main className="grow">
         <Outlet />
       </main>
