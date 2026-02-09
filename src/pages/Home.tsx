@@ -106,13 +106,13 @@ const Home = () => {
                 <span className="text-gray-900 font-medium text-sm ml-2">Rated 4.9 / 5 | Loved By 80,000+</span>
               </div>
 
-              <h1 className="text-3xl lg:text-5xl font-serif font-medium text-gray-900 leading-tight">
-                The <span className="font-medium font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400">#1 Natural Solution</span> for
-                <span className="italic"> brighter, smoother under-eyes</span>
+              <h1 className="text-3xl lg:text-[43px] font-serif font-medium text-gray-900 leading-tight">
+                The <span className="font-medium font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400">#1 Targeted Solution</span> for
+                <span className="italic"> brighter, smoother under & upper eyes</span>
               </h1>
 
               <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-                Clinically proven PDRN Collagen formula infused with <span className="font-bold text-gray-900">Advanced Hydration Technology</span> to lift, firm, and rejuvenate your delicate eye area instantly.
+                Advanced eye-patch technology designed to hydrate, smooth, and refresh the delicate under- and upper-eye areas — helping reduce the look of puffiness, fine lines, and tired eyes with consistent use.
               </p>
 
               <div className="pt-4 flex flex-col items-start space-y-4">
@@ -428,7 +428,7 @@ const Home = () => {
                 </h3>
                 <ul className="space-y-6">
                   {[
-                    { title: "Instant Hydration", desc: "Hydrates and refreshes the under-eye area" },
+                    { title: "Instant Hydration", desc: "Hydrates and refreshes the under & upper eye areas" },
                     { title: "Visible Firming", desc: "Helps smooth the look of fine lines and puffiness" },
                     { title: "Elevated Ritual", desc: "Easy, mess-free application" }
                   ].map((item, i) => (
