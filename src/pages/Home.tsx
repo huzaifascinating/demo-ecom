@@ -373,7 +373,7 @@ const Home = () => {
               From Tired to <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Refreshed</span>
             </h2>
             <p className="mt-6 text-gray-700 text-lg md:text-xl leading-relaxed">
-              Stop relying on temporary fixes. Upgrade your under-eye routine
+              Stop relying on temporary fixes. Upgrade your under-eye and upper-eye routine
               with targeted patch care designed to support hydration, smoothness, and a
               refreshed look.
             </p>
