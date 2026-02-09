@@ -86,23 +86,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return cartData.lines.edges.map(({ node }: any) => {
       const attributes = node.attributes || [];
       const bundleTitleAttr = attributes.find((a: any) => a.key === '_bundle_title');
-      const bundlePaidQtyAttr = attributes.find((a: any) => a.key === '_bundle_paid_qty');
       const bundleOriginalPriceAttr = attributes.find((a: any) => a.key === '_bundle_original_price');
 
       const shopifyQuantity = node.quantity;
       const baseUnitPrice = parseFloat(node.merchandise.price.amount);
 
       const isBundle = !!bundleTitleAttr;
-      const bundlePaidQty = bundlePaidQtyAttr ? parseInt(bundlePaidQtyAttr.value) : 1;
 
-      // UI quantity is the number of bundles
-      const quantity = Math.floor(shopifyQuantity / bundlePaidQty);
-      // UI price is the total price for ONE bundle
-      const price = baseUnitPrice * bundlePaidQty;
+      // For both regular items and bundle variants, we treat the Shopify
+      // line quantity as the UI quantity, and the variant price as the
+      // per-unit (per-bundle) price.
+      const quantity = shopifyQuantity;
+      const price = baseUnitPrice;
 
       let originalPrice = undefined;
       if (isBundle && bundleOriginalPriceAttr) {
-        // Stored as total original price for ONE bundle
+        // Stored as total original price for ONE bundle/variant
         originalPrice = parseFloat(bundleOriginalPriceAttr.value);
       }
 
@@ -190,10 +189,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const item = items.find((i: CartItem) => i.id === lineId);
     if (!item) return;
 
-    const bundlePaidQtyAttr = item.attributes?.find((a: any) => a.key === '_bundle_paid_qty');
-    const multiplier = bundlePaidQtyAttr ? parseInt(bundlePaidQtyAttr.value) : 1;
-
-    const shopifyQty = Math.max(1, Math.min(99, Math.floor(qty * multiplier)));
+    // UI quantity maps 1:1 to Shopify line quantity
+    const shopifyQty = Math.max(1, Math.min(99, Math.floor(qty)));
     setLoading(true);
     try {
       const updatedCart = await updateShopifyCartQuantity(cartId, lineId, shopifyQty);

@@ -44,7 +44,7 @@ export const fetchShopifyProducts = async (): Promise<any[]> => {
             title
             description
             productType
-            variants(first: 1) {
+            variants(first: 5) {
               edges {
                 node {
                   id
@@ -110,7 +110,7 @@ export const fetchShopifyProductById = async (id: string): Promise<any | null> =
         title
         description
         productType
-        variants(first: 1) {
+        variants(first: 5) {
           edges {
             node {
               id
@@ -142,16 +142,22 @@ export const fetchShopifyProductById = async (id: string): Promise<any | null> =
     if (!data.product) return null;
 
     const node = data.product;
-    const variant = node.variants.edges[0]?.node;
+    const variants = node.variants.edges.map((edge: any) => ({
+      id: edge.node.id,
+      price: parseFloat(edge.node.price?.amount || '0'),
+      compareAtPrice: edge.node.compareAtPrice ? parseFloat(edge.node.compareAtPrice.amount) : undefined,
+    }));
+    const variant = variants[0]; // Default to first variant for backward compatibility
     const images = node.images.edges;
     const numericId = node.id.split('/').pop();
 
     return {
       id: numericId || node.id,
       variantId: variant?.id,
+      variants: variants, // Include all variants
       name: node.title,
-      price: parseFloat(variant?.price?.amount || '0'),
-      originalPrice: variant?.compareAtPrice ? parseFloat(variant.compareAtPrice.amount) : undefined,
+      price: variant?.price || 0,
+      originalPrice: variant?.compareAtPrice,
       images: images.map((img: any) => img.node.url),
       image: images.length > 0 ? images[0].node.url : '',
       category: (node.productType || '').toLowerCase() || 'all',

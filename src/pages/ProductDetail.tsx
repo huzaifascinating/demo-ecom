@@ -82,12 +82,38 @@ const ProductDetail = () => {
     </div>
   );
 
-  const basePrice = product.price;
-  const currentBundles = [
-    { id: 1, name: 'Essentials Pack', quantity: 1, paidQty: 1, price: basePrice, originalPrice: basePrice, save: 0, label: 'Starter', desc: 'Single Treatment', title: "Buy 1 Box", subTitle: "Contains 8 Pairs" },
-    { id: 2, name: 'Radiance Bundle', quantity: 3, paidQty: 2, price: (basePrice * 2), originalPrice: (basePrice * 3), save: 33, label: 'Best Seller', desc: 'Double the Glow', title: "Buy 2 Get 1 FREE", subTitle: "Contains 24 Pairs", badge: "Most Popular" },
-    { id: 3, name: 'The Ultimate Ritual', quantity: 5, paidQty: 3, price: (basePrice * 3), originalPrice: (basePrice * 5), save: 40, label: 'Best Value', desc: '6 Month Transformation', title: "Buy 3 Get 2 FREE", subTitle: "Contains 40 Pairs" },
+  // Map bundles to Shopify variants
+  // Variant indices: 0 = Buy 1, 1 = Buy 2 Get 1, 2 = Buy 3 Get 2
+  const variants = product.variants || [];
+  const bundleConfigs = [
+    { id: 1, name: 'Essentials Pack', quantity: 1, paidQty: 1, save: 0, label: 'Starter', desc: 'Single Treatment', title: "Buy 1 Box", subTitle: "Contains 8 Pairs" },
+    { id: 2, name: 'Radiance Bundle', quantity: 3, paidQty: 2, save: 33, label: 'Best Seller', desc: 'Double the Glow', title: "Buy 2 Get 1 FREE", subTitle: "Contains 24 Pairs", badge: "Most Popular" },
+    { id: 3, name: 'The Ultimate Ritual', quantity: 5, paidQty: 3, save: 40, label: 'Best Value', desc: '6 Month Transformation', title: "Buy 3 Get 2 FREE", subTitle: "Contains 40 Pairs" },
   ];
+
+  const currentBundles = bundleConfigs.map((config, index) => {
+    const variant = variants[index];
+    if (!variant) {
+      // Fallback to calculated prices if variant not available
+      const basePrice = product.price || 0;
+      return {
+        ...config,
+        variantId: product.variantId,
+        price: index === 0 ? basePrice : index === 1 ? basePrice * 2 : basePrice * 3,
+        originalPrice: index === 0 ? basePrice : index === 1 ? basePrice * 3 : basePrice * 5,
+      };
+    }
+    
+    const variantPrice = variant.price || 0;
+    const compareAtPrice = variant.compareAtPrice;
+    
+    return {
+      ...config,
+      variantId: variant.id,
+      price: variantPrice,
+      originalPrice: compareAtPrice || variantPrice,
+    };
+  });
 
   const activeBundle = currentBundles.find(b => b.id === selectedBundle.id) || currentBundles[1];
 
@@ -247,14 +273,24 @@ const ProductDetail = () => {
                 {/* CTA */}
                 <div className="space-y-6">
                   <button
-                    onClick={() => addItem(product, {
-                      quantity: activeBundle.paidQty,
-                      attributes: [
-                        { key: '_bundle_title', value: activeBundle.title },
-                        { key: '_bundle_paid_qty', value: activeBundle.paidQty.toString() },
-                        { key: '_bundle_original_price', value: activeBundle.originalPrice.toString() }
-                      ]
-                    })}
+                    onClick={() => {
+                      // Create product object with the correct variant ID
+                      const productWithVariant = {
+                        ...product,
+                        variantId: activeBundle.variantId || product.variantId,
+                      };
+                      // For bundle variants, quantity 1 means one bundle;
+                      // the discount (e.g. Buy 2 Get 1) is already baked into
+                      // the Shopify variant price.
+                      addItem(productWithVariant, {
+                        quantity: 1,
+                        attributes: [
+                          { key: '_bundle_title', value: activeBundle.title },
+                          { key: '_bundle_paid_qty', value: activeBundle.paidQty.toString() },
+                          { key: '_bundle_original_price', value: activeBundle.originalPrice.toString() }
+                        ]
+                      });
+                    }}
                     className="w-full bg-pink-500 text-white cursor-pointer py-5 rounded-full font-semibold text-lg uppercase tracking-wide shadow-xl hover:bg-pink-600 hover:shadow-2xl transition-all active:scale-[0.98] flex items-center justify-center gap-3"
                   >
                     <FaShoppingBag /> Add To Cart
