@@ -1,12 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaShoppingBag, FaBars } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from '../assets/lor.png';
 import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { openCart, cartCount } = useCart();
+  const location = useLocation();
+
+  // Close mobile menu automatically on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   return (
     <header className="relative bg-linear-to-r from-pink-200 to-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100 py-3">
