@@ -23,6 +23,7 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const [selectedBundle, setSelectedBundle] = useState({ id: 2 }); // Default to Most Popular
   const [openSection, setOpenSection] = useState<string | null>(null);
+  const [openFaqId, setOpenFaqId] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
@@ -743,15 +744,13 @@ const ProductDetail = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                 {/* Right Side: Copywriting */}
                 <div className="lg:col-span-5 space-y-8">
-
                   <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
-                    Why Chose <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Lorena</span> {id === "8076385943615" ? "InstaLift" : "Precision"}?
+                    Why Choose <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Lorena</span> {id === "8076385943615" ? "InstaLift" : "Precision"}?
                   </h2>
-
                   <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
                     {id === "8076385943615"
-                      ? "Don't settle for creams that evaporate before they work. Enjoy lasting hydration with the InstaLift PDRN ritual."
-                      : "Don't waste another penny on cheap, ineffective creams that only hide the problem. Enjoy the deep-rooted repair you deserve."
+                      ? "Skip eye creams that fade before they can work. InstaLift uses PDRN-powered hydration to keep your under eyes smooth, bright, and comfortable for longer."
+                      : "Most eye products only skim the surface. Precision goes deeper to target fine lines and visible signs of aging at the source, not just on top of the skin."
                     }
                   </p>
                 </div>
@@ -759,7 +758,6 @@ const ProductDetail = () => {
                 <div className="lg:col-span-7 relative">
                   {/* Decorative Background Blur */}
                   <div className="absolute -top-10 -left-10 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-70" />
-
                   <div className="relative bg-white border border-stone-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-2xl overflow-hidden flex items-center justify-center">
                     <img
                       src={CompareImg}
@@ -768,6 +766,88 @@ const ProductDetail = () => {
                     />
                   </div>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ SECTION */}
+          <section className="py-14 border-t border-stone-100 bg-white/60">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-serif font-semibold text-gray-900 mb-3">
+                  FAQ
+                </h2>
+                <p className="text-sm md:text-base text-gray-500">
+                  Clear answers about shipping, usage, and results for both InstaLift and Precision.
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                {[
+                  {
+                    id: 'shipping-where',
+                    q: 'Do you ship internationally?',
+                    a: 'Yes, we ship worldwide. Shipping costs are calculated at checkout and shown before you confirm your order. We also run promotions throughout the year, so you can often catch discounted or free shipping offers.'
+                  },
+                  {
+                    id: 'shipping-how-long',
+                    q: 'How long does delivery take?',
+                    a: 'Delivery time depends on where you live. Local orders typically arrive in about 5–7 business days, while international orders usually take around 7–16 days. You’ll receive tracking details and updates in your confirmation email.'
+                  },
+                  {
+                    id: 'usage-frequency',
+                    q: 'How often should I use the patches?',
+                    a: 'For best results, use the patches about twice a week and leave them on for at least 2 hours each time. They’re designed to be highly concentrated, so you don’t need to apply them every single day to see real improvement.'
+                  },
+                  {
+                    id: 'results-when',
+                    q: 'When will I start seeing results?',
+                    a: 'Most people notice less puffiness and a smoother feel around the eyes within just a few uses. Fine lines and overall texture typically show visible improvement after 2–4 weeks of consistent use.'
+                  },
+                  {
+                    id: 'skin-types',
+                    q: 'Is it safe for sensitive skin?',
+                    a: 'Yes. Both products are formulated to be gentle enough for the delicate under‑eye area and suitable for all skin types. If you’re extremely sensitive, we always recommend a quick patch test before full use.'
+                  },
+                  {
+                    id: 'does-it-hurt',
+                    q: 'Do the patches or microneedles hurt?',
+                    a: 'No. You may feel a light, prickly or textured sensation at first, but it should not be painful. Most customers describe it as a mild, “grippy” feeling that quickly becomes barely noticeable.'
+                  },
+                  {
+                    id: 'cruelty-free',
+                    q: 'Are your products cruelty‑free?',
+                    a: 'Yes, our formulas are cruelty‑free and never tested on animals.'
+                  }
+                ].map((faq) => (
+                  <div key={faq.id} className="border-b border-stone-200">
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaqId(openFaqId === faq.id ? null : faq.id)}
+                      className="w-full py-4 flex items-center justify-between text-left group cursor-pointer"
+                    >
+                      <span className="text-sm md:text-base font-semibold text-stone-900 group-hover:text-pink-500 transition-colors">
+                        {faq.q}
+                      </span>
+                      <span
+                        className={`transition-transform duration-300 text-stone-400 group-hover:text-pink-500 ${
+                          openFaqId === faq.id ? 'rotate-180 text-pink-500' : ''
+                        }`}
+                      >
+                        <FaChevronDown className="text-xs" />
+                      </span>
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        openFaqId === faq.id ? 'max-h-[260px] opacity-100 pb-3' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <p className="text-sm md:text-base text-stone-600 leading-relaxed pb-3">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
