@@ -29,35 +29,26 @@ export default function DiscountModal() {
 
   return (
     <>
-      {/* Floating Button */}
+      {/* Floating Button - Only show on home page */}
+      {location.pathname === '/' && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed z-50 bottom-6 
+               /* Mobile: Center position */
+               left-1/2 -translate-x-1/2 
+               /* Desktop: Reset left and move to right */
+               lg:left-auto lg:translate-x-0 lg:right-20 
+               flex items-center gap-2 bg-pink-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-pink-600 transition-all hover:scale-105 active:scale-95 group cursor-pointer whitespace-nowrap"
+        >
+          <div className="bg-white/20 p-2 rounded-full">
+            <FaPercentage className="text-sm" />
+          </div>
+          <span>Get 70% Off</span>
 
-      {/* <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-20 z-50 flex items-center gap-2 bg-pink-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-pink-600 transition-all hover:scale-105 active:scale-95 group cursor-pointer"
-      >
-        <div className="bg-white/20 p-2 rounded-full">
-          <FaPercentage className="text-sm" />
-        </div>
-        <span>Get 70% Off</span>
-        <span className="absolute inset-0 rounded-full bg-pink-500 animate-ping opacity-20 pointer-events-none"></span>
-      </button> */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed z-50 bottom-6 
-             /* Mobile: Center position */
-             left-1/2 -translate-x-1/2 
-             /* Desktop: Reset left and move to right */
-             lg:left-auto lg:translate-x-0 lg:right-20 
-             flex items-center gap-2 bg-pink-500 text-white px-6 py-3 rounded-full font-bold shadow-2xl hover:bg-pink-600 transition-all hover:scale-105 active:scale-95 group cursor-pointer whitespace-nowrap"
-      >
-        <div className="bg-white/20 p-2 rounded-full">
-          <FaPercentage className="text-sm" />
-        </div>
-        <span>Get 70% Off</span>
-
-        {/* Pulse effect */}
-        <span className="absolute inset-0 rounded-full bg-pink-500 animate-ping opacity-20 pointer-events-none"></span>
-      </button>
+          {/* Pulse effect */}
+          <span className="absolute inset-0 rounded-full bg-pink-500 animate-ping opacity-20 pointer-events-none"></span>
+        </button>
+      )}
 
       {/* Modal */}
       <Modal
