@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Modal } from 'antd';
 import { FaTimes, FaPercentage } from 'react-icons/fa';
+import { useLocation, useNavigate } from 'react-router-dom';
 import girlImage from '../assets/girlImage.png';
 
 export default function DiscountModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user has seen offer
+    // Check if user is on home page and has not seen offer
     const hasSeenOffer = sessionStorage.getItem('hasSeenOffer');
-    if (!hasSeenOffer) {
+    if (location.pathname === '/' && !hasSeenOffer) {
       // Small delay for better UX
       const timer = setTimeout(() => {
         setIsOpen(true);
@@ -17,7 +20,12 @@ export default function DiscountModal() {
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [location.pathname]);
+
+  const handleClaimNow = () => {
+    setIsOpen(false);
+    navigate('/shop');
+  };
 
   return (
     <>
@@ -115,7 +123,7 @@ export default function DiscountModal() {
             </div>
 
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={handleClaimNow}
               className="mt-6 w-full py-4 bg-white text-pink-600 rounded-full font-black uppercase tracking-widest hover:bg-pink-50 transition-colors shadow-xl"
             >
               Claim Now
