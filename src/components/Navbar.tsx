@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FaShoppingBag, FaBars } from 'react-icons/fa';
 import { useState } from 'react';
-import Logo from '../assets/Logo.png';
+import Logo from '../assets/lor.png';
 import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
@@ -9,14 +9,14 @@ const Navbar = () => {
   const { openCart, cartCount } = useCart();
 
   return (
-    <header className="relative bg-gradient-to-r from-pink-200 to-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100">
+    <header className="relative bg-linear-to-r from-pink-200 to-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100 py-3">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/">
               <img src={Logo} alt="Lorena Logo" width={100} />
-            </Link>``
+            </Link>
           </div>
 
           {/* Desktop Nav */}

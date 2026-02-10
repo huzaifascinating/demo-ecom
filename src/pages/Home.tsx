@@ -112,11 +112,11 @@ const Home = () => {
               </h1>
 
               <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-                Advanced eye-patch technology designed to hydrate, smooth, and refresh the delicate under- and upper-eye areas — helping reduce the look of puffiness, fine lines, and tired eyes with consistent use.
+                Advanced eye-patch technology designed to hydrate, smooth, and refresh the delicate under-eye and upper-eye areas — helping reduce the look of puffiness, fine lines, and tired eyes with consistent use.
               </p>
 
               <div className="pt-4 flex flex-col items-start space-y-4">
-                <Link to="/product/8076385943615" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
+                <Link to="/shop" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
                   Get Yours <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <div className="flex items-center text-gray-500 text-sm font-medium">
