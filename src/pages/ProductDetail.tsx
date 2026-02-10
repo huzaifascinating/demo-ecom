@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { FaStar, FaCheck, FaArrowLeft, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaRegCircle, FaDotCircle, FaChevronDown, FaTimes } from 'react-icons/fa';
+import { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { FaStar, FaCheck, FaMagic, FaClock, FaLeaf, FaFlask, FaShoppingBag, FaRegCircle, FaDotCircle, FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { fetchShopifyProductById, fetchShopifyProducts } from '../utils/shopify';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/price';
-import productImg from '../assets/imageOne.png';
-import productImgTwo from '../assets/imageTwo.png';
 import GifOne from '../assets/gifOne.gif'
 import GifTwo from '../assets/gifTwo.gif'
 import GifThree from '../assets/gifThree.gif'
@@ -13,19 +11,21 @@ import LeftRightImage from '../assets/leftrightimages.jpeg'
 import SecondIdGifOne from '../assets/SecondIdGif.gif'
 import SecondIdGifTwo from '../assets/SecondIdGif2.gif'
 import SecondIdGifThree from '../assets/SecondIdGif3.gif'
+import CompareImg from '../assets/compare.png';
 
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: any }>();
   const [product, setProduct] = useState<any>(null);
-  const [relatedProducts, setRelatedProducts] = useState<any[]>([]); ``
+  const [_relatedProducts, setRelatedProducts] = useState<any[]>([]); ``
   const [loading, setLoading] = useState(true);
   const [_error, setError] = useState<string | null>(null);
   const { addItem } = useCart();
   const [selectedBundle, setSelectedBundle] = useState({ id: 2 }); // Default to Most Popular
   const [openSection, setOpenSection] = useState<string | null>(null);
-  const [mainImage, setMainImage] = useState<string>('');
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const touchStartXRef = useRef<number | null>(null);
 
   useEffect(() => {
     const loadProductData = async () => {
@@ -39,7 +39,7 @@ const ProductDetail = () => {
 
         if (pData) {
           setProduct(pData);
-          setMainImage(pData.image);
+          setActiveImageIndex(0);
           setRelatedProducts(allProducts.filter((p: any) => p.id !== id).slice(0, 4));
           setError(null);
         } else {
@@ -82,6 +82,45 @@ const ProductDetail = () => {
     </div>
   );
 
+  // Image slider setup
+  const imageList: string[] =
+    product.images && product.images.length > 0
+      ? product.images
+      : [product.image];
+
+  const totalSlides = imageList.length || 1;
+
+  const goToNextImage = () => {
+    if (totalSlides <= 1) return;
+    setActiveImageIndex((prev) => (prev + 1) % totalSlides);
+  };
+
+  const goToPrevImage = () => {
+    if (totalSlides <= 1) return;
+    setActiveImageIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  const handleTouchStart = (e: any) => {
+    if (!e.touches || e.touches.length === 0) return;
+    touchStartXRef.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: any) => {
+    if (touchStartXRef.current == null || !e.changedTouches || e.changedTouches.length === 0) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
+    const threshold = 40;
+
+    if (deltaX > threshold) {
+      goToPrevImage();
+    } else if (deltaX < -threshold) {
+      goToNextImage();
+    }
+
+    touchStartXRef.current = null;
+  };
+
+  const currentImage = imageList[((activeImageIndex % totalSlides) + totalSlides) % totalSlides];
+
   // Map bundles to Shopify variants
   // Variant indices: 0 = Buy 1, 1 = Buy 2 Get 1, 2 = Buy 3 Get 2
   const variants = product.variants || [];
@@ -103,10 +142,10 @@ const ProductDetail = () => {
         originalPrice: index === 0 ? basePrice : index === 1 ? basePrice * 3 : basePrice * 5,
       };
     }
-    
+
     const variantPrice = variant.price || 0;
     const compareAtPrice = variant.compareAtPrice;
-    
+
     return {
       ...config,
       variantId: variant.id,
@@ -120,46 +159,66 @@ const ProductDetail = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-[#FCFAF8] text-stone-800 selection:bg-pink-100">
-        {/* Navigation */}
-        <nav className="max-w-7xl mx-auto px-6 py-8">
-          <Link to="/shop" className="group inline-flex items-center text-stone-400 hover:text-pink-500 transition-colors gap-2">
-            <div className="p-2 rounded-full bg-white shadow-sm border border-stone-100 group-hover:shadow-md transition-all">
-              <FaArrowLeft className="h-3 w-3 text-pink-500" />
-            </div>
-            <span className="text-sm tracking-wide font-semibold">Return to Shop</span>
-          </Link>
-        </nav>
-
-        <main className="pb-24">
+      <div className="mt-5 min-h-screen bg-[#FCFAF8] text-stone-800 selection:bg-pink-100">
+        <main className="pb-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
 
               {/* LEFT: Gallery (Sticky) */}
-              <div className="lg:col-span-7 space-y-8 lg:top-8 self-start">
-                <div className="relative h-[300px] lg:h-[500px] w-full rounded-lg bg-white overflow-hidden shadow-sm border border-stone-100">
+              <div className="lg:col-span-7 space-y-6 lg:top-8 self-start">
+                <div
+                  className="relative h-[320px] sm:h-[360px] lg:h-[500px] w-full rounded-3xl bg-white overflow-hidden shadow-sm border border-stone-100"
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
                   <img
-                    src={mainImage}
+                    src={currentImage}
                     alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105"
                   />
+
+                  {/* Top badge */}
                   <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-md px-5 py-2 rounded-full text-[10px] font-black tracking-widest uppercase border border-white/20 shadow-sm flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-pink-500 rounded-full animate-pulse" />
                     Trending Now
                   </div>
+
+                  {/* Left/Right navigation arrows */}
+                  {totalSlides > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={goToPrevImage}
+                        aria-label="Previous image"
+                        className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white rounded-full w-9 h-9 sm:w-10 sm:h-10 shadow-md border border-stone-100 flex items-center justify-center text-stone-700 hover:text-pink-500 cursor-pointer transition-colors"
+                      >
+                        <FaChevronLeft className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={goToNextImage}
+                        aria-label="Next image"
+                        className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 bg-white/85 hover:bg-white rounded-full w-9 h-9 sm:w-10 sm:h-10 shadow-md border border-stone-100 flex items-center justify-center text-stone-700 hover:text-pink-500 cursor-pointer transition-colors"
+                      >
+                        <FaChevronRight className="h-4 w-4" />
+                      </button>
+                    </>
+                  )}
                 </div>
 
-                <div className="grid grid-cols-4 gap-4 px-2 ">
-                  {product.images?.map((img: string, i: number) => (
+                {/* Pagination dots */}
+                <div className="flex justify-center gap-2 mt-1">
+                  {imageList.map((_, i) => (
                     <button
                       key={i}
-                      onClick={() => setMainImage(img)}
-                      className={`aspect-square rounded-2xl overflow-hidden border-2 transition-all duration-300 cursor-pointer ${mainImage === img ? 'border-pink-300 scale-95' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                    >
-                      <img src={img} className="w-full h-full object-cover" />
-                    </button>
+                      type="button"
+                      onClick={() => setActiveImageIndex(i)}
+                      className={`h-2.5 rounded-full transition-all ${i === activeImageIndex ? 'w-6 bg-pink-500' : 'w-2.5 bg-stone-300'}`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
                   ))}
                 </div>
+
               </div>
 
               {/* RIGHT: Content */}
@@ -296,38 +355,33 @@ const ProductDetail = () => {
                     <FaShoppingBag /> Add To Cart
                   </button>
 
-                  <div className="flex flex-wrap justify-center gap-3">
-                    {/* Apple Pay */}
+                  {/* <div className="flex flex-wrap justify-center gap-3">
                     <div className="bg-white border border-gray-200 rounded-md px-2 py-0.5 flex items-center shadow-sm h-8">
                       <span className="text-gray-900 font-bold flex items-center gap-1 text-xs">
                         <span className="text-lg"></span> Pay
                       </span>
                     </div>
-                    {/* Amex */}
                     <div className="bg-[#007BC1] rounded-md px-2 py-0.5 flex flex-col items-center justify-center shadow-sm h-8 w-12">
                       <span className="text-white font-bold text-[8px] leading-none uppercase italic">Am</span>
                       <span className="text-white font-bold text-[8px] leading-none uppercase italic">Ex</span>
                     </div>
-                    {/* Discover */}
                     <div className="bg-white border border-gray-200 rounded-md px-1.5 py-0.5 flex flex-col items-center justify-center shadow-sm h-8 w-14">
                       <span className="text-[#E55C20] font-black text-[7px] uppercase tracking-tighter">Discover</span>
                       <div className="w-full h-px bg-[#E55C20] mt-0.5"></div>
                     </div>
-                    {/* Mastercard */}
                     <div className="bg-white border border-gray-200 rounded-md px-2 py-0.5 flex items-center shadow-sm h-8">
                       <div className="flex -space-x-1.5">
                         <div className="w-4 h-4 rounded-full bg-[#EB001B] opacity-90"></div>
                         <div className="w-4 h-4 rounded-full bg-[#F79E1B] opacity-90"></div>
                       </div>
                     </div>
-                    {/* Visa */}
                     <div className="bg-white border border-gray-200 rounded-md px-2 py-0.5 flex items-center shadow-sm h-8">
                       <span className="text-[#1A1F71] font-black italic text-sm tracking-tighter">VISA</span>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Collapsible Sections */}
-                  <div className="mt-8 space-y-1 pt-6">
+                  <div className="mt-8 space-y-1 pt-4">
                     {[
                       {
                         id: 'how-it-works',
@@ -386,7 +440,7 @@ const ProductDetail = () => {
                       <div key={section.id} className="border-b border-black">
                         <button
                           onClick={() => setOpenSection(openSection === section.id ? null : section.id)}
-                          className="w-full py-4 flex items-center justify-between text-left group cursor-pointer"
+                          className="w-full py-3 flex items-center justify-between text-left group cursor-pointer"
                         >
                           <span className="text-sm font-bold text-stone-900 group-hover:text-pink-500 transition-colors uppercase tracking-widest">{section.title}</span>
                           <div className={`transition-transform duration-300 ${openSection === section.id ? 'rotate-180' : ''}`}>
@@ -408,7 +462,7 @@ const ProductDetail = () => {
           </div>
 
           {/* CATCHY FULL-WIDTH RITUAL SECTION */}
-          <section className="mt-24 relative overflow-hidden">
+          <section className="relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Decorative background orbs */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-pink-100/40 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2" />
@@ -537,22 +591,22 @@ const ProductDetail = () => {
               {/* Statistics Grid - Contained */}
               <div className="px-6 md:px-12">
                 <div className="max-w-5xl mx-auto">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
-                    <div className="text-center space-y-4">
+                  <div className="flex md:grid md:grid-cols-3 gap-8 md:gap-16 overflow-x-auto no-scrollbar pb-2">
+                    <div className="text-center space-y-4 shrink-0 min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">95%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
                         Saw significant improvement in eye appearance within 4 weeks
                       </p>
                     </div>
 
-                    <div className="text-center space-y-4">
+                    <div className="text-center space-y-4 shrink-0 min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">92%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
                         Saw a noticeable reduction in under eye bags in 2 weeks
                       </p>
                     </div>
 
-                    <div className="text-center space-y-4">
+                    <div className="text-center space-y-4 shrink-0 min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">97%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
                         Said it was better than any other eye cream they had tried before
@@ -687,94 +741,11 @@ const ProductDetail = () => {
           <section className="py-14 overflow-hidden mt-5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-
-                {/* Left Side: The "Versus" Card */}
-                <div className="lg:col-span-7 relative">
-                  {/* Decorative Background Blur */}
-                  <div className="absolute -top-10 -left-10 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-70" />
-
-                  <div className="relative bg-white border border-stone-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-2xl overflow-hidden">
-                    <div className="grid grid-cols-2">
-
-                      {/* Brand Column */}
-                      <div className="bg-linear-to-b from-pink-50 to-pink-100 p-8 md:p-12 border-r border-stone-100">
-                        <div className="text-center mb-10">
-                          <h3 className="text-2xl md:text-3xl font-black text-pink-500 tracking-tighter font-serif bg-clip-text bg-linear-to-b from-pink-400 to-purple-400 italic">
-                            <span className='text-5xl font-bold'>L</span>orena
-                          </h3>
-                        </div>
-
-                        <div className="relative group mb-12">
-                          <div className="absolute inset-0 bg-pink-200 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
-                          <img
-                            src={id !== '8076385943615' ? productImgTwo : productImg}
-                            alt="Lorena Product"
-                            className="relative w-full h-48 object-contain transform group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-
-                        <div className="space-y-8">
-                          {(id === "8076385943615"
-                            ? [
-                              "Cooling hydrogel technology",
-                              "Intense collagen hydration",
-                              "Instant relief for puffy eyes"
-                            ]
-                            : [
-                              "Painless microneedle delivery",
-                              "90% deep ingredient absorption",
-                              "Root-cause repair technology"
-                            ]
-                          ).map((text, i) => (
-                            <div key={i} className="flex flex-col items-center text-center gap-2">
-                              <div className="w-8 h-8 rounded-full bg-green-500 shadow-lg shadow-green-200 flex items-center justify-center text-white text-sm">
-                                <FaCheck />
-                              </div>
-                              <p className="text-xs md:text-sm font-bold text-stone-800 leading-tight">{text}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Others Column */}
-                      <div className="bg-stone-50/50 p-8 md:p-12">
-                        <div className="text-center mb-10">
-                          <h4 className="text-2xl md:text-3xl font-black text-black tracking-tighter font-serif italic mt-4">Others</h4>
-                        </div>
-
-                        <div className="mb-12 flex justify-center opacity-40 grayscale">
-                          <div className="w-full h-48 flex items-center justify-center bg-stone-100 rounded-2xl border-2 border-dashed border-stone-300">
-                            <span className="text-6xl text-stone-400">🧴</span>
-                          </div>
-                        </div>
-
-                        <div className="space-y-8">
-                          {[1, 2, 3].map((i) => (
-                            <div key={i} className="flex flex-col items-center text-center gap-2">
-                              <div className="w-8 h-8 rounded-full bg-stone-200 flex items-center justify-center text-stone-400 text-sm">
-                                <FaTimes />
-                              </div>
-                              <div className="h-4 w-16 bg-stone-200 rounded animate-pulse" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
                 {/* Right Side: Copywriting */}
                 <div className="lg:col-span-5 space-y-8">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-50 text-pink-600 font-bold text-sm tracking-wide uppercase">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
-                    </span>
-                    The Smarter Choice
-                  </div>
 
                   <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
-                    Why The <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Lorena</span> {id === "8076385943615" ? "InstaLift" : "Precision"}?
+                    Why Chose <span className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic">Lorena</span> {id === "8076385943615" ? "InstaLift" : "Precision"}?
                   </h2>
 
                   <p className="text-gray-600 text-lg md:text-xl leading-relaxed">
@@ -783,6 +754,19 @@ const ProductDetail = () => {
                       : "Don't waste another penny on cheap, ineffective creams that only hide the problem. Enjoy the deep-rooted repair you deserve."
                     }
                   </p>
+                </div>
+                {/* Left Side: Static comparison image */}
+                <div className="lg:col-span-7 relative">
+                  {/* Decorative Background Blur */}
+                  <div className="absolute -top-10 -left-10 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-70" />
+
+                  <div className="relative bg-white border border-stone-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-2xl overflow-hidden flex items-center justify-center">
+                    <img
+                      src={CompareImg}
+                      alt="Comparison chart"
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -805,7 +789,7 @@ const ProductDetail = () => {
           </section>
 
           {/* RELATED PRODUCTS */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mt-12 pt-12 border-t border-stone-100">
               <div className="text-center mb-16">
                 <h2 className="font-serif text-transparent bg-clip-text bg-linear-to-r from-pink-400 to-purple-400 italic text-3xl md:text-6xl">Complete the Ritual</h2>
@@ -818,7 +802,6 @@ const ProductDetail = () => {
                       <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                      {/* Quick Add Button Overlay */}
                       <div className="absolute bottom-4 right-4 translate-y-10 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
                         <div className="bg-white text-stone-900 p-3 rounded-full shadow-lg hover:bg-pink-500 hover:text-white transition-colors">
                           <FaCheck className="w-4 h-4" />
@@ -844,7 +827,7 @@ const ProductDetail = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </main>
       </div>
 

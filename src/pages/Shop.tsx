@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { FaThLarge, FaList, FaSpinner, FaSearch } from 'react-icons/fa';
+import { FaThLarge, FaList, FaSpinner } from 'react-icons/fa';
 import { fetchShopifyProducts } from '../utils/shopify';
 import { formatPrice } from '../utils/price';
 
@@ -9,7 +9,7 @@ const Shop = () => {
   const [shopifyProducts, setShopifyProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, _setSearchQuery] = useState('');
   const [view, setView] = useState<'grid' | 'list'>('grid');
 
   useEffect(() => {
@@ -35,20 +35,20 @@ const Shop = () => {
   );
 
   return (
-    <div className="bg-white min-h-screen py-12">
+    <div className="bg-white min-h-screen py-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header & Controls */}
         <div className="mb-6 rounded-3xl bg-pink-50 backdrop-blur-sm border border-pink-100 shadow-[0_18px_45px_rgba(0,0,0,0.05)] overflow-hidden">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-6 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-6 gap-3">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-pink-50 px-3 py-1 mb-3">
+              <div className="inline-flex items-center gap-2 rounded-full bg-pink-50 px-3  mb-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-pink-500" />
                 <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-pink-600">
                   Curated best-sellers
                 </span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-serif font-semibold text-gray-900">
+              <h1 className="text-[26px] md:text-4xl font-serif font-semibold text-gray-900">
                 Shop Lorena Favorites
               </h1>
               {/* <p className="mt-2 text-sm md:text-base text-gray-600 max-w-xl">
@@ -58,7 +58,7 @@ const Shop = () => {
 
             <div className="flex flex-col items-stretch md:items-end gap-4 w-full md:w-auto">
               {/* Search Bar */}
-              <div className="relative group w-full md:w-80">
+              {/* <div className="relative group w-full md:w-80">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <FaSearch className="h-4 w-4 text-gray-400 group-focus-within:text-pink-500 transition-colors" />
                 </div>
@@ -69,7 +69,7 @@ const Shop = () => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="block w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all shadow-sm"
                 />
-              </div>
+              </div> */}
 
               {/* View Toggle */}
               <div className="inline-flex items-center space-x-2 bg-gray-100 rounded-full p-1 max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0">

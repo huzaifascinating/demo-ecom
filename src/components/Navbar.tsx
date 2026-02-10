@@ -11,13 +11,27 @@ const Navbar = () => {
   return (
     <header className="relative bg-linear-to-r from-pink-200 to-pink-50 backdrop-blur-sm shadow-sm border-b border-gray-100 py-3">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/">
-              <img src={Logo} alt="Lorena Logo" width={100} />
-            </Link>
-          </div>
+        <div className="relative flex items-center justify-between">
+          {/* Mobile menu button (left) */}
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-gray-700 hover:text-pink-500 p-2 rounded-full hover:bg-white/60 transition-colors"
+            aria-label="Open menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
+          >
+            <FaBars className="h-6 w-6" />
+          </button>
+
+          {/* Logo (centered on mobile, left on desktop) */}
+          <Link
+            to="/"
+            onClick={() => setIsOpen(false)}
+            className="absolute left-1/2 -translate-x-1/2 flex items-center md:static md:left-auto md:translate-x-0"
+          >
+            <img src={Logo} alt="Lorena Logo" width={100} />
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-8">
@@ -26,15 +40,12 @@ const Navbar = () => {
             <Link to="/reviews" className="text-gray-700 hover:text-pink-500 font-medium transition-colors">Reviews</Link>
           </nav>
 
-          {/* Icons */}
-          <div className="hidden md:flex items-center space-x-6">
-            {/* <button className="text-gray-600 hover:text-pink-500 transition-colors">
-              <FaSearch className="h-5 w-5" />
-            </button> */}
+          {/* Right: Cart (mobile + desktop) */}
+          <div className="flex items-center">
             <button
               type="button"
               onClick={() => openCart({ activeTab: 'cart' })}
-              className="relative text-gray-600 hover:text-pink-500 transition-colors cursor-pointer"
+              className="relative text-gray-700 hover:text-pink-500 transition-colors cursor-pointer p-2 rounded-full hover:bg-white/60"
               aria-label="Open cart"
             >
               <FaShoppingBag className="h-5 w-5" />
@@ -43,48 +54,37 @@ const Navbar = () => {
               </span>
             </button>
           </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-700 hover:text-pink-500 p-2">
-              <FaBars className="h-6 w-6" />
-            </button>
-          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 absolute w-full">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div
+          id="mobile-nav"
+          className="md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 absolute w-full shadow-lg"
+        >
+          <div className="px-4 pt-2 pb-4 space-y-1">
             <Link
               to="/"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
+              className="block px-4 py-3 rounded-xl text-base font-semibold text-gray-800 hover:text-pink-600 hover:bg-pink-50 transition-colors"
             >
               Home
             </Link>
             <Link
               to="/shop"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
+              className="block px-4 py-3 rounded-xl text-base font-semibold text-gray-800 hover:text-pink-600 hover:bg-pink-50 transition-colors"
             >
               Shop Now
             </Link>
             <Link
               to="/reviews"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
+              className="block px-4 py-3 rounded-xl text-base font-semibold text-gray-800 hover:text-pink-600 hover:bg-pink-50 transition-colors"
             >
               Reviews
             </Link>
-            <button
-              type="button"
-              onClick={() => openCart({ activeTab: 'cart' })}
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-pink-500 hover:bg-gray-50"
-            >
-              Cart
-            </button>
           </div>
         </div>
       )}
