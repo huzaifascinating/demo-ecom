@@ -7,7 +7,8 @@ import { formatPrice } from '../utils/price';
 import GifOne from '../assets/gifOne.gif'
 import GifTwo from '../assets/gifTwo.gif'
 import GifThree from '../assets/gifThree.gif'
-import LeftRightImage from '../assets/leftrightimages.jpeg'
+import MircoNeedleImage from '../assets/microNeedle.png'
+import CollagenImage from '../assets/Collagen.png'
 import SecondIdGifOne from '../assets/SecondIdGif.gif'
 import SecondIdGifTwo from '../assets/SecondIdGif2.gif'
 import SecondIdGifThree from '../assets/SecondIdGif3.gif'
@@ -519,7 +520,7 @@ const ProductDetail = () => {
           </section>
 
           {/* IMAGE + TEXT SECTION 1 - Before Clinical Results */}
-          <section className="py-16 md:py-10 mt-10">
+          <section className="py-10 md:py-10 mt-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left: Image */}
@@ -578,36 +579,36 @@ const ProductDetail = () => {
           </section>
 
           {/* CLINICAL RESULTS SECTION */}
-          <section className="mt-10 relative overflow-hidden">
-            <div className="bg-pink-50 py-16 md:py-10 relative">
+          <section className="md:mt-10 relative overflow-hidden">
+            <div className="bg-[#fcfaf8] py-5 md:py-2 relative">
               {/* Before/After Image - Full Width */}
               <div className="mb-12 overflow-hidden">
                 <img
-                  src={LeftRightImage}
+                  src={id === "8076385943615" ? CollagenImage : MircoNeedleImage}
                   alt="Before and After Results"
-                  className="w-full h-auto object-cover"
+                  className="w-full md:h-180 md:object-cover md:object-top"
                 />
               </div>
 
               {/* Statistics Grid - Contained */}
-              <div className="px-6 md:px-12">
+              <div className="px-6 md:px-12 md:py-10 py-5 bg-pink-50">
                 <div className="max-w-5xl mx-auto">
-                  <div className="flex md:grid md:grid-cols-3 gap-8 md:gap-16 overflow-x-auto no-scrollbar pb-2">
-                    <div className="text-center space-y-4 shrink-0 min-w-[220px]">
+                  <div className="flex md:grid md:grid-cols-3 gap-8 md:gap-16 md:overflow-x-hidden overflow-x-auto no-scrollbar pb-2">
+                    <div className="text-center space-y-4 shrink-0 w-[300px] min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">95%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
                         Saw significant improvement in eye appearance within 4 weeks
                       </p>
                     </div>
 
-                    <div className="text-center space-y-4 shrink-0 min-w-[220px]">
+                    <div className="text-center space-y-4 shrink-0 w-[300px] min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">92%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
                         Saw a noticeable reduction in under eye bags in 2 weeks
                       </p>
                     </div>
 
-                    <div className="text-center space-y-4 shrink-0 min-w-[220px]">
+                    <div className="text-center space-y-4 shrink-0 w-[300px] min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">97%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
                         Said it was better than any other eye cream they had tried before
@@ -620,7 +621,7 @@ const ProductDetail = () => {
           </section>
 
           {/* IMAGE + TEXT SECTION 2 - After Clinical Results */}
-          <section className="py-16 md:py-20">
+          <section className="py-6 md:py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left: Content */}
@@ -680,7 +681,7 @@ const ProductDetail = () => {
           </section>
 
           {/* IMAGE + TEXT SECTION 3 - After Clinical Results */}
-          <section className="py-16 md:py-20 bg-pink-50">
+          <section className="py-10 md:py-20 bg-pink-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {/* Left: Image */}
@@ -739,7 +740,7 @@ const ProductDetail = () => {
           </section>
 
           {/* WHY CHOOSE NOVALIFT SECTION */}
-          <section className="py-14 overflow-hidden mt-5">
+          <section className="py-10 overflow-hidden mt-5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                 {/* Right Side: Copywriting */}
@@ -830,17 +831,15 @@ const ProductDetail = () => {
                         {faq.q}
                       </span>
                       <span
-                        className={`transition-transform duration-300 text-stone-400 group-hover:text-pink-500 ${
-                          openFaqId === faq.id ? 'rotate-180 text-pink-500' : ''
-                        }`}
+                        className={`transition-transform duration-300 text-stone-400 group-hover:text-pink-500 ${openFaqId === faq.id ? 'rotate-180 text-pink-500' : ''
+                          }`}
                       >
                         <FaChevronDown className="text-xs" />
                       </span>
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                        openFaqId === faq.id ? 'max-h-[260px] opacity-100 pb-3' : 'max-h-0 opacity-0'
-                      }`}
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaqId === faq.id ? 'max-h-[260px] opacity-100 pb-3' : 'max-h-0 opacity-0'
+                        }`}
                     >
                       <p className="text-sm md:text-base text-stone-600 leading-relaxed pb-3">
                         {faq.a}
