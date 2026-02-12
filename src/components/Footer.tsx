@@ -21,17 +21,37 @@ const Footer = () => {
               The #1 Natural Solution for Wrinkles & Fine Lines. Clinically proven results at home.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-pink-500"><FaInstagram className="h-5 w-5" /></a>
-              <a href="#" className="text-gray-400 hover:text-pink-500"><FaFacebook className="h-5 w-5" /></a>
-              <a href="#" className="text-gray-400 hover:text-pink-500"><FaTiktok className="h-5 w-5" /></a>
+              <a href="https://instagram.com/lorena.care1" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-500 transition-colors"><FaInstagram className="h-5 w-5" /></a>
+              <a href="https://facebook.com/lorena.care1" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-500 transition-colors"><FaFacebook className="h-5 w-5" /></a>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-pink-500 transition-colors"><FaTiktok className="h-5 w-5" /></a>
             </div>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Shop</h4>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Explore our premium collection of natural skincare solutions designed to rejuvenate and hydrate your delicate skin.
+            <h4 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Links</h4>
+            <p className="text-gray-500 text-sm mb-4 leading-relaxed">
+              Connect with us on our social platforms.
             </p>
+            <ul className="space-y-3 text-gray-500 text-sm">
+              <li>
+                <a href="/" className="hover:text-pink-500 transition-colors flex items-center gap-2 group">
+                  <img src={Logo} alt="" className="h-4 w-4 object-contain grayscale group-hover:grayscale-0 transition-all" />
+                  Lorena
+                </a>
+              </li>
+              <li>
+                <a href="https://facebook.com/lorena.care1" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors flex items-center gap-2">
+                  <FaFacebook className="h-4 w-4" />
+                  Facebook
+                </a>
+              </li>
+              <li>
+                <a href="https://instagram.com/lorena.care1" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors flex items-center gap-2">
+                  <FaInstagram className="h-4 w-4" />
+                  Instagram
+                </a>
+              </li>
+            </ul>
           </div>
 
           <div>

@@ -14,10 +14,19 @@
   --color-pink-950: #500724;
 
   --animate-gradient-move: gradient-move 8s ease infinite;
+
   @keyframes gradient-move {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
   }
 }
 
@@ -84,4 +93,20 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #e04f98, #7e22ce);
+}
+
+.discount-modal-root .ant-modal-content,
+.discount-modal-root .ant-modal-container {
+  padding: 0 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.discount-modal-root .ant-modal-body {
+  padding: 0 !important;
+}
+
+.discount-modal-root .ant-modal-header,
+.discount-modal-root .ant-modal-footer {
+  display: none !important;
 }

@@ -55,12 +55,17 @@ export default function DiscountModal() {
         open={isOpen}
         onCancel={() => setIsOpen(false)}
         closeIcon={false}
-        footer={false}
+        footer={null}
         centered
         width={390}
-        styles={{ body: { padding: 0 } }}
+        rootClassName="discount-modal-root"
+        styles={{
+          mask: { backdropFilter: 'blur(4px)' },
+          content: { padding: 0, backgroundColor: 'transparent', boxShadow: 'none' },
+          body: { padding: 0 }
+        } as any}
       >
-        <div className="relative w-full max-w-[390px] h-[500px] rounded-2xl bg-white shadow-2xl overflow-hidden group">
+        <div className="relative w-full h-[500px] rounded-2xl bg-white shadow-2xl overflow-hidden group">
           {/* Full Background Image */}
           <div className="absolute inset-0">
             <img
@@ -84,7 +89,7 @@ export default function DiscountModal() {
           </button>
 
           {/* Content Area */}
-          <div className="absolute bottom-0 inset-x-0 p-8 flex flex-col justify-end h-full z-10 text-white">
+          <div className="absolute bottom-0 inset-x-0 py-6 px-7 flex flex-col justify-end h-full z-10 text-white">
             {/* Top Badge */}
             <div className="self-start mb-auto ">
               <span className="inline-block px-3 py-1 rounded-full bg-pink-500/80 backdrop-blur-md text-[10px] font-semibold shadow-lg border border-pink-400/50">
@@ -115,7 +120,7 @@ export default function DiscountModal() {
 
             <button
               onClick={handleClaimNow}
-              className="mt-6 w-full py-4 bg-white text-pink-600 rounded-full font-black uppercase tracking-widest hover:bg-pink-50 transition-colors shadow-xl"
+              className="mt-4 w-full py-2 bg-white text-pink-500 rounded-full font-bold uppercase tracking-wide hover:bg-pink-50 transition-colors shadow-xl"
             >
               Claim Now
             </button>
