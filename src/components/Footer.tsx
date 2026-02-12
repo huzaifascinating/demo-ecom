@@ -29,9 +29,6 @@ const Footer = () => {
 
           <div>
             <h4 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Links</h4>
-            <p className="text-gray-500 text-sm mb-4 leading-relaxed">
-              Connect with us on our social platforms.
-            </p>
             <ul className="space-y-3 text-gray-500 text-sm">
               <li>
                 <a href="/" className="hover:text-pink-500 transition-colors flex items-center gap-2 group">
@@ -49,6 +46,12 @@ const Footer = () => {
                 <a href="https://instagram.com/lorena.care1" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors flex items-center gap-2">
                   <FaInstagram className="h-4 w-4" />
                   Instagram
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tiktok.com/@lorenacare.us1?_r=1&_t=ZT-93r8DbKZupB" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500 transition-colors flex items-center gap-2">
+                  <FaTiktok className="h-4 w-4" />
+                  Tiktok
                 </a>
               </li>
             </ul>

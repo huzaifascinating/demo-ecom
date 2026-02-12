@@ -27,6 +27,7 @@ const ProductDetail = () => {
   const [openFaqId, setOpenFaqId] = useState<string | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [visibleReviews, setVisibleReviews] = useState(5);
   const touchStartXRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -164,7 +165,7 @@ const ProductDetail = () => {
       <div className="mt-5 min-h-screen bg-[#FCFAF8] text-stone-800 selection:bg-pink-100">
         <main className="pb-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-20">
 
               {/* LEFT: Gallery (Sticky) */}
               <div className="lg:col-span-7 space-y-6 lg:top-8 self-start">
@@ -224,7 +225,7 @@ const ProductDetail = () => {
               </div>
 
               {/* RIGHT: Content */}
-              <div className="lg:col-span-5 flex flex-col pt-4">
+              <div className="lg:col-span-5 flex flex-col md:pt-4">
                 {/* Tag */}
                 <div className="mb-4">
                   <span className="inline-block px-3 py-1 rounded-full border border-pink-200 text-pink-500 text-[10px] font-bold tracking-widest uppercase bg-pink-50">
@@ -252,7 +253,7 @@ const ProductDetail = () => {
 
                 {/* Description & Features */}
                 <div className="mb-8 mt-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-2 text-sm font-bold text-stone-800">
+                  <div className="grid grid-cols-1 grid-cols-2 gap-y-4 gap-x-2 text-sm font-bold text-stone-800">
                     {id === "8076385943615" ? (
                       <>
                         <div className="flex items-center gap-3">
@@ -534,7 +535,7 @@ const ProductDetail = () => {
                     />
                   ) : (
                     <img
-                      src={GifOne}
+                      src={GifTwo}
                       alt="Microneedle Patch Application"
                       className="relative w-full h-auto rounded-lg shadow-xl"
                     />
@@ -670,7 +671,7 @@ const ProductDetail = () => {
                     />
                   ) : (
                     <img
-                      src={GifTwo}
+                      src={GifThree}
                       alt="Microneedle Result"
                       className="relative w-full h-auto rounded-lg shadow-xl"
                     />
@@ -688,14 +689,18 @@ const ProductDetail = () => {
                 <div className="relative group">
                   <div className="absolute -inset-4 bg-pink-100 rounded-lg blur-2xl opacity-30 group-hover:opacity-50 transition-opacity" />
                   {id === '8076385943615' ? (
-                    <img
+                    <video
                       src={SecondIdGifThree}
-                      alt="PDRN Care Routine"
+                      // alt="PDRN Care Routine"
                       className="relative w-full h-auto rounded-lg shadow-xl"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
                     />
                   ) : (
                     <img
-                      src={GifThree}
+                      src={GifOne}
                       alt="Microneedle Care Routine"
                       className="relative w-full h-auto rounded-lg shadow-xl"
                     />
@@ -768,6 +773,101 @@ const ProductDetail = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* REVIEWS SECTION */}
+          <section className="py-10 bg-stone-50 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+              {/* Reviews Header */}
+              <div className="text-center mb-8 max-w-3xl mx-auto">
+                <span className="text-pink-500 font-bold tracking-widest uppercase text-xs mb-3 block">Community Love</span>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-stone-900 mb-3">
+                  Real Results from <span className="italic text-pink-500">Real People</span>
+                </h2>
+                <div className="flex justify-center items-center gap-1 mb-2">
+                  <div className="flex text-yellow-500 text-1xl gap-1">
+                    {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-1xl font-bold text-stone-900">4.9</span>
+                    <span className="text-stone-500 font-medium">/ 5</span>
+                  </div>
+                </div>
+                <p className="text-stone-500 font-medium">Based on {id === "8076385943615" ? "1,240+" : "850+"} verified reviews</p>
+              </div>
+
+              {/* Reviews Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {(() => {
+                  const reviews = id === "8076385943615" ? [
+                    { name: "Sarah J.", title: "Game Changer!", content: "I've tried so many eye creams, but these patches are on another level. My under-eyes look so much smoother and brighter after just one use!", date: "2 days ago" },
+                    { name: "Jessica M.", title: "Morning Essential", content: "Love how cooling these feel. They are absolutely perfect for my morning routine to wake up my tired eyes.", date: "1 week ago" },
+                    { name: "Amanda K.", title: "Makeup Ready", content: "My concealer goes on so much smoother now. Whatever texture I had before is completely gone. Highly recommend!", date: "3 days ago" },
+                    { name: "Rachel D.", title: "Hydration Bomb", content: "My under-eyes have never felt this soft. The serum is plentiful and soaks right in without being sticky.", date: "2 weeks ago" },
+                    { name: "Nicole B.", title: "Event Saver", content: "I use these before big events or date nights. They instantly wake up my face and give me that glow.", date: "5 days ago" },
+                    { name: "Kimberly L.", title: "Obsessed", content: "Obsessed with the glow. I was skeptical at first, but the results speak for themselves. Will definitely repurchase.", date: "1 week ago" },
+                    { name: "Ashley T.", title: "Better than Luxury", content: "Honestly better than luxury eye creams I've spent hundreds on. Simple, effective, and affordable.", date: "4 days ago" },
+                    { name: "Megan P.", title: "Soothing", content: "So soothing and effective. I put them in the fridge for an extra cooling effect and it's pure heaven.", date: "3 weeks ago" },
+                    { name: "Stephanie W.", title: "Dark Circles Gone", content: "Finally something that actually helps with my dark circles. I've noticed a significant difference.", date: "1 month ago" },
+                    { name: "Olivia H.", title: "Instant Results", content: "10/10 would recommend. Instant results that you can actually see in the mirror immediately after taking them off.", date: "2 days ago" }
+                  ] : [
+                    { name: "Emily R.", title: "Actually Works", content: "Prickly but painless! You can feel it working. Definitely targets the deep lines better than any topical cream.", date: "1 week ago" },
+                    { name: "Laura S.", title: "Crows Feet Fading", content: "I can feel it working. My crows feet are noticeably fading after just a few treatments. Impressive tech.", date: "2 weeks ago" },
+                    { name: "Danielle C.", title: "Innovative", content: "Innovative technology that delivers real results. It feels like a professional treatment at home.", date: "3 days ago" },
+                    { name: "Michelle G.", title: "Refreshed Look", content: "Great for overnight repair. I wake up looking refreshed and my under-eyes look plump and hydrated.", date: "5 days ago" },
+                    { name: "Hannah B.", title: "Worth It", content: "A bit pricey but worth every penny for the results. You get what you pay for, and this is quality.", date: "1 month ago" },
+                    { name: "Samantha V.", title: "Deep Delivery", content: "Direct delivery of ingredients makes a huge difference. My skin feels firmer and tighter.", date: "4 days ago" },
+                    { name: "Brittany N.", title: "Smooth Lines", content: "Smoothed out my fine lines in just a few weeks. Consistency is key, but the payoff is huge.", date: "2 weeks ago" },
+                    { name: "Kayla F.", title: "Serious Care", content: "Serious skincare. Not just a gimmick. If you want real anti-aging results, this is it.", date: "3 weeks ago" }
+                  ];
+
+                  return (
+                    <>
+                      {reviews.slice(0, visibleReviews).map((review, i) => (
+                        <div key={i} className="bg-white p-8 rounded-2xl border border-stone-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex text-pink-500 text-sm gap-0.5">
+                              {[...Array(5)].map((_, starI) => <FaStar key={starI} />)}
+                            </div>
+                            <span className="text-xs text-stone-400 font-medium">{review.date}</span>
+                          </div>
+                          <h3 className="font-bold text-stone-900 mb-2 font-serif text-lg">{review.title}</h3>
+                          <p className="text-stone-600 text-sm leading-relaxed mb-6 italic flex-grow">"{review.content}"</p>
+                          <div className="flex items-center gap-3 pt-4 border-t border-stone-50">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-100 to-pink-200 flex items-center justify-center text-pink-700 font-bold text-xs shadow-inner">
+                              {review.name.charAt(0)}
+                            </div>
+                            <div>
+                              <p className="font-bold text-stone-900 text-xs">{review.name}</p>
+                              <div className="flex items-center gap-1">
+                                <div className="bg-green-100 rounded-full p-0.5"><FaCheck className="w-1.5 h-1.5 text-green-600" /></div>
+                                <p className="text-[10px] text-stone-500 font-semibold tracking-wide uppercase">Verified Buyer</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+
+                      {/* Button inside the IIFE scope to access reviews length if needed, or outside */}
+                    </>
+                  );
+                })()}
+              </div>
+
+              <div className="mt-16 text-center">
+                <button
+                  onClick={() => setVisibleReviews(prev => prev === 5 ? 20 : 5)}
+                  className="group px-8 py-3 bg-white border-2 border-stone-900 text-stone-900 font-bold rounded-full hover:bg-stone-900 hover:text-white transition-all uppercase tracking-wide text-xs shadow-lg hover:shadow-xl transform active:scale-95 cursor-pointer"
+                >
+                  {visibleReviews === 5 ? "Load More Reviews" : "Show Less"}
+                  <span className={`inline-block transition-transform ml-1 ${visibleReviews === 5 ? 'group-hover:translate-y-1' : 'rotate-180 group-hover:-translate-y-1'}`}>
+                    {visibleReviews === 5 ? '↓' : '↑'}
+                  </span>
+                </button>
+              </div>
+
             </div>
           </section>
 

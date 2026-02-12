@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Modal } from 'antd';
-import { FaTimes, FaPercentage } from 'react-icons/fa';
+import { FaTimes, FaPercentage, FaCheck } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
-import girlImage from '../assets/girlImage.png';
 
 export default function DiscountModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,66 +63,58 @@ export default function DiscountModal() {
           content: { padding: 0, backgroundColor: 'transparent', boxShadow: 'none' },
           body: { padding: 0 }
         } as any}
-      >
-        <div className="relative w-full h-[500px] rounded-2xl bg-white shadow-2xl overflow-hidden group">
-          {/* Full Background Image */}
-          <div className="absolute inset-0">
-            <img
-              src={girlImage}
-              alt="Beauty Routine"
-              className="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110"
-            />
-          </div>
 
-          {/* Gradients */}
-          <div className="absolute inset-0 bg-linear-to-br from-transparent via-pink-500/20 to-pink-900/90 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-linear-to-t from-pink-950/90 via-pink-900/40 to-transparent" />
+      >
+        <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl bg-gradient-to-b from-pink-200 via-pink-100 to-pink-300">
 
           {/* Close Button */}
           <button
             type="button"
             onClick={() => setIsOpen(false)}
-            className="absolute right-5 top-5 z-20 p-2.5 rounded-full bg-white/20 text-white hover:bg-white hover:text-pink-600 backdrop-blur-md transition-all border border-white/20 cursor-pointer"
+            className="absolute right-4 top-4 z-20 text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
           >
-            <FaTimes className="h-4 w-4" />
+            <FaTimes className="h-5 w-5" />
           </button>
 
-          {/* Content Area */}
-          <div className="absolute bottom-0 inset-x-0 py-6 px-7 flex flex-col justify-end h-full z-10 text-white">
-            {/* Top Badge */}
-            <div className="self-start mb-auto ">
-              <span className="inline-block px-3 py-1 rounded-full bg-pink-500/80 backdrop-blur-md text-[10px] font-semibold shadow-lg border border-pink-400/50">
-                Secret Sale Unlocked
-              </span>
+          <div className="flex flex-col items-center pt-12 pb-10 px-6 text-center">
+
+            {/* Brand Header */}
+            <div className="mb-10">
+              <h1 className="font-serif text-3xl font-medium tracking-wide text-[#3E2723]">LORENA</h1>
+              <p className="text-[10px] tracking-[0.3em] uppercase text-[#5D4037] mt-1 font-semibold">Skincare</p>
             </div>
 
-            {/* Big Offer Text */}
-            <div className="mb-3 space-y-0.5">
-              <p className="text-pink-200 text-xs tracking-wide">Congratulations! You've earned</p>
-              <h2 className="text-6xl md:text-7xl font-black tracking-tighter leading-[0.9] drop-shadow-lg">
-                70% <span className="text-pink-300 font-serif italic font-light">OFF</span>
+            {/* Benefit Bullets */}
+            <div className="w-full px-6 mb-8 space-y-3">
+              {['De-puff & smooth', 'Brighten & refresh', 'Hydrate & firm'].map((text, i) => (
+                <div key={i} className="bg-white/40 backdrop-blur-md border border-white/60 rounded-xl p-3 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 group/item">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-[#8D6E63] to-[#4E342E] shadow-md shrink-0 group-hover/item:scale-110 transition-transform">
+                    <FaCheck className="text-pink-50 text-sm" />
+                  </div>
+                  <span className="text-lg font-bold text-[#3E2723] tracking-wide group-hover/item:text-pink-900 transition-colors">{text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Offer Text */}
+            <div className="mb-8">
+              <p className="text-xl text-gray-800 mb-1 font-medium">You've got</p>
+              <h2 className="text-6xl font-black text-black leading-none tracking-tight">
+                70% OFF
               </h2>
             </div>
 
-            {/* Feature Cards */}
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
-                <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Instant Lift</p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
-                <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Deep Hydration</p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-1 text-center hover:bg-white/20 transition-colors cursor-default">
-                <p className="text-[10px] font-semibold italic uppercase tracking-wide leading-tight">Fast Results</p>
-              </div>
-            </div>
-
+            {/* Claim Button - Ribbon Style Attempt */}
             <button
               onClick={handleClaimNow}
-              className="mt-4 w-full py-2 bg-white text-pink-500 rounded-full font-bold uppercase tracking-wide hover:bg-pink-50 transition-colors shadow-xl"
+              className="relative bg-[#FF69B4] text-white text-xl font-bold py-3 px-12 shadow-lg hover:shadow-xl hover:bg-[#ff5cae] transition-all transform hover:-translate-y-0.5"
+              style={{
+                clipPath: 'polygon(0% 0%, 100% 0%, 95% 50%, 100% 100%, 0% 100%, 5% 50%)'
+              }}
             >
-              Claim Now
+              Claim now
             </button>
+
           </div>
         </div>
       </Modal>
