@@ -4,6 +4,7 @@ import Footer from './Footer';
 import ValentineTimer from './ValentineTimer';
 import CartDrawer from './CartDrawer';
 import DiscountModal from './DiscountModal';
+import BuyOneGetOneFree from './BuyOneGetOneFree';
 
 const Layout = () => {
   return (
@@ -12,6 +13,7 @@ const Layout = () => {
         <ValentineTimer />
         <Navbar />
       </div>
+      <BuyOneGetOneFree />
       <main className="grow">
         <Outlet />
       </main>

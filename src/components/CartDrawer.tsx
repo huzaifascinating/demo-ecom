@@ -13,6 +13,7 @@ export default function CartDrawer() {
     cartCount,
     removeItem,
     setQuantity,
+    clearCart,
     checkoutUrl,
     loading
   } = useCart();
@@ -108,7 +109,7 @@ export default function CartDrawer() {
 
                     <div className="flex-1 flex flex-col justify-between py-1">
                       <div>
-                        <h3 
+                        <h3
                           className="text-[15px] tracking-normal font-medium text-gray-900 line-clamp-2 leading-tight cursor-default"
                           title={item.displayTitle || item.title}
                         >
@@ -168,6 +169,11 @@ export default function CartDrawer() {
                 href={checkoutUrl || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => {
+                  setTimeout(() => {
+                    clearCart();
+                  }, 1000);
+                }}
                 className={`w-full text-white py-2 rounded-full font-semibold flex items-center justify-center gap-3 cursor-pointer 
                 bg-linear-to-r from-pink-500 to-purple-600 
                 hover:from-pink-600 hover:to-purple-700 

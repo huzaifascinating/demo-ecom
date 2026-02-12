@@ -57,9 +57,9 @@ const Home = () => {
     <div className="space-y-0">
 
       {/* SECTION 1: Main Product Highlight */}
-      <section className="bg-white py-16 lg:py-24 border-b border-gray-100">
+      <section className="bg-white lg:py-24 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-10 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 md:gap-12 items-center">
             <div className="lg:col-span-6 relative group max-w-sm sm:max-w-md lg:max-w-lg mx-auto lg:mx-0 lg:mr-auto h-[400px] sm:h-[450px] flex items-center justify-center">
               {/* Decorative background blurs */}
               <div className="absolute -top-10 -left-10 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-60 animate-pulse"></div>
