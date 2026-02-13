@@ -13,7 +13,7 @@ import SecondIdGifOne from '../assets/SecondIdGif.gif'
 import SecondIdGifTwo from '../assets/SecondIdGif2.gif'
 import SecondIdGifThree from '../assets/SecondIdGif3.gif'
 import CompareImg from '../assets/compare.png';
-import CompareMicroNeedle from '../assets/compareMicroNeedle.png';
+import CompareMicroNeedle from '../assets/CompareMicroNeedle.png';
 
 
 const ProductDetail = () => {
