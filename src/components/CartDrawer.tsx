@@ -13,7 +13,6 @@ export default function CartDrawer() {
     cartCount,
     removeItem,
     setQuantity,
-    clearCart,
     checkoutUrl,
     loading
   } = useCart();
@@ -186,11 +185,6 @@ export default function CartDrawer() {
                 href={checkoutUrl || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => {
-                  setTimeout(() => {
-                    clearCart();
-                  }, 1000);
-                }}
                 className={`w-full text-white py-2 rounded-full font-semibold flex items-center justify-center gap-3 cursor-pointer 
                 bg-linear-to-r from-pink-500 to-purple-600 
                 hover:from-pink-600 hover:to-purple-700 
