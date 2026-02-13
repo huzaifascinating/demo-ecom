@@ -23,8 +23,6 @@ function App() {
           <Route path="shop" element={<Shop />} />
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="reviews" element={<Reviews />} />
-          {/* Placeholder for Cart if needed */}
-          <Route path="cart" element={<div className="p-20 text-center text-2xl font-bold">Cart Coming Soon</div>} />
           <Route path="*" element={<div className="p-20 text-center text-2xl font-bold">404 - Page Not Found</div>} />
         </Route>
       </Routes>
