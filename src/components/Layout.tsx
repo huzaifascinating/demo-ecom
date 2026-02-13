@@ -6,6 +6,7 @@ import ValentineTimer from './ValentineTimer';
 import CartDrawer from './CartDrawer';
 import DiscountModal from './DiscountModal';
 import BuyOneGetOneFree from './BuyOneGetOneFree';
+import WhatsAppButton from './WhatsAppButton';
 
 const Layout = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,6 +42,7 @@ const Layout = () => {
       <Footer />
       <CartDrawer />
       <DiscountModal />
+      <WhatsAppButton />
     </div>
   );
 };

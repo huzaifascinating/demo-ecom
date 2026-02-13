@@ -13,6 +13,7 @@ import SecondIdGifOne from '../assets/SecondIdGif.gif'
 import SecondIdGifTwo from '../assets/SecondIdGif2.gif'
 import SecondIdGifThree from '../assets/SecondIdGif3.gif'
 import CompareImg from '../assets/compare.png';
+import CompareMicroNeedle from '../assets/compareMicroNeedle.png';
 
 
 const ProductDetail = () => {
@@ -598,21 +599,27 @@ const ProductDetail = () => {
                     <div className="text-center space-y-4 shrink-0 w-[300px] min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">95%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
-                        Saw significant improvement in eye appearance within 4 weeks
+                        {id === "8076385943615" ? "Noticed visibly smoother and firmer under-eyes after just 2 weeks of using the Instant Lift PDRN Collagen Eye Patches." :
+                          `Saw significant improvement in eye appearance within 4 weeks`
+                        }
                       </p>
                     </div>
 
                     <div className="text-center space-y-4 shrink-0 w-[300px] min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">92%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
-                        Saw a noticeable reduction in under eye bags in 2 weeks
+                        {id === "8076385943615" ? "Saw a brighter, more lifted eye appearance within 4 weeks of consistent use." :
+                          `Saw a noticeable reduction in under eye bags in 2 weeks`
+                        }
                       </p>
                     </div>
 
                     <div className="text-center space-y-4 shrink-0 w-[300px] min-w-[220px]">
                       <h3 className="text-6xl md:text-7xl font-serif font-light italic text-pink-500 mb-2">97%</h3>
                       <p className="text-sm md:text-base font-semibold text-gray-900 leading-relaxed px-2">
-                        Said it was better than any other eye cream they had tried before
+                        {id === "8076385943615" ? "Said these PDRN collagen patches worked better and faster than any other eye serums or eye masks they had tried before." :
+                          `Said it was better than any other eye cream they had tried before`
+                        }
                       </p>
                     </div>
                   </div>
@@ -765,11 +772,19 @@ const ProductDetail = () => {
                   {/* Decorative Background Blur */}
                   <div className="absolute -top-10 -left-10 w-64 h-64 bg-pink-100 rounded-full blur-3xl opacity-70" />
                   <div className="relative bg-white border border-stone-100 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-2xl overflow-hidden flex items-center justify-center">
-                    <img
-                      src={CompareImg}
-                      alt="Comparison chart"
-                      className="w-full h-auto object-contain"
-                    />
+                    {id === "8076385943615" ? (
+                      <img
+                        src={CompareImg}
+                        alt="Comparison chart"
+                        className="w-full h-auto object-contain"
+                      />
+                    ) : (
+                      <img
+                        src={CompareMicroNeedle}
+                        alt="Micro Needle Comparison"
+                        className="w-full h-auto object-contain"
+                      />
+                    )}
                   </div>
                 </div>
               </div>
