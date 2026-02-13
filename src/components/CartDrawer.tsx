@@ -42,6 +42,13 @@ export default function CartDrawer() {
     return items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   }, [items]);
 
+  const totalSavings = useMemo(() => {
+    return items.reduce((sum, item) => {
+      const savings = (item.originalPrice || item.price) - item.price;
+      return sum + (savings * item.quantity);
+    }, 0);
+  }, [items]);
+
   return (
     <>
       <div
@@ -85,7 +92,7 @@ export default function CartDrawer() {
               </button>
             </div>
           ) : (
-            <div className="px-8 py-6">
+            <div>
               {loading && (
                 <div className="absolute inset-0 bg-white/50 z-10 flex items-center justify-center backdrop-blur-[1px]">
                   <div className="w-8 h-8 border-2 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
@@ -93,14 +100,24 @@ export default function CartDrawer() {
               )}
 
               {/* Shipping Bar */}
-              <div className="mb-6">
+              <div>
                 <div className="h-[4px] w-full bg-gray-100 rounded-full">
                   <div className="h-full bg-linear-to-r from-pink-500 to-purple-500 rounded-full" style={{ width: '100%' }} />
                 </div>
               </div>
 
+              {/* Savings Banner */}
+              {totalSavings > 0 && (
+                <div className="mb-6 bg-linear-to-r from-pink-200 via-pink-50 to-purple-50 py-3 flex items-center justify-center gap-2">
+                  <span className="text-lg">🎉</span>
+                  <p className="text-xs sm:text-sm font-medium text-gray-800">
+                    <span className="font-bold">Congrats!</span> You're saving <span className="font-bold text-pink-600">${formatPrice(totalSavings)}</span> on your order
+                  </p>
+                </div>
+              )}
+
               {/* Cart Items */}
-              <div className="space-y-7">
+              <div className="space-y-7 px-6">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4">
                     <div className="w-24 h-28 bg-gray-100 rounded-lg overflow-hidden shrink-0">

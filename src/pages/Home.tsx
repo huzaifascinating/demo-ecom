@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { FaCheckCircle, FaStar, FaQuestionCircle, FaTimes, FaMagic, FaArrowRight } from 'react-icons/fa';
+import { FaCheckCircle, FaStar, FaQuestionCircle, FaTimes, FaMagic, FaArrowRight, FaArrowDown } from 'react-icons/fa';
 import { Collapse } from 'antd';
 import productImage from '../assets/imageOne.png';
 import productImageTwo from '../assets/imageTwo.png';
@@ -10,10 +10,24 @@ import productImageTwo from '../assets/imageTwo.png';
 // import b2 from '../assets/b2.png';
 // import b3 from '../assets/b3.png';
 import AnnouncementBar from '../components/AnnouncementBar';
+import { fetchShopifyProducts } from '../utils/shopify';
 
 const Home = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [_timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const data = await fetchShopifyProducts();
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products for home page:', error);
+      }
+    };
+    getProducts();
+  }, []);
 
   useEffect(() => {
     const targetDate = new Date('2026-02-14T23:59:59').getTime();
@@ -70,8 +84,8 @@ const Home = () => {
                 <div className="absolute transform -translate-x-12 -translate-y-6 -rotate-12 group-hover:rotate-[-15deg] group-hover:-translate-x-16 transition-all duration-700">
                   <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-xl">
                     <img
-                      src={productImageTwo}
-                      alt="Precision Microneedle Patches"
+                      src={products[1]?.image || productImageTwo}
+                      alt={products[1]?.name || "Precision Microneedle Patches"}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>
@@ -81,8 +95,8 @@ const Home = () => {
                 <div className="relative z-10 transform translate-x-10 translate-y-6 rotate-6 group-hover:rotate-[8deg] group-hover:translate-x-12 transition-all duration-700">
                   <div className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-2xl">
                     <img
-                      src={productImage}
-                      alt="InstaLift PDRN Collagen Eye Patches"
+                      src={products[0]?.image || productImage}
+                      alt={products[0]?.name || "InstaLift PDRN Collagen Eye Patches"}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
 
@@ -115,7 +129,7 @@ const Home = () => {
                 Advanced eye-patch technology designed to hydrate, smooth, and refresh the delicate under-eye and upper-eye areas — helping reduce the look of puffiness, fine lines, and tired eyes with consistent use.
               </p>
 
-              <div className="pt-2 flex flex-col items-start space-y-3">
+              <div className="pt-2 pb-4 flex flex-col items-start space-y-3 w-full">
                 <Link to="/shop" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
                   Get Yours <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -366,7 +380,7 @@ const Home = () => {
       </section> */}
 
       {/* SECTION 4: Problem vs Solution + Before/After (Lift PDRN Collagen Eye Patches Version) */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-10 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-serif font-semibold text-gray-900 leading-tight">
@@ -379,7 +393,7 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 items-center">
+          <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 lg:gap-8 items-center">
 
             {/* Your Problem - The "Old Way" */}
             <div className="group relative overflow-hidden bg-white rounded-4xl p-8 lg:p-12 transition-all duration-500 hover:translate-y-[-4px] border border-gray-200 shadow-sm hover:shadow-md">
@@ -406,15 +420,16 @@ const Home = () => {
             </div>
 
             {/* 3D Arrow Divider */}
-            <div className="flex lg:flex-col items-center justify-center gap-4 z-20">
-              <div className="h-px w-12 lg:w-px lg:h-12 bg-pink-200/50" />
+            <div className="flex flex-col lg:flex-row items-center justify-center -space-y-2 lg:space-y-0 lg:gap-4 z-20">
+              <div className="w-px h-8 lg:w-12 lg:h-px bg-pink-200/50" />
               <div className="relative group">
                 <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center border border-pink-100 transition-transform duration-500 group-hover:rotate-90 z-10 relative">
-                  <FaArrowRight className="text-xl text-pink-500" />
+                  <FaArrowRight className="hidden lg:block text-xl text-pink-500" />
+                  <FaArrowDown className="block lg:hidden text-xl text-pink-500" />
                 </div>
                 <div className="absolute inset-0 -z-10 blur-xl bg-pink-200/60 rounded-full animate-pulse" />
               </div>
-              <div className="h-px w-12 lg:w-px lg:h-12 bg-pink-200/50" />
+              <div className="w-px h-8 lg:w-12 lg:h-px bg-pink-200/50" />
             </div>
 
             {/* Our Solution - The "Glow Up" */}
@@ -508,7 +523,7 @@ const Home = () => {
       </section> */}
 
       {/* Catchy FAQ Section (Enhanced) */}
-      <section className="py-24 bg-pink-50">
+      <section className="py-8 md:py-24 bg-pink-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="absolute -top-10 -left-10 text-9xl text-pink-100 opacity-50 rotate-12 pointer-events-none"><FaQuestionCircle /></div>
           <div className="text-center mb-12 relative z-10">

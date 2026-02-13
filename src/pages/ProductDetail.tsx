@@ -128,7 +128,11 @@ const ProductDetail = () => {
   // Map bundles to Shopify variants
   // Variant indices: 0 = Buy 1, 1 = Buy 2 Get 1, 2 = Buy 3 Get 2
   const variants = product.variants || [];
-  const bundleConfigs = [
+  const bundleConfigs = id === "8078114160703" ? [
+    { id: 1, name: 'Essentials Pack', quantity: 1, paidQty: 1, save: 0, label: 'Starter', desc: 'Single Treatment', title: "Buy 1 box", subTitle: "( 4 Pairs / 8 Patches)" },
+    { id: 2, name: 'Radiance Bundle', quantity: 3, paidQty: 2, save: 33, label: 'Best Seller', desc: 'Double the Glow', title: "Buy 2 Get 1 FREE", subTitle: "(12 Pairs/ 24 Patches)", badge: "Most Popular" },
+    { id: 3, name: 'The Ultimate Ritual', quantity: 5, paidQty: 3, save: 40, label: 'Best Value', desc: '6 Month Transformation', title: "Buy 3 Get 2 FREE", subTitle: "( 20 Pairs/ 40 Patches)" },
+  ] : [
     { id: 1, name: 'Essentials Pack', quantity: 1, paidQty: 1, save: 0, label: 'Starter', desc: 'Single Treatment', title: "Buy 1 Box", subTitle: "Contains 8 Pairs" },
     { id: 2, name: 'Radiance Bundle', quantity: 3, paidQty: 2, save: 33, label: 'Best Seller', desc: 'Double the Glow', title: "Buy 2 Get 1 FREE", subTitle: "Contains 24 Pairs", badge: "Most Popular" },
     { id: 3, name: 'The Ultimate Ritual', quantity: 5, paidQty: 3, save: 40, label: 'Best Value', desc: '6 Month Transformation', title: "Buy 3 Get 2 FREE", subTitle: "Contains 40 Pairs" },
@@ -350,7 +354,8 @@ const ProductDetail = () => {
                         attributes: [
                           { key: '_bundle_title', value: activeBundle.title },
                           { key: '_bundle_paid_qty', value: activeBundle.paidQty.toString() },
-                          { key: '_bundle_original_price', value: activeBundle.originalPrice.toString() }
+                          { key: '_bundle_original_price', value: activeBundle.originalPrice.toString() },
+                          { key: 'Package', value: activeBundle.subTitle }
                         ]
                       });
                     }}
