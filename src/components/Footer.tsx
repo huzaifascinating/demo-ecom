@@ -92,7 +92,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-200 pt-8 flex flex-col items-center space-y-6">
-          <p className="text-gray-900 font-bold text-lg tracking-wider">© LORENA 2025</p>
+          <p className="text-gray-900 font-bold text-lg tracking-wider">© LORENA 2026</p>
 
           <div className="flex flex-wrap justify-center gap-4">
             {/* Apple Pay */}

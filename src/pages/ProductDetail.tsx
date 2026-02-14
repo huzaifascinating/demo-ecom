@@ -299,32 +299,34 @@ const ProductDetail = () => {
                     const isSelected = selectedBundle.id === bundle.id;
 
                     return (
-                      <div
-                        key={bundle.id}
-                        onClick={() => setSelectedBundle(bundle)}
-                        className={`group relative flex items-center justify-between p-5 rounded-2xl border-2 transition-all cursor-pointer ${isSelected ? 'border-stone-900 bg-white shadow-xl scale-[1.02]' : 'border-stone-200 bg-white hover:border-pink-300 opacity-80 hover:opacity-100'}`}
-                      >
-                        <div className="flex items-center gap-4">
-                          {isSelected ? <FaDotCircle className="text-2xl text-stone-900" /> : <FaRegCircle className="text-2xl text-stone-300" />}
+                        <div
+                          key={bundle.id}
+                          onClick={() => setSelectedBundle(bundle)}
+                          className={`group relative flex items-center justify-between p-3 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer ${isSelected ? 'border-stone-900 bg-white shadow-xl scale-[1.02]' : 'border-stone-200 bg-white hover:border-pink-300 opacity-80 hover:opacity-100'}`}
+                        >
+                          <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                            <div className="shrink-0">
+                              {isSelected ? <FaDotCircle className="text-xl sm:text-2xl text-stone-900" /> : <FaRegCircle className="text-xl sm:text-2xl text-stone-300" />}
+                            </div>
 
-                          <div>
-                            <div className="flex items-center gap-3">
-                              <h4 className="font-bold text-lg text-stone-900 tracking-tight">{bundle.title}</h4>
-                              <span className="bg-pink-100/50 text-pink-800 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">{bundle.subTitle}</span>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-1.5 sm:gap-3 flex-nowrap">
+                                <h4 className="font-bold text-sm sm:text-lg text-stone-900 tracking-tight whitespace-nowrap">{bundle.title}</h4>
+                                <span className="bg-pink-100/50 text-pink-800 text-[8px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-md uppercase tracking-wide whitespace-nowrap shrink-0">{bundle.subTitle}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <div className="text-right">
-                          <div className="flex flex-col items-end">
-                            {bundle.originalPrice > bundle.price && (
-                              <span className="text-sm text-stone-400 line-through font-medium">
-                                ${formatPrice(bundle.originalPrice)}
-                              </span>
-                            )}
-                            <p className="text-2xl font-black text-stone-900 leading-none">${formatPrice(bundle.price)}</p>
+                          <div className="text-right ml-2 shrink-0">
+                            <div className="flex flex-col items-end">
+                              <p className="text-lg sm:text-2xl font-black text-stone-900 leading-none">${formatPrice(bundle.price)}</p>
+                              {bundle.originalPrice > bundle.price && (
+                                <span className="text-[10px] sm:text-sm text-stone-400 line-through font-medium mt-1">
+                                  ${formatPrice(bundle.originalPrice)}
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
 
                         {bundle.badge && (
                           <div className="absolute -top-3 right-10 bg-pink-300 text-white text-[10px] font-black px-3 py-1 rounded-full tracking-widest shadow-md uppercase transform rotate-2">

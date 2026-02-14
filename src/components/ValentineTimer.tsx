@@ -10,7 +10,7 @@ const ValentineTimer = () => {
     });
 
     useEffect(() => {
-        const targetDate = new Date('2026-02-14T00:00:00');
+        const targetDate = new Date('2026-02-19T23:59:59');
 
         const calculateTimeLeft = () => {
             const now = new Date();

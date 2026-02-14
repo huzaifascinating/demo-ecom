@@ -30,7 +30,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const targetDate = new Date('2026-02-14T23:59:59').getTime();
+    const targetDate = new Date('2026-02-19T23:59:59').getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -130,11 +130,13 @@ const Home = () => {
               </p>
 
               <div className="pt-2 pb-4 flex flex-col items-start space-y-3 w-full">
-                <Link to="/shop" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
-                  Get Yours <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-                <div className="flex items-center text-gray-500 text-sm font-medium">
-                  <FaCheckCircle className="mr-2" /> 30-day money back guarantee
+                <div className="flex flex-col items-center space-y-3 w-full sm:w-fit">
+                  <Link to="/shop" className="group flex items-center justify-center gap-3 bg-linear-to-tr from-pink-500 to-purple-400 text-white text-xl font-bold py-5 px-16 rounded-full hover:bg-gray-800 hover:scale-102 transition-all shadow-xl hover:shadow-2xl uppercase tracking-wider w-full sm:w-auto text-center">
+                    Get Yours <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                  <div className="flex items-center text-gray-500 text-sm font-medium">
+                    <FaCheckCircle className="mr-2" /> 30-day money back guarantee
+                  </div>
                 </div>
               </div>
             </div>
