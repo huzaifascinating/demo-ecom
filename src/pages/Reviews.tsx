@@ -40,6 +40,19 @@ const Reviews = () => {
             Every product we create is designed to solve a real problem in your home or routine. Here&apos;s what
             customers are experiencing after switching to Lorena.
           </p>
+          <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm rounded-full border border-pink-100/50 shadow-sm">
+            <div className="flex -space-x-1">
+              <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center border border-white">
+                <span className="text-[8px] font-bold text-green-600">WA</span>
+              </div>
+              <div className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center border border-white">
+                <span className="text-[8px] font-bold text-blue-600">EM</span>
+              </div>
+            </div>
+            <p className="text-[11px] font-medium text-stone-500">
+              Verified customer stories shared with us through <span className="text-pink-600 font-bold">Direct Messaging</span> & <span className="text-pink-600 font-bold">Inboxes</span>
+            </p>
+          </div>
         </div>
 
         {/* Highlight strip */}

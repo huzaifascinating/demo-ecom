@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { FaThLarge, FaList, FaSpinner } from 'react-icons/fa';
+import { FaThLarge, FaList, FaSpinner, FaStar, FaQuoteLeft, FaSmile } from 'react-icons/fa';
 import { fetchShopifyProducts } from '../utils/shopify';
 import { formatPrice } from '../utils/price';
 
@@ -105,6 +105,14 @@ const Shop = () => {
           <div className="flex flex-col items-center justify-center py-20 space-y-4">
             <FaSpinner className="text-4xl text-pink-500 animate-spin" />
             <p className="text-gray-500 font-medium tracking-wide">Fetching latest collection...</p>
+            <div className="mt-4 flex justify-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-stone-100 shadow-xs">
+                <div className="w-2 h-2 rounded-full bg-pink-400 group-hover:scale-125 transition-transform" />
+                <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">
+                  Curated from our <span className="text-stone-900">WhatsApp</span> & <span className="text-stone-900">Email</span> community
+                </p>
+              </div>
+            </div>
           </div>
         ) : error ? (
           <div className="text-center py-20">
@@ -185,9 +193,106 @@ const Shop = () => {
             )}
           </div>
         )}
+
+        {/* Reviews Section */}
+        <div className="pt-10">
+          <div className="text-center mb-12">
+            <span className="text-pink-500 font-bold tracking-widest uppercase text-xs mb-3 block">Real Results</span>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold text-stone-900 mb-4">
+              Community <span className="italic text-pink-500">Love</span>
+            </h2>
+            <div className="flex justify-center items-center gap-1.5 mb-2">
+              <div className="flex text-yellow-400 text-lg gap-0.5">
+                {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+              </div>
+              <span className="font-bold text-stone-900">4.9 / 5</span>
+              <span className="text-stone-400 text-sm">(2,400+ reviews)</span>
+            </div>
+            <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-stone-50 rounded-full border border-stone-100 shadow-sm animate-fade-in">
+              <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+              <p className="text-[11px] font-medium text-stone-500 tracking-wide">
+                Authentic feedback gathered via <span className="text-stone-800 font-bold">WhatsApp</span> & <span className="text-stone-800 font-bold">Email</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex md:grid overflow-x-auto md:overflow-x-visible pt-8 pb-8 md:pb-0 snap-x snap-mandatory md:snap-none md:grid-cols-2 lg:grid-cols-3 gap-6 -mx-4 px-4 md:mx-0 md:px-0 no-scrollbar">
+            {[
+              {
+                name: "Sarah J.",
+                title: "Game Changer!",
+                content: "I've tried so many eye creams, but these patches are on another level. My under-eyes look so much smoother and brighter after just one use!",
+                product: "InstaLift Collagen Patches",
+                initial: "S"
+              },
+              {
+                name: "Emily R.",
+                title: "Actually Works",
+                content: "Prickly but painless! You can feel it working. Definitely targets the deep lines better than any topical cream.",
+                product: "Precision Microneedle Patches",
+                initial: "E"
+              },
+              {
+                name: "Jessica M.",
+                title: "Morning Essential",
+                content: "Love how cooling these feel. They are absolutely perfect for my morning routine to wake up my tired eyes.",
+                product: "InstaLift Collagen Patches",
+                initial: "J"
+              },
+              {
+                name: "Laura S.",
+                title: "Crows Feet Fading",
+                content: "I can feel it working. My crows feet are noticeably fading after just a few treatments. Impressive tech.",
+                product: "Precision Microneedle Patches",
+                initial: "L"
+              },
+              {
+                name: "Amanda K.",
+                title: "Makeup Ready",
+                content: "My concealer goes on so much smoother now. Whatever texture I had before is completely gone. Highly recommend!",
+                product: "InstaLift Collagen Patches",
+                initial: "A"
+              },
+              {
+                name: "Danielle C.",
+                title: "Innovative",
+                content: "Innovative technology that delivers real results. It feels like a professional treatment at home.",
+                product: "Precision Microneedle Patches",
+                initial: "D"
+              }
+            ].map((review, i) => (
+              <div key={i} className="shrink-0 w-[280px] sm:w-[320px] md:w-auto snap-start relative h-full rounded-3xl bg-white border border-gray-100 p-6 pt-10 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group">
+                <FaQuoteLeft className="absolute -top-6 left-6 text-4xl text-pink-100 group-hover:text-pink-200 transition-colors" />
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-pink-600 mb-4">
+                  <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-pink-50 text-pink-500">
+                    <FaSmile className="text-[11px]" />
+                  </span>
+                  {review.product}
+                </div>
+                <h3 className="font-bold text-stone-900 mb-2 font-serif text-lg">{review.title}</h3>
+                <p className="text-gray-700 text-sm leading-relaxed mb-6 italic flex-grow">"{review.content}"</p>
+                <div className="flex items-center justify-between pt-4 border-t border-gray-50">
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">{review.name}</p>
+                    <div className="flex text-yellow-400 text-[10px] mt-0.5">
+                      {[...Array(5)].map((_, starI) => (
+                        <FaStar key={starI} />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-pink-50 flex items-center justify-center text-pink-500 font-bold text-xs">
+                    {review.initial}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Shop;
+
+
