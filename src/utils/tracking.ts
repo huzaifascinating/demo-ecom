@@ -57,3 +57,35 @@ export const addTrackingToCart = async (cartId: string) => {
         console.error('Error adding tracking to cart:', error);
     }
 };
+export const trackEvent = async (eventName: string, eventData: any = {}) => {
+    const trackingIds = getTrackingIds();
+    const sourceUrl = window.location.href;
+
+    // Generate unique event ID for deduplication
+    const eventId = `atc_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+
+    // 1. Meta Pixel (Client-side) - Includes eventID for deduplication
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', eventName, eventData, { eventID: eventId });
+    }
+
+    // 2. Meta CAPI (Server-side via Netlify Function)
+    try {
+        fetch('/.netlify/functions/track', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                eventName,
+                eventData,
+                userData: {
+                    fbp: trackingIds._fbp,
+                    fbc: trackingIds._fbc,
+                },
+                sourceUrl,
+                eventId // Passed for server-side deduplication
+            }),
+        }).catch(err => console.error('Tracking Error (async):', err));
+    } catch (error) {
+        console.error('Tracking Error:', error);
+    }
+};

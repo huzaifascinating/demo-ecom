@@ -7,7 +7,7 @@ import {
   updateShopifyCartQuantity,
   fetchShopifyProductById
 } from '../utils/shopify';
-import { addTrackingToCart } from '../utils/tracking';
+import { addTrackingToCart, trackEvent } from '../utils/tracking';
 
 export type CartItem = {
   id: string; // This will be the Shopify Line Item ID
@@ -163,6 +163,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (updatedCart.id) {
         addTrackingToCart(updatedCart.id);
       }
+
+      // Tracking AddToCart event with Deduplication
+      trackEvent('AddToCart', {
+        content_ids: [product.id.split('/').pop()],
+        content_name: product.name || product.title,
+        content_type: 'product',
+        value: product.price,
+        currency: 'USD',
+        quantity: qty
+      });
     } catch (error) {
       console.error('Error adding item:', error);
     } finally {
