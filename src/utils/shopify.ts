@@ -1,8 +1,29 @@
-const SHOPIFY_DOMAIN = (import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || '').trim();
-const STOREFRONT_TOKEN = (import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '').trim();
+// Get and clean environment variables
+const SHOPIFY_DOMAIN_RAW = (import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || '').trim();
+const STOREFRONT_TOKEN_RAW = (import.meta.env.VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN || '').trim();
+
+// Remove quotes if present (some .env files have quotes around values)
+const SHOPIFY_DOMAIN = SHOPIFY_DOMAIN_RAW.replace(/^["']|["']$/g, '').trim();
+const STOREFRONT_TOKEN = STOREFRONT_TOKEN_RAW.replace(/^["']|["']$/g, '').trim();
 
 const shopifyFetch = async (query: string, variables = {}) => {
-  const url = `https://${SHOPIFY_DOMAIN}/api/2024-10/graphql.json`;
+  // Validate domain is set
+  if (!SHOPIFY_DOMAIN) {
+    console.error('❌ Shopify domain is missing! Check your .env file has VITE_SHOPIFY_STORE_DOMAIN set (without quotes)');
+    throw new Error('Shopify store domain is not configured. Please set VITE_SHOPIFY_STORE_DOMAIN in your .env file.');
+  }
+
+  // Clean domain: remove protocol, trailing slashes, and any whitespace
+  const cleanDomain = SHOPIFY_DOMAIN
+    .replace(/^https?:\/\//, '') // Remove http:// or https://
+    .replace(/\/$/, '') // Remove trailing slash
+    .trim();
+
+  if (!cleanDomain) {
+    throw new Error('Invalid Shopify domain format. Domain cannot be empty.');
+  }
+
+  const url = `https://${cleanDomain}/api/2024-10/graphql.json`;
   try {
     const response = await fetch(url, {
       method: 'POST',
