@@ -69,6 +69,47 @@ export const handler: Handler = async (event) => {
             }
         }
 
+        /* ---------------- TIKTOK CAPI ---------------- */
+        if (process.env.TIKTOK_PIXEL_ID && process.env.TIKTOK_ACCESS_TOKEN) {
+            try {
+                const tiktokResponse = await fetch(
+                    `https://business-api.tiktok.com/open_api/v1.3/pixel/track/`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Access-Token": process.env.TIKTOK_ACCESS_TOKEN
+                        },
+                        body: JSON.stringify({
+                            pixel_code: process.env.TIKTOK_PIXEL_ID,
+                            event: eventName,
+                            event_id: eventId,
+                            timestamp: new Date().toISOString(),
+                            context: {
+                                page: {
+                                    url: sourceUrl
+                                },
+                                user: {
+                                    email: commonUserData.em,
+                                    phone_number: commonUserData.ph,
+                                    client_ip_address: ip,
+                                    client_user_agent: userAgent,
+                                    ttp: userData?.ttp,
+                                    ttclid: userData?.ttclid
+                                }
+                            },
+                            properties: eventData
+                        }),
+                    }
+                );
+                const tiktokJson = await tiktokResponse.json();
+                responseData.push({ service: "tiktok", status: tiktokResponse.status, data: tiktokJson });
+            } catch (err) {
+                console.error("TikTok CAPI Error:", err);
+                responseData.push({ service: "tiktok", error: String(err) });
+            }
+        }
+
         return {
             statusCode: 200,
             body: JSON.stringify({ success: true, responses: responseData }),

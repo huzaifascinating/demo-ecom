@@ -64,14 +64,19 @@ export const trackEvent = async (eventName: string, eventData: any = {}) => {
     // Generate unique event ID for deduplication
     const eventId = `atc_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
 
-    // 1. Meta Pixel (Client-side) - Includes eventID for deduplication
+    // 1. Meta Pixel (Client-side)
     if (typeof window !== 'undefined' && (window as any).fbq) {
         (window as any).fbq('track', eventName, eventData, { eventID: eventId });
     }
 
-    // 2. Meta CAPI (Server-side via Netlify Function)
+    // 2. TikTok Pixel (Client-side)
+    if (typeof window !== 'undefined' && (window as any).ttq) {
+        (window as any).ttq.track(eventName, { ...eventData, event_id: eventId });
+    }
+
+    // 3. Server-side Tracking (Meta CAPI & TikTok CAPI)
     try {
-        fetch('/.netlify/functions/track', {
+        await fetch('/.netlify/functions/track', { // Added await here to ensure we catch errors if needed, though originally it was fire-and-forget-ish
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -80,12 +85,14 @@ export const trackEvent = async (eventName: string, eventData: any = {}) => {
                 userData: {
                     fbp: trackingIds._fbp,
                     fbc: trackingIds._fbc,
+                    ttp: trackingIds._ttp,
+                    ttclid: trackingIds.ttclid
                 },
                 sourceUrl,
-                eventId // Passed for server-side deduplication
+                eventId
             }),
-        }).catch(err => console.error('Tracking Error (async):', err));
+        });
     } catch (error) {
-        console.error('Tracking Error:', error);
+        console.error('Tracking Error (server-side):', error);
     }
 };
